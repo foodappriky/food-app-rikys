@@ -1,0 +1,18 @@
+{
+  "id": "/pult.html",
+  "name": "Riky's — Pult",
+  "short_name": "Pult",
+  "description": "Proizvodnja — što se trenutno radi, Riky's Pizza.",
+  "start_url": "/pult.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B0908",
+  "theme_color": "#0B0908",
+  "lang": "hr",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

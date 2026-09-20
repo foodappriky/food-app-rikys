@@ -715,7 +715,7 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .tel-jelo-ime b{font-size:16px}
 .tel-jelo-ime span{font-size:12px;color:var(--dim2);line-height:1.35}
 .tel-jelo-cij{font-family:"IBM Plex Mono",monospace;font-weight:600;white-space:nowrap}
-.tel-dodaci{padding:0 12px 12px;border-top:1px dashed var(--line)}
+.tel-dodaci{padding:2px 12px 12px;border-top:1px solid var(--line);background:rgba(0,0,0,.05)}
 .tel-dodaci h4{font-family:"Oswald",sans-serif;font-size:12px;letter-spacing:.07em;margin:12px 0 6px;color:var(--dim2)}
 .tel-kvadratici{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
 .tel-kvadratici label{display:flex;align-items:center;gap:8px;font-size:14px;padding:8px;
@@ -732,7 +732,7 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .tel-ukupno{margin-top:6px;font-family:"Oswald",sans-serif;font-size:20px;color:var(--cream)}
 .tel-ukupno b{color:var(--or)}
 .tel-pregled-red{display:flex;justify-content:space-between;gap:12px;padding:6px 0;
- border-bottom:1px dashed var(--line);font-size:14px}
+ border-bottom:1px solid var(--line);font-size:14px}
 .tel-pregled-red span{color:var(--dim2)}
 .tel-pregled-red b{text-align:right}
 .tel-ok{text-align:center;padding:20px}
@@ -743,50 +743,67 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .slip-nas{text-align:center;font-family:"Anton",sans-serif;font-size:20px;letter-spacing:.05em}
 .slip-broj{text-align:center;font-weight:600;margin-bottom:4px}
 .slip-red{word-break:break-word}
-.slip-crta{border-top:1px dashed var(--line2);margin:8px 0}
+.slip-crta{border-top:1px solid var(--line2);margin:10px 0;opacity:.5}
 .slip-stavka{margin-bottom:6px}
 .slip-stavka>div:first-child{display:flex;justify-content:space-between;gap:10px}
 .slip-pod{padding-left:12px;color:var(--dim2);font-size:12px}
 .slip-ukupno{font-weight:600;font-size:15px}
 
-/* ===== PULT — kuhinja proizvodnja (#pult) ===== */
-.pult{padding:0 0 60px}
-.pult-vrh{position:sticky;top:0;z-index:40;background:var(--bg);padding:14px 20px;
- border-bottom:3px solid var(--or);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.pult-vrh h1{font-family:"Anton",sans-serif;font-size:30px;letter-spacing:.04em;margin:0}
-.pult-brojke{display:flex;gap:18px;font-family:"Oswald",sans-serif;font-size:15px;
- letter-spacing:.06em;text-transform:uppercase;color:var(--dim2)}
-.pult-brojke b{color:var(--or);font-size:24px;margin-left:6px}
-.pult-grupa{margin:18px 14px}
-.pult-grupa.skupa{border:3px solid var(--gold);padding:10px;background:rgba(169,116,31,.06)}
-.pult-grupa-vrh{font-family:"Oswald",sans-serif;font-size:17px;font-weight:600;letter-spacing:.06em;
- color:var(--gold);text-transform:uppercase;padding:4px 4px 12px}
-.pult-kartica{border:3px solid var(--line2);background:var(--card);margin-bottom:14px;padding:14px 16px}
-.pult-kartica-vrh{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
- border-bottom:2px solid var(--line);padding-bottom:8px;margin-bottom:10px}
-.pult-broj{font-family:"Anton",sans-serif;font-size:34px;color:var(--or);line-height:1}
-.pult-vrijeme{font-family:"Oswald",sans-serif;font-size:16px;color:var(--dim2);text-transform:uppercase}
-.pult-stavka{padding:10px 0;border-bottom:1px dashed var(--line)}
-.pult-jelo{font-family:"Oswald",sans-serif;font-size:27px;font-weight:700;line-height:1.2}
-.pult-sastav{font-size:16px;color:var(--dim2);line-height:1.35;margin-top:2px}
-.pult-dodatak{font-size:22px;font-weight:700;color:var(--go);margin-top:4px}
-.pult-uz{font-size:20px;font-weight:600;color:var(--pice);margin-top:4px}
-.pult-napomena{margin-top:10px;padding:8px 10px;border:2px solid var(--wait);
- font-size:18px;font-weight:600;color:var(--wait)}
-.pult-gumb{width:100%;margin-top:14px;padding:18px;font-family:"Oswald",sans-serif;
- font-size:22px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
- background:var(--go);color:#fff;border:none;cursor:pointer;min-height:62px}
-.pult-gumb:active{opacity:.8}
-.pult-prazno{margin:40px 20px;padding:40px;text-align:center;border:3px dashed var(--line);
- font-family:"Oswald",sans-serif;font-size:22px;color:var(--dim2);letter-spacing:.06em}
-.pult-spremne{margin:24px 14px;padding:14px;border:2px solid var(--line)}
-.pult-spremne h2{font-family:"Oswald",sans-serif;font-size:17px;letter-spacing:.06em;
- color:var(--dim2);margin:0 0 8px;text-transform:uppercase}
-.pult-spr-red{font-family:"Oswald",sans-serif;font-size:20px;padding:4px 0}
+/* ===== PULT — proizvodnja (#pult) =====
+   Tablet kod peći: mekane kartice, jaka tipografija, bez ijedne crtkane linije.
+   Sve se čita iz ruke, a status se vidi po boji trake uz lijevi rub kartice. */
+.pult{padding:0 0 64px;max-width:1400px;margin:0 auto}
+.pult-zvuk{padding:12px 14px 0}
+.pult-vrh{position:sticky;top:0;z-index:40;padding:16px 20px;
+ background:linear-gradient(180deg,var(--bg) 70%,transparent);
+ display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.pult-vrh h1{font-family:"Anton",sans-serif;font-size:28px;letter-spacing:.04em;margin:0}
+.pult-brojke{display:flex;gap:10px}
+.pult-brojke span{display:flex;align-items:baseline;gap:8px;padding:8px 14px;border-radius:999px;
+ background:var(--card);font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.06em;
+ text-transform:uppercase;color:var(--dim2)}
+.pult-brojke b{color:var(--or);font-size:20px}
+.pult-grupa{margin:0 14px 10px}
+.pult-grupa-vrh{display:flex;align-items:center;gap:10px;padding:14px 4px 10px;
+ font-family:"Oswald",sans-serif;font-size:15px;font-weight:600;letter-spacing:.08em;
+ color:var(--gold);text-transform:uppercase}
+.pult-grupa-vrh::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--gold);flex:none}
+.pult-kartica{position:relative;background:var(--card);border-radius:18px;padding:18px 20px 18px 24px;
+ margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.18);overflow:hidden}
+.pult-kartica::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--or)}
+.pult-grupa.skupa .pult-kartica::before{background:var(--gold)}
+.pult-kartica-vrh{display:flex;justify-content:space-between;align-items:center;gap:12px;
+ margin-bottom:14px}
+.pult-broj{font-family:"Anton",sans-serif;font-size:32px;line-height:1;letter-spacing:.02em}
+.pult-vrijeme{font-family:"Oswald",sans-serif;font-size:14px;letter-spacing:.05em;
+ text-transform:uppercase;color:var(--dim2);padding:5px 12px;border-radius:999px;background:var(--bg2)}
+.pult-stavka{padding:12px 0}
+.pult-stavka + .pult-stavka{border-top:1px solid var(--line)}
+.pult-jelo{font-family:"Oswald",sans-serif;font-size:26px;font-weight:700;line-height:1.15}
+.pult-sastav{font-size:15px;color:var(--dim2);line-height:1.4;margin-top:3px}
+.pult-dodatak,.pult-uz{display:inline-block;margin:8px 8px 0 0;padding:6px 14px;border-radius:999px;
+ font-family:"Oswald",sans-serif;font-size:19px;font-weight:600;letter-spacing:.02em}
+.pult-dodatak{background:rgba(46,122,69,.16);color:var(--go)}
+.pult-uz{background:rgba(31,108,147,.16);color:var(--pice)}
+.pult-napomena{margin-top:14px;padding:12px 14px;border-radius:12px;
+ background:rgba(138,100,16,.14);color:var(--wait);font-size:17px;font-weight:600;line-height:1.4}
+.pult-gumb{width:100%;margin-top:18px;padding:18px;border:none;border-radius:14px;
+ font-family:"Oswald",sans-serif;font-size:21px;font-weight:700;letter-spacing:.08em;
+ text-transform:uppercase;background:var(--go);color:#fff;cursor:pointer;min-height:64px;
+ transition:transform .08s ease,filter .15s ease}
+.pult-gumb:active{transform:scale(.985);filter:brightness(.92)}
+.pult-prazno{margin:56px 20px;padding:48px 24px;text-align:center;border-radius:20px;
+ background:var(--card);font-family:"Oswald",sans-serif;font-size:20px;letter-spacing:.06em;
+ color:var(--dim2)}
+.pult-spremne{margin:22px 14px 0;padding:16px 18px;border-radius:16px;background:var(--bg2)}
+.pult-spremne h2{font-family:"Oswald",sans-serif;font-size:14px;letter-spacing:.09em;
+ color:var(--dim2);margin:0 0 10px;text-transform:uppercase}
+.pult-spr-red{display:inline-block;margin:0 8px 8px 0;padding:8px 14px;border-radius:999px;
+ background:var(--card);font-family:"Oswald",sans-serif;font-size:17px;color:var(--dim)}
 @media (min-width:900px){
- .pult-grupa{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px;align-items:start}
- .pult-grupa.skupa{display:block}
- .pult-grupa.skupa .pult-kartica{display:inline-block;width:calc(50% - 10px);vertical-align:top;margin-right:8px}
+ .pult-grupa{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:12px;align-items:start}
+ .pult-grupa-vrh{grid-column:1/-1;padding-top:6px}
+ .pult-kartica{margin-bottom:0}
 }
 </style>
 </head>
@@ -848,7 +865,7 @@ let sb=null, lokal=null, jela=[], dodaci=[], narudzbe=[], ture=[], poruke=[];
 let uloga="gost", kosarica=[], korak="meni", placanje=null, potvrda18=false, greska="";
 let mojaId=null, kuhUlaz=false, vozac=null, voziloId=null, etaOdabir={}, otvoreno=null;
 let podOtvoreno={dodaci:false,pice:false,desert:false}; // koji dio otvorenog jela (dodaci/piće/desert) je razotkriven — vidi otvori()/prebaciPod()
-let forma={ime:"",tel:"",adr:"",nap:"",naselje:"",lat:null,lng:null,nacin:"dostava",preuzMin:30};
+let forma={ime:"",tel:"",adr:"",nap:"",napD:"",naselje:"",lat:null,lng:null,nacin:"dostava",preuzMin:30};
 
 /* pamćenje aktivne narudžbe gosta u localStorage — da izlazak iz browsera ili refresh ne prekine praćenje */
 function spremiMojuNarudzbu(id){
@@ -1516,20 +1533,44 @@ const ZVUKOVI={
 };
 function nadjiZvuk(kljuc){return ZVUKOVI[kljuc]||ZVUKOVI.trostrukoZvono;}
 
-function upaliZvuk(){
+/* Uključivanje zvuka ide u tri koraka, jer preglednici na tabletima često odbiju
+   odmah pustiti glasan zvuk čak i unutar dodira: prvo se probudi AudioContext,
+   zatim se zvuk pusti UTIŠAN (to prolazi gotovo uvijek i time je uređaj "otključan"
+   za kasnije obavijesti), i tek onda se odsvira normalno da operater čuje da radi.
+   Ranija verzija je odmah tražila glasno puštanje i znala je pasti s porukom
+   "Preglednik je odbio zvuk". */
+async function upaliZvuk(){
  try{
   if(!audioEl){audioEl=document.createElement("audio");
    audioEl.setAttribute("playsinline","");audioEl.preload="auto";
    document.body.appendChild(audioEl);}
+  try{
+   const AudioCtor=window.AudioContext||window.webkitAudioContext;
+   if(!AC&&AudioCtor)AC=new AudioCtor();
+   if(AC&&AC.state==="suspended")await AC.resume();
+  }catch(e){/* bez AudioContexta idemo dalje, nije nužan */}
   audioEl.volume=Math.max(.05,Math.min(1,ZV.glasnoca));
   if(ZV.budno)drziBudno(true);
   audioEl.src=nadjiZvuk(ZV.narudzba).src;
-  const pr=audioEl.play();
-  if(pr&&pr.then)pr.then(()=>{zvukOK=true;ZV.ukljucen=true;spremiZvuk();
-    zvukPoruka="";crtaj(1);})
-   .catch(e=>{zvukPoruka="Preglednik je odbio zvuk: "+(e.name||e);crtaj(1);});
-  else{zvukOK=true;ZV.ukljucen=true;spremiZvuk();crtaj(1);}
- }catch(e){zvukPoruka="Greška: "+(e.message||e);crtaj(1);}}
+  try{audioEl.load();}catch(e){}
+  let uspjelo=false;
+  try{                       // korak 1: utišano puštanje — otključavanje uređaja
+   audioEl.muted=true;
+   await audioEl.play();
+   audioEl.pause(); audioEl.currentTime=0; audioEl.muted=false;
+   uspjelo=true;
+  }catch(e){ audioEl.muted=false; }
+  if(!uspjelo){              // korak 2: ako ni to ne prođe, probaj normalno
+   await audioEl.play();
+   uspjelo=true;}
+  zvukOK=true; ZV.ukljucen=true; spremiZvuk(); zvukPoruka="";
+  sviraj(ZV.narudzba);       // korak 3: neka operater čuje da zvuk stvarno radi
+  crtaj(1);
+ }catch(e){
+  zvukPoruka="Zvuk nije prošao. Provjeri: je li tablet na tihom (bočni prekidač ili zvono), "
+   +"je li glasnoća pojačana, i je li zvuk dopušten za ovu stranicu u postavkama preglednika "
+   +"(ikona lokota pored adrese → Zvuk → Dopusti). Zatim pritisni ponovno.";
+  crtaj(1);}}
 function ugasiZvuk(){zvukOK=false;ZV.ukljucen=false;spremiZvuk();crtaj(1);}
 
 function sviraj(kljuc){
@@ -1664,21 +1705,19 @@ function prikaziUputePWA(html){
  ov.innerHTML=html; ov.classList.add("otvoren"); prevediApp();}
 function zatvoriUputePWA(){const ov=el("pwa-upute"); if(ov)ov.classList.remove("otvoren");}
 async function instalirajApp(){
+ /* NAJPRIJE uloga, pa tek onda ponuda preglednika — ovim redom, i to je bitno.
+    Preglednik (Chrome/Android) pročita manifest ČIM učita stranicu, dakle uvijek gostinski
+    manifest.json, i "odgodenaInstalacija" nosi baš njega. Ako se taj prompt pokrene iz
+    kuhinje/vozača/vlasnika, na početni zaslon sleti glavna adresa rikyspizza.com.hr,
+    bez obzira što je <link rel="manifest"> u međuvremenu zamijenjen JS-om. Zato svaku
+    ne-gostinsku ulogu šaljemo na njezinu statičku stranicu (kuhinja.html / vozac.html /
+    vlasnik.html / pult.html), koja ima svoj vlastiti, nepromjenjivi manifest, naslov i ikonu —
+    tamo i Safari i Chrome spreme ispravnu adresu. */
+ if(uloga!=="gost"){ location.href="/"+uloga+".html"; return;}
  if(odgodenaInstalacija){
   odgodenaInstalacija.prompt();
   try{await odgodenaInstalacija.userChoice}catch(e){}
   odgodenaInstalacija=null; azurirajTopbarGumbe(); return;}
- if(uloga!=="gost"){
-  /* Kuhinja/vozač/vlasnik: preusmjeri na posebnu statičku stranicu te uloge (kuhinja.html/
-     vozac.html/vlasnik.html) — jedini pouzdan način da "Dodaj na Home ekran" spremi ISPRAVAN
-     naziv/ikonu/start_url za tu ulogu. Runtime zamjena <link rel="manifest"> na OVOJ (dijeljenoj)
-     stranici nije dovoljna: iOS Safari pri "Dodaj na Home ekran" ignorira izmjenu manifesta
-     napravljenu JS-om nakon učitavanja stranice, i uvijek vidi statički
-     apple-mobile-web-app-title meta tag koji na ovoj stranici uvijek piše "Riky's Pizza" —
-     testirano na iPadu, korisnik potvrdio da i dalje sprema gostinsku stranicu bez ovog
-     preusmjeravanja. Svaka posebna stranica ima svoj vlastiti, statički (ne mijenja se JS-om)
-     naslov/manifest/ikonu, pa Safari tamo sprema ispravno. */
-  location.href="/"+uloga+".html"; return;}
  if(jeIOSUredaj()){
   prikaziUputePWA(`<div class="pwa-kartica">
     <button class="pwa-zatvori" onclick="zatvoriUputePWA()" aria-label="Zatvori">✕</button>
@@ -1769,7 +1808,7 @@ function citajUlogu(){const h=(location.hash||"").replace("#","");
 function osvjeziManifest(){
  try{
   const datoteke={gost:"manifest.json",kuhinja:"manifest-kuhinja.json",
-   vozac:"manifest-vozac.json",vlasnik:"manifest-vlasnik.json"};
+   vozac:"manifest-vozac.json",vlasnik:"manifest-vlasnik.json",pult:"manifest-pult.json"};
   const link=document.querySelector('link[rel="manifest"]');
   if(link)link.setAttribute("href",datoteke[uloga]||datoteke.gost);
  }catch(e){/* ostaje zadani manifest.json (gost) */}}
@@ -1882,6 +1921,7 @@ async function osvjezi(){
  const prijeNovihId=new Set(narudzbe.filter(o=>o.stanje==="novo").map(o=>o.id));
  const prijeNovih=prijeNovihId.size;
  const prijeSpremnih=narudzbe.filter(o=>o.stanje==="spremno").length;
+ const prijeUPripremi=narudzbe.filter(o=>o.stanje==="u_pripremi").length;
  /* Sva četiri upita idu ISTOVREMENO (prije su išla jedan za drugim, pa je svako osvježavanje
     ekrana čekalo četiri puna odlaska do baze umjesto jednog). Prvi je sigurnosna mreža za
     pauzu narudžbi, za slučaj da realtime poruka o promjeni lokala promakne. */
@@ -1899,7 +1939,9 @@ async function osvjezi(){
  narudzbe.filter(o=>o.stanje==="novo"&&!prijeNovihId.has(o.id)).forEach(o=>otvorene.add(o.id));
  if(zvukOK){
   if(uloga==="kuhinja"&&narudzbe.filter(o=>o.stanje==="novo").length>prijeNovih)odsviraj("narudzba");
-  if(uloga==="vozac"&&narudzbe.filter(o=>o.stanje==="spremno").length>prijeSpremnih)odsviraj("tura");}
+  if(uloga==="vozac"&&narudzbe.filter(o=>o.stanje==="spremno").length>prijeSpremnih)odsviraj("tura");
+  // pult: kad kuhinja prihvati narudžbu, kod peći mora zazvoniti i bljesnuti
+  if(uloga==="pult"&&narudzbe.filter(o=>o.stanje==="u_pripremi").length>prijeUPripremi)odsviraj("narudzba");}
  if(!t.error)ture=t.data;
  if(!p.error){
   const prijeId=new Set(poruke.map(x=>x.id));
@@ -2232,8 +2274,10 @@ function podaciHTML(){
   <input class="f" id="f-adr" placeholder="Zabočka ulica 9" value="${esc(forma.adr)}"
    autocomplete="off" oninput="forma.adr=this.value;forma.lat=null;provjeriAdresu(this.value)">
   <p class="savjet" id="adr-stanje">Upišite ulicu i kućni broj. Ne morate paziti na kvačice — adresu pronalazimo sami.</p>`}
-  <label class="f" for="f-nap">Napomena (nije obavezno)</label>
-  <textarea class="f" id="f-nap" placeholder="${osobno?"Želje uz narudžbu":"Kat i interfon, alergije, želje"}" oninput="forma.nap=this.value">${esc(forma.nap)}</textarea>
+  <label class="f" for="f-nap">Poruka kuhinji (nije obavezno)</label>
+  <textarea class="f" id="f-nap" rows="2" placeholder="npr. alergičan sam na kukuruz, nemojte ga stavljati" oninput="forma.nap=this.value">${esc(forma.nap)}</textarea>
+  ${osobno?"":`<label class="f" for="f-napd">Poruka vozaču za dostavu (nije obavezno)</label>
+  <textarea class="f" id="f-napd" rows="2" placeholder="npr. nazovite me kad dođete, dijete mi spava — ne zvonite" oninput="forma.napD=this.value">${esc(forma.napD)}</textarea>`}
   <label class="f">Način plaćanja ${osobno?"pri preuzimanju u lokalu":"pri preuzimanju"} — obavezno</label>
   <div class="izbor">
    <button id="pl-g" aria-pressed="${placanje==="gotovina"}" onclick="odaberiPlacanje('gotovina')">Gotovina</button>
@@ -2428,7 +2472,8 @@ async function posalji(){
  const tel=(el("f-tel")?el("f-tel").value:forma.tel).trim();
  const adr=(el("f-adr")?el("f-adr").value:forma.adr).trim();
  const nap=(el("f-nap")?el("f-nap").value:forma.nap).trim();
- forma={...forma,ime,tel,adr,nap};
+ const napD=(el("f-napd")?el("f-napd").value:forma.napD||"").trim();
+ forma={...forma,ime,tel,adr,nap,napD};
  const osobno=forma.nacin==="osobno";
  const ima18=kosarica.some(s=>jelo(s.jeloId).naziv===ALKOHOL||s.uz.some(i=>jelo(i).naziv===ALKOHOL));
  const r0=racun(kosarica);
@@ -2460,8 +2505,9 @@ async function posalji(){
    nacin:osobno?"osobno":"dostava",preuzimanje_min:osobno?forma.preuzMin:null};
  // stupci nacin/preuzimanje_min/naselje/kupac_tel/lojalnost mozda jos ne postoje u bazi (stara shema) —
  // pokusaj s punim zapisom pa postupno skidaj stupce koje baza odbije, dok ne prode
- const opcionalno=["nacin","preuzimanje_min","naselje","kupac_tel","lojalnost"];
- let payload={...osnovno,kupac_tel:samoBrojke(tel),lojalnost:r.lojalnost};
+ const opcionalno=["napomena_dostava","nacin","preuzimanje_min","naselje","kupac_tel","lojalnost"];
+ let payload={...osnovno,napomena_dostava:(osobno?null:(napD||null)),
+   kupac_tel:samoBrojke(tel),lojalnost:r.lojalnost};
  let ins=await sb.from("narudzbe").insert(payload).select().single();
  let pokusaji=0;
  while(ins.error&&pokusaji<opcionalno.length+1){
@@ -2491,7 +2537,7 @@ async function posalji(){
   if(kupac)kupac.iskoristeno++;}
  mojaId=ins.data.id; spremiMojuNarudzbu(mojaId); kosarica=[];
  korak="meni"; placanje=null; potvrda18=false; greska="";
- forma={ime:"",tel:"",adr:"",nap:"",naselje:"",lat:null,lng:null,nacin:"dostava",preuzMin:30};
+ forma={ime:"",tel:"",adr:"",nap:"",napD:"",naselje:"",lat:null,lng:null,nacin:"dostava",preuzMin:30};
  await osvjezi(); scrollTo(0,0);}
 
 function pracenje(o){
@@ -3655,7 +3701,8 @@ function kartica(o,gumbi){
     href="${trazi(o.adresa)}">${esc(o.adresa)}</a>`}
    <a class="dp-tel" href="${telH(o.telefon)}">${esc(o.telefon)}</a>
    ${osobno&&vrijemeDo?`<div class="napom">Gost dolazi po narudžbu oko <b>${vrijemeDo}</b>.</div>`:""}
-   ${o.napomena?`<div class="napom">${esc(o.napomena)}</div>`:""}</div>
+   ${o.napomena?`<div class="napom"><b>Kuhinji:</b> ${esc(o.napomena)}</div>`:""}
+   ${o.napomena_dostava?`<div class="napom"><b>Za dostavu:</b> ${esc(o.napomena_dostava)}</div>`:""}</div>
   <div class="chat-k ${novaP?"novo":""}">
    <div style="font-family:Oswald;font-size:12px;letter-spacing:.08em;color:${novaP?"var(--pice)":"var(--dim)"};margin-bottom:8px">
     ${novaP?"NOVA PORUKA GOSTA":"Poruke s gostom"}</div>
@@ -3786,7 +3833,7 @@ function vozacHTML(){
        href="${jednaRuta(o)}">${esc(o.adresa)}</a>
       ${o.naselje?`<div style="font-size:13px;color:var(--dim2);margin-top:3px">${esc(o.naselje)}</div>`:""}
       <a class="dp-tel" href="${telH(o.telefon)}">${esc(o.telefon)}</a>
-      ${o.napomena?`<div class="napom">${esc(o.napomena)}</div>`:""}</div>
+      ${o.napomena_dostava?`<div class="napom">${esc(o.napomena_dostava)}</div>`:""}</div>
      <div class="nacin ${o.placanje==="gotovina"?"n-kes":"n-kar"}">Naplati ${eur(o.iznos)} — <span>${esc(o.placanje)}</span></div>
      <div class="row2" style="margin-top:9px">
       ${!o.dostavljeno?`<button class="btn sm go" onclick="isporucio('${o.id}')">Dostavljeno</button>`:""}
@@ -3830,7 +3877,7 @@ function vozacHTML(){
         ${pica_(x.uz)?`<i class="uz">+ ${esc(pica_(x.uz))}</i>`:""}
         ${des_(x.uz)?`<i class="des">+ ${esc(des_(x.uz))}</i>`:""}</div>`).join("")}
       ${o.gratis_pice?`<div class="ns gratis">${o.gratis_pice}× Coca-Cola 0,33 GRATIS</div>`:""}
-      ${o.napomena?`<div class="napom">${esc(o.napomena)}</div>`:""}</div>`).join("")}
+      ${o.napomena_dostava?`<div class="napom">${esc(o.napomena_dostava)}</div>`:""}</div>`).join("")}
     <a href="${rutaLink(p)}" target="_blank" rel="noopener"><button class="btn ghost">Pogledaj rutu u ${NAZIV_NAV[NAV]}</button></a>`:""}
    <button class="btn" onclick="uzmi('${t.id}')">${moja?"Dodaj u moju turu":"Preuzimam ovu turu"}</button></div>`;}).join("")
   :`<div class="prazno"><strong>Nema slobodnih tura</strong>Kuhinja još ništa nije označila spremnim.</div>`;
@@ -4095,7 +4142,7 @@ let telNar=null, telKosarica=[], telOtvoreno=null, telGotova=null;
 
 function telPocni(){
  telNar={korak:"podaci",tel:"",ime:"",prezime:"",adresa:"",kat:"",stan:"",portafon:"",
-   napomena:"",nacin:"dostava",placanje:"gotovina",naselje:"",lat:null,lng:null,
+   napomena:"",napomenaD:"",nacin:"dostava",placanje:"gotovina",naselje:"",lat:null,lng:null,
    nadjen:false,dostavljenih:0,eta:20,greska:""};
  telKosarica=[]; telOtvoreno=null; telGotova=null; crtaj(1);}
 
@@ -4116,7 +4163,8 @@ async function telTrazi(){
   telNar.nadjen=true;
   telNar.ime=k.ime||""; telNar.prezime=k.prezime||"";
   telNar.adresa=k.adresa||""; telNar.kat=k.kat||""; telNar.stan=k.stan||"";
-  telNar.portafon=k.portafon||""; telNar.napomena=k.napomena||"";
+  telNar.portafon=k.portafon||""; telNar.napomena=k.napomena_kuhinja||"";
+  telNar.napomenaD=k.napomena||"";
   telNar.naselje=k.naselje||""; telNar.lat=k.lat||null; telNar.lng=k.lng||null;
   telNar.dostavljenih=k.dostavljenih||0;
  } else { telNar.nadjen=false; telNar.dostavljenih=0; }
@@ -4124,7 +4172,7 @@ async function telTrazi(){
 
 // prikupi sve što je operater upisao u polja prije prelaska na sljedeći ekran
 function telPokupi(){
- ["tel","ime","prezime","adresa","kat","stan","portafon","napomena"].forEach(k=>{
+ ["tel","ime","prezime","adresa","kat","stan","portafon","napomena","napomenaD"].forEach(k=>{
   const e=el("tel-"+k); if(e)telNar[k]=k==="tel"?samoBrojke(e.value):e.value.trim();});}
 
 function telNaMeni(){
@@ -4168,13 +4216,15 @@ async function telZavrsi(){
  const osnovno={lokal_id:lokal.id,
    ime:(telNar.ime+" "+telNar.prezime).trim(),telefon:telNar.tel,
    adresa:punaAdresa,naselje:telNar.nacin==="osobno"?null:(naselje||null),
-   napomena:telNar.napomena||null,placanje:telNar.placanje||"gotovina",
+   napomena:telNar.napomena||null,
+   napomena_dostava:telNar.nacin==="osobno"?null:(telNar.napomenaD||null),
+   placanje:telNar.placanje||"gotovina",
    iznos:r.ukupno,popust:r.popust,gratis_pice:r.gratisPice,
    stanje:"u_pripremi",eta:eta,voznja_min:voznja,eta_gostu:eta+voznja+REZERVA(),
    lat:telNar.nacin==="osobno"?null:lat,lng:telNar.nacin==="osobno"?null:lng,
    nacin:telNar.nacin==="osobno"?"osobno":"dostava"};
  // stupci koje starija baza možda nema — skidaj ih postupno dok insert ne prođe
- const opcionalno=["izvor","nacin","naselje","kupac_tel","lojalnost"];
+ const opcionalno=["napomena_dostava","izvor","nacin","naselje","kupac_tel","lojalnost"];
  let payload={...osnovno,izvor:"telefon",kupac_tel:telNar.tel,lojalnost:r.lojalnost};
  let ins=await sb.from("narudzbe").insert(payload).select().single();
  let pok=0;
@@ -4198,16 +4248,20 @@ async function telZavrsi(){
  // zapamti gosta s punim podacima, da sljedeći put sve iskoči samo na broj telefona
  const kupacZapis={lokal_id:lokal.id,tel:telNar.tel,ime:telNar.ime,prezime:telNar.prezime,
    adresa:telNar.nacin==="osobno"?null:telNar.adresa,kat:telNar.kat||null,stan:telNar.stan||null,
-   portafon:telNar.portafon||null,napomena:telNar.napomena||null,
+   portafon:telNar.portafon||null,
+   napomena:telNar.napomenaD||null,napomena_kuhinja:telNar.napomena||null,
    naselje:naselje||null,lat:lat||null,lng:lng||null};
  let up=await sb.from("kupci").upsert(kupacZapis,{onConflict:"lokal_id,tel"});
  if(up.error){ // starija baza bez novih stupaca — spremi barem ime i prezime
-  await sb.from("kupci").upsert({lokal_id:lokal.id,tel:telNar.tel,
+  // starija baza bez stupca napomena_kuhinja — probaj bez njega, pa tek onda samo ime/prezime
+  const {napomena_kuhinja:_izostavi,...bezKuhinjske}=kupacZapis;
+  let up2=await sb.from("kupci").upsert(bezKuhinjske,{onConflict:"lokal_id,tel"});
+  if(up2.error)await sb.from("kupci").upsert({lokal_id:lokal.id,tel:telNar.tel,
     ime:telNar.ime,prezime:telNar.prezime},{onConflict:"lokal_id,tel"});}
  telGotova={broj:ins.data.broj,id:ins.data.id,
    stavke:telKosarica.map(s=>({...s})),racun:r,
    ime:(telNar.ime+" "+telNar.prezime).trim(),tel:telNar.tel,
-   adresa:punaAdresa,napomena:telNar.napomena,eta:eta,
+   adresa:punaAdresa,napomena:telNar.napomena,napomenaD:telNar.napomenaD,eta:eta,
    nacin:telNar.nacin,placanje:telNar.placanje};
  telNar.korak="gotovo";
  odsviraj("narudzba");
@@ -4269,8 +4323,10 @@ function telefonHTML(){
       <input class="f" id="tel-portafon" value="${esc(n.portafon)}"></div></div>
    </div>`:""}
    <div class="box">
-    <label class="f" for="tel-napomena">Napomena (npr. zvati pri dolasku)</label>
-    <textarea class="f" id="tel-napomena" rows="2">${esc(n.napomena)}</textarea>
+    <label class="f" for="tel-napomena">Poruka kuhinji (alergije, želje uz jelo)</label>
+    <textarea class="f" id="tel-napomena" rows="2" placeholder="npr. bez kukuruza, alergija">${esc(n.napomena)}</textarea>
+    ${n.nacin==="osobno"?"":`<label class="f" for="tel-napomenaD" style="margin-top:10px">Poruka vozaču za dostavu</label>
+    <textarea class="f" id="tel-napomenaD" rows="2" placeholder="npr. nazvati pri dolasku, ne zvoniti">${esc(n.napomenaD)}</textarea>`}
     <div class="row2" style="margin-top:12px">
      <button class="btn sm ${n.placanje==="gotovina"?"go":"ghost"}" onclick="telPokupi();telNar.placanje='gotovina';crtaj(2)">Plaća gotovinom</button>
      <button class="btn sm ${n.placanje==="kartica"?"go":"ghost"}" onclick="telPokupi();telNar.placanje='kartica';crtaj(2)">Plaća karticom</button></div>
@@ -4334,7 +4390,8 @@ function telefonHTML(){
    <div class="tel-pregled-red"><span>Mobitel</span><b>${esc(n.tel)}</b></div>
    <div class="tel-pregled-red"><span>${n.nacin==="osobno"?"Preuzimanje":"Adresa"}</span>
     <b>${n.nacin==="osobno"?"Osobno u lokalu":esc([n.adresa,n.kat?"kat "+n.kat:"",n.stan?"stan "+n.stan:"",n.portafon?"portafon "+n.portafon:""].filter(Boolean).join(", "))}</b></div>
-   ${n.napomena?`<div class="tel-pregled-red"><span>Napomena</span><b>${esc(n.napomena)}</b></div>`:""}
+   ${n.napomena?`<div class="tel-pregled-red"><span>Kuhinji</span><b>${esc(n.napomena)}</b></div>`:""}
+   ${(n.napomenaD&&n.nacin!=="osobno")?`<div class="tel-pregled-red"><span>Za dostavu</span><b>${esc(n.napomenaD)}</b></div>`:""}
    <div class="tel-pregled-red"><span>Plaćanje</span><b>${n.placanje==="kartica"?"Karticom na vratima":"Gotovinom"}</b></div>
   </div>
   <div class="box">
@@ -4366,7 +4423,8 @@ function telSlipHTML(t){
   <div class="slip-red"><b>${esc(t.ime)}</b></div>
   <div class="slip-red">${esc(t.tel)}</div>
   <div class="slip-red">${esc(t.adresa)}</div>
-  ${t.napomena?`<div class="slip-red">Napomena: ${esc(t.napomena)}</div>`:""}
+  ${t.napomena?`<div class="slip-red">Kuhinji: ${esc(t.napomena)}</div>`:""}
+  ${t.napomenaD?`<div class="slip-red">Za dostavu: ${esc(t.napomenaD)}</div>`:""}
   <div class="slip-crta"></div>
   ${t.stavke.map(s=>`<div class="slip-stavka">
     <div><b>${esc(jelo(s.jeloId).naziv)}</b> <span>${eur(cijenaStavke(s))}</span></div>
@@ -4404,7 +4462,8 @@ function slipTekst(t){
  L.push(t.ime);
  L.push(t.tel);
  L.push(t.adresa);
- if(t.napomena)L.push("NAPOMENA: "+t.napomena);
+ if(t.napomena)L.push("KUHINJI: "+t.napomena);
+ if(t.napomenaD)L.push("ZA DOSTAVU: "+t.napomenaD);
  L.push("--------------------------------");
  t.stavke.forEach(s=>{
   L.push(jelo(s.jeloId).naziv+"  "+eur(cijenaStavke(s)));
@@ -4468,6 +4527,7 @@ function pultHTML(){
   (grupe[k]=grupe[k]||[]).push(o);});
  const kljucevi=Object.keys(grupe).sort((a,b)=>grupe[b].length-grupe[a].length);
  return `<div class="pult">
+  <div class="pult-zvuk">${zvukGumb()}</div>
   <div class="pult-vrh"><h1>PROIZVODNJA</h1>
    <div class="pult-brojke"><span>U RADU <b>${rad.length}</b></span><span>SPREMNO <b>${spremne.length}</b></span></div></div>
   ${rad.length?kljucevi.map(k=>{
@@ -4502,7 +4562,7 @@ function pultKartica(o){
     ${uz[1]?`<div class="pult-uz">DESERT: ${esc(uz[1])}</div>`:""}
    </div>`;}).join("")
    :`<div class="pult-stavka"><div class="pult-jelo">—</div></div>`}
-  ${o.napomena?`<div class="pult-napomena">NAPOMENA: ${esc(o.napomena)}</div>`:""}
+  ${o.napomena?`<div class="pult-napomena">ZA KUHINJU: ${esc(o.napomena)}</div>`:""}
   <button class="pult-gumb" onclick="stanje('${o.id}','spremno')">SPREMNO ✓</button>
  </div>`;}
 
