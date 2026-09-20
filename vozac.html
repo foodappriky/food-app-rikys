@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Riky's — Vozač</title>
+<link rel="manifest" href="manifest-vozac.json">
+<meta name="theme-color" content="#0B0908">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Riky's — Vozač">
+<script>
+/* Ako je stranica otvorena kao instalirana aplikacija (dodana na početni zaslon),
+   odmah, bez treptaja, preusmjeri izravno u Vozač — ova stranica se u tom
+   slučaju nikad stvarno ne vidi, služi samo kao "sidro" za ispravan naziv/ikonu
+   pri dodavanju na početni zaslon. */
+(function(){
+ var samostalna = window.navigator.standalone === true ||
+  (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+ if (samostalna) { location.replace('/#vozac'); }
+})();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0908;--bg2:#151110;--card:#1C1614;--line:#3D322D;--line2:#5A4A42;
+ --cream:#F6EFE8;--dim:#B0A099;--dim2:#8C7D76;--or:#E8622A;--bw:2px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font-family:"Oswald",sans-serif;
+ min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.wrap{width:100%;max-width:420px}
+.brand{text-align:center;margin-bottom:22px}
+.brand img{width:64px;height:64px;border-radius:16px;margin-bottom:10px}
+.brand h1{font-family:"Anton",sans-serif;letter-spacing:.08em;font-size:22px;margin:0}
+.brand span{display:block;color:var(--or);font-size:13px;text-transform:uppercase;
+ letter-spacing:.12em;margin-top:4px}
+.kartica{background:var(--card);border:var(--bw) solid var(--line2);border-radius:16px;
+ padding:20px}
+.kartica h3{font-size:16px;margin:0 0 6px;text-transform:none}
+.kartica>p{color:var(--dim2);font-size:13.5px;margin:0 0 14px}
+.korak{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:var(--bw) solid var(--line)}
+.korak:first-of-type{border-top:none;padding-top:0}
+.broj{flex:none;width:24px;height:24px;border-radius:50%;background:var(--or);color:#fff;
+ font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center}
+.ikona{flex:none;width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:var(--or)}
+.ikona svg{width:100%;height:100%}
+.korak>span:last-child{font-size:14px}
+.otvori{display:block;text-align:center;margin-top:18px;color:var(--dim2);font-size:13px;
+ text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="brand"><img src="icon-192.png" alt=""><h1>RIKY'S</h1><span>Vozač</span></div>
+ <div class="kartica">
+  <h3>Dodaj Vozača na početni zaslon</h3>
+  <p>Nakon što ovo dodaš, ikona na početnom zaslonu otvarat će izravno vozača, bez prolaska kroz gostinsku stranicu.</p>
+  <div class="korak"><span class="broj">1</span><span class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+ stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/>
+ <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></span>
+   <span>Dodirni gumb <b>Dijeli</b> u traci preglednika</span></div>
+  <div class="korak"><span class="broj">2</span><span class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+ stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/>
+ <path d="M12 8v8M8 12h8"/></svg></span>
+   <span>Odaberi „<b>Dodaj na Home ekran</b>”</span></div>
+ </div>
+ <a class="otvori" href="/#vozac">Otvori vozača sad, bez instalacije →</a>
+</div>
+</body>
+</html>
