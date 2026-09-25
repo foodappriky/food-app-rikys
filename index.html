@@ -528,6 +528,27 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
  text-transform:uppercase;padding:6px 12px;border-radius:6px}
 .n-kes{background:rgba(78,155,95,.18);color:var(--go)}
 .n-kar{background:rgba(233,164,76,.18);color:var(--gold)}
+.n-onl{background:rgba(62,156,201,.18);color:var(--pice)}
+/* ---- plaćanje: online (Apple Pay / Google Pay preko Teye) ili pri dostavi ---- */
+.pl-izbor{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.pl-opcija{display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;border:var(--bw) solid var(--line2);
+ border-radius:12px;background:transparent;color:var(--cream);text-align:left;transition:border-color .15s,background .15s}
+.pl-opcija[aria-pressed="true"]{border-color:var(--or);background:rgba(232,98,42,.1)}
+.pl-opcija .pl-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pl-opcija .pl-t b{font-family:"Oswald",sans-serif;font-size:15px;letter-spacing:.03em;text-transform:uppercase;font-weight:600}
+.pl-opcija .pl-t small{font-size:12.5px;color:var(--dim);line-height:1.35}
+.pl-opcija[aria-pressed="true"] .pl-t b{color:var(--or)}
+.pl-logo{display:flex;align-items:center;gap:5px;flex:none}
+.pl-logo img{height:24px;width:auto;display:block;border-radius:5px}
+.pl-krug{width:20px;height:20px;border-radius:50%;border:var(--bw) solid var(--line2);flex:none;position:relative}
+.pl-opcija[aria-pressed="true"] .pl-krug{border-color:var(--or)}
+.pl-opcija[aria-pressed="true"] .pl-krug::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--or)}
+.pay-traka{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 0;flex-wrap:wrap;
+ font-family:"Oswald",sans-serif;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(246,239,232,.85)}
+.pay-traka img{height:26px;width:auto;display:block;border-radius:6px}
+.pl-cekanje{margin-top:16px;padding:16px;border-radius:12px;border:var(--bw) solid var(--pice);background:rgba(62,156,201,.08);text-align:left}
+.pl-cekanje b{display:block;font-family:"Oswald",sans-serif;font-size:17px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px}
+.pl-cekanje p{font-size:14px;color:var(--dim);margin-bottom:12px}
 .dostava-box{margin-top:12px;border:1.5px solid var(--line2);border-radius:10px;padding:13px 15px;background:var(--bg2)}
 .dostava-box>b{display:block;font-family:"Oswald",sans-serif;font-size:10.5px;letter-spacing:.14em;
  color:var(--dim2);margin-bottom:8px}
@@ -953,9 +974,45 @@ const DOMENA = "rikys.hr";
 const GEOAPIFY_KEY = "5d6413d954924b2f852f270720776437";
 /* Adresa koja ide u navigaciju — bez poštanskog broja, Google je tako točnije nađe. */
 const ADRESA_NAV = "Zagorska ulica 18, Zagreb, Hrvatska";
-const SLIKE = {PEC:"pec-pozadina.jpg",P1:"pizza-1.png",P2:"pizza-2.png",P3:"pizza-3.png",LOGO:"cola-logo.png",LIMENKA:"cola-limenka.png",VISA:"visa.png",MASTERCARD:"mastercard.png"};
-const LOZ_KUHINJA=()=>(lokal&&lokal.loz_kuhinja)||"1234";
-let VOZACI = [{ime:"Kristijan",pin:"1111"},{ime:"Franjo",pin:"2222"},{ime:"Marko",pin:"3333"}];
+const SLIKE = {PEC:"pec-pozadina.jpg",P1:"pizza-1.png",P2:"pizza-2.png",P3:"pizza-3.png",LOGO:"cola-logo.png",APPLEPAY:"apple-pay.png",GOOGLEPAY:"google-pay.png",LIMENKA:"cola-limenka.png",VISA:"visa.png",MASTERCARD:"mastercard.png"};
+/* SIGURNOST: lozinke i PIN-ovi više se NIKAD ne šalju u preglednik. Provjerava ih server
+   (Supabase funkcija "prijava"), koja nakon ispravne lozinke vraća prijavu (sesiju) za tu
+   ulogu. Baza narudžbe, kupce i troškove daje SAMO prijavljenom osoblju; gost preko
+   posebnih funkcija vidi i mijenja isključivo svoju narudžbu, a pult samo hranu. */
+let osobljeUloga=null;   // "kuhinja" | "vlasnik" | "vozac" kad je netko prijavljen, inače null
+let tajne=null;          // lozinke (čita ih samo prijavljeni vlasnik, za Postavke)
+async function prijaviOsoblje(u,lozinka,ime){
+ if(!sb||!lokal)return {ok:false,poruka:"Još se spajam na bazu — pokušaj za sekundu."};
+ try{
+  const r=await sb.functions.invoke("prijava",{body:{uloga:u,lozinka:String(lozinka||""),ime:ime||null,lokal_id:lokal.id}});
+  if(r.error)return {ok:false,poruka:"Prijava trenutno ne radi — provjeri internet pa pokušaj ponovno."};
+  const d=r.data||{};
+  if(!d.ok)return {ok:false,poruka:d.poruka||"Pogrešna lozinka."};
+  const ss=await sb.auth.setSession({access_token:d.access_token,refresh_token:d.refresh_token});
+  if(ss.error)return {ok:false,poruka:"Prijava nije spremljena: "+ss.error.message};
+  osobljeUloga=d.uloga;
+  try{sb.realtime.setAuth(d.access_token);}catch(e){}
+  pokreniRealtime();
+  return {ok:true};
+ }catch(e){return {ok:false,poruka:"Greška pri prijavi: "+(e.message||e)};}}
+async function vratiPrijavu(){
+ try{
+  const {data}=await sb.auth.getSession(); const ss=data&&data.session; if(!ss)return;
+  const u=ss.user&&ss.user.app_metadata&&ss.user.app_metadata.uloga; if(!u)return;
+  osobljeUloga=u;
+  if(uloga==="kuhinja"&&(u==="kuhinja"||u==="vlasnik"))kuhUlaz=true;
+  if(uloga==="vlasnik"&&u==="vlasnik")vlUlaz=true;
+  if(uloga==="vozac"&&(u==="vozac"||u==="vlasnik")){
+   try{const zv=JSON.parse(localStorage.getItem("rikys-vozac")||"null");
+    if(zv&&zv.ime){vozac=zv.ime; voziloId=zv.vozilo||null;}}catch(e){}}
+ }catch(e){}}
+async function odjaviOsoblje(){
+ try{localStorage.removeItem("rikys-vozac");}catch(e){}
+ vozac=null; voziloId=null; kuhUlaz=false; vlUlaz=false; osobljeUloga=null; tajne=null;
+ try{await sb.auth.signOut();}catch(e){}
+ narudzbe=[]; ture=[]; poruke=[]; pokreniRealtime(); crtaj(1);}
+const jeOsoblje=()=>!!osobljeUloga&&uloga!=="gost"&&uloga!=="pult";
+let VOZACI = [];   // samo imena (PIN-ovi ostaju na serveru)
 let VOZILA = [];
 /* Postavke dolaze iz baze (tablica lokali); brojevi su zamjena ako stupac još ne postoji. */
 const P=(k,z)=>{const v=lokal&&lokal[k];return v===null||v===undefined||v===""?z:+v;};
@@ -1975,9 +2032,7 @@ async function start(){
  if(uloga==="gost")citajMojuNarudzbu();
  window.addEventListener("hashchange",()=>{
   const bio=uloga; citajUlogu();
-  // gost ne dobiva lozinke u zapamćenom jelovniku — ako netko s gostinske stranice prijeđe na
-  // kuhinju/vlasnika, stranica se ponovno učita da se lozinke dohvate iz baze
-  if(bio==="gost"&&uloga!=="gost"&&lokal&&lokal.loz_vlasnik===undefined){location.reload();return;}
+  if(sb&&bio!==uloga){vratiPrijavu().then(()=>{if(uloga==="vlasnik"&&vlUlaz)ucitajVlasnika(); osvjezi();});}
   crtaj();});
  if(uloga!=="gost")ucitajGoogleMaps();          // kuhinja/vozač odmah trebaju karte i adrese
  else setTimeout(ucitajGoogleMaps,4000);         // gostu tek kasnije, kad je jelovnik već na ekranu
@@ -2011,6 +2066,7 @@ async function start(){
    if(d.error)throw d.error; dodaci=d.data;
    if(uloga==="gost")spremiMeniKes();}
   if(vz)vz.style.display="none";
+  await vratiPrijavu();   // prijava osoblja ostaje zapamćena na uređaju (tablet u kuhinji ne traži lozinku nakon svakog osvježavanja)
 
   /* GOST VIDI JELOVNIK ODMAH.
      Prije se čekalo redom: vozači → vozila → (geokodiranje) → osvjezi() (još 4 upita zaredom)
@@ -2030,17 +2086,16 @@ async function start(){
       prikaz, pa bi ranije crtanje na tren pokazalo praznu listu vozača. */
    const osvjezavanjeGosta = (uloga==="gost") ? osvjezi() : null;
    // vozači i vozila istovremeno (oba trebaju samo lokal.id)
-   const [v,vo]=await Promise.all([
-    sb.from("vozaci").select("ime,pin").eq("lokal_id",lokal.id).eq("aktivan",true),
-    sb.from("vozila").select("id,naziv,gorivo").eq("lokal_id",lokal.id).eq("aktivno",true).order("naziv")]);
-   if(!v.error&&v.data&&v.data.length)VOZACI=v.data;
-   if(!vo.error&&vo.data)VOZILA=vo.data; // ako VOZNI_PARK.sql još nije pokrenut, ostaje prazno i prijava radi kao prije
+   // za ekran prijave vozača: samo imena i vozila, bez PIN-ova
+   if(uloga!=="gost"){const pp=await sb.rpc("prijava_popis",{p_lokal:lokal.id});
+    if(!pp.error&&pp.data){VOZACI=pp.data.vozaci||[]; VOZILA=pp.data.vozila||[];}}
    // koordinate lokala već su u bazi (upisane kod postavljanja) — geokodiraj SAMO ako nedostaju,
    // ne na svaki učitani ekran (usporavalo je spajanje i nepotrebno opterećivalo vanjski servis)
    if(!lokal.lat||!lokal.lng){
     const t=await nadiAdrese("Zagorska ulica 18");
     if(t.length){lokal.lat=t[0].lat;lokal.lng=t[0].lng;}}
    await (osvjezavanjeGosta || osvjezi());  // osvjezi() na kraju sam zove crtaj()
+   if(uloga==="vlasnik"&&vlUlaz)ucitajVlasnika();
    pokreniAlarm();
    pokreniRealtime();
    pokreniSigurnosnoOsvjezavanje();
@@ -2064,11 +2119,15 @@ let realtimeKanal=null, realtimePokusaj=0, realtimeTajmer=null;
 function pokreniRealtime(){
  if(realtimeKanal){try{sb.removeChannel(realtimeKanal)}catch(e){}}
  clearTimeout(realtimeTajmer);
- realtimeKanal=sb.channel("sve-"+Date.now())
+ let kanal=sb.channel("sve-"+Date.now());
+ // gost i pult nisu prijavljeni — narudžbe im dolaze preko svojih funkcija (osvježavanje svakih 5 s),
+ // a ne preko ovog kanala koji bi im inače slao tuđe narudžbe
+ if(jeOsoblje())kanal=kanal
   .on("postgres_changes",{event:"*",schema:"public",table:"narudzbe"},()=>{
     osvjezi(); setTimeout(osvjezi,1500); setTimeout(osvjezi,4000);})
   .on("postgres_changes",{event:"*",schema:"public",table:"ture"},osvjezi)
-  .on("postgres_changes",{event:"*",schema:"public",table:"poruke"},osvjezi)
+  .on("postgres_changes",{event:"*",schema:"public",table:"poruke"},osvjezi);
+ realtimeKanal=kanal
   .on("postgres_changes",{event:"UPDATE",schema:"public",table:"lokali",filter:"id=eq."+lokal.id},payload=>{
     if(payload.new)Object.assign(lokal,payload.new); crtaj(1);})
   .subscribe(status=>{
@@ -2081,8 +2140,14 @@ function pokreniRealtime(){
 /* Sigurnosna mreža: i kad bi realtime veza tiho zapela, ekran se svejedno redovito
    osvježava sam od sebe — kuhinja/vozač neće ostati "zaglavljeni" bez nove narudžbe
    na ekranu dok netko ne refresha ručno. Bitno kod većeg prometa i više uređaja odjednom. */
+let sigurnosnoPokrenuto=false;
 function pokreniSigurnosnoOsvjezavanje(){
- setInterval(()=>{if(document.visibilityState==="visible")osvjezi();},20000);}
+ if(sigurnosnoPokrenuto)return; sigurnosnoPokrenuto=true;
+ let n=0;
+ setInterval(()=>{
+  if(document.visibilityState!=="visible")return; n++;
+  const brzo=uloga==="pult"||(uloga==="gost"&&!!mojaId);   // oni nemaju živi kanal — provjera svakih 5 s
+  if(brzo||n%4===0)osvjezi();},5000);}
 
 async function osvjezi(){
  if(!sb||!lokal)return;
@@ -2093,15 +2158,27 @@ async function osvjezi(){
  /* Sva četiri upita idu ISTOVREMENO (prije su išla jedan za drugim, pa je svako osvježavanje
     ekrana čekalo četiri puna odlaska do baze umjesto jednog). Prvi je sigurnosna mreža za
     pauzu narudžbi, za slučaj da realtime poruka o promjeni lokala promakne. */
- const [lk,n,t,p]=await Promise.all([
-  sb.from("lokali").select("narudzbe_pauza_do,lajkovi").eq("id",lokal.id).single(),
-  sb.from("narudzbe").select("*, stavke(*)").eq("lokal_id",lokal.id)
-   .in("stanje",["novo","u_pripremi","spremno","u_dostavi","otkazano"]).order("stvoreno"),
-  sb.from("ture").select("*").eq("lokal_id",lokal.id).neq("stanje","zavrsena"),
-  sb.from("poruke").select("*").eq("lokal_id",lokal.id).order("stvoreno")]);
+ const prazno={data:[],error:null}, osoblje=jeOsoblje();
+ let n=prazno, t=prazno, p=prazno;
+ const lkP=sb.from("lokali").select("narudzbe_pauza_do,lajkovi").eq("id",lokal.id).single();
+ if(osoblje){
+  [n,t,p]=await Promise.all([
+   sb.from("narudzbe").select("*, stavke(*)").eq("lokal_id",lokal.id)
+    .in("stanje",["novo","u_pripremi","spremno","u_dostavi","otkazano"]).order("stvoreno"),
+   sb.from("ture").select("*").eq("lokal_id",lokal.id).neq("stanje","zavrsena"),
+   sb.from("poruke").select("*").eq("lokal_id",lokal.id).order("stvoreno")]);
+ }else if(uloga==="pult"){               // pult: samo hrana, bez imena/adresa/telefona
+  const r=await sb.rpc("pult_narudzbe",{p_lokal:lokal.id});
+  n=r.error?{data:null,error:r.error}:{data:r.data||[],error:null};
+ }else if(uloga==="gost"&&mojaId){       // gost: samo SVOJA narudžba i njezine poruke
+  const r=await sb.rpc("gost_narudzba",{p_id:mojaId});
+  if(r.error){n={data:null,error:r.error}; p={data:null,error:r.error};}
+  else if(r.data&&r.data.narudzba){n={data:[r.data.narudzba],error:null}; p={data:r.data.poruke||[],error:null};}
+ }
+ const lk=await lkP;
  if(!lk.error&&lk.data){lokal.narudzbe_pauza_do=lk.data.narudzbe_pauza_do;
   if(typeof lk.data.lajkovi==="number")lokal.lajkovi=lk.data.lajkovi;}
- if(!n.error)narudzbe=n.data;
+ if(!n.error&&n.data)narudzbe=n.data;
  // nova narudžba mora odmah biti VIDLJIVO OTVORENA u kuhinji — inače je kartica zbijena
  // i gumb "Prihvati" fizički ne postoji na ekranu dok ga netko ručno ne otvori (pravi uzrok
  // pritužbe "kliknuo sam Prihvati i ništa se nije dogodilo": gumb jednostavno nije bio prikazan).
@@ -2111,22 +2188,26 @@ async function osvjezi(){
   if(uloga==="vozac"&&narudzbe.filter(o=>o.stanje==="spremno").length>prijeSpremnih)odsviraj("tura");
   // pult: kad kuhinja prihvati narudžbu, kod peći mora zazvoniti i bljesnuti
   if(uloga==="pult"&&narudzbe.filter(o=>o.stanje==="u_pripremi").length>prijeUPripremi)odsviraj("narudzba");}
- if(!t.error)ture=t.data;
- if(!p.error){
+ if(!t.error&&t.data)ture=t.data;
+ if(!p.error&&p.data){
   const prijeId=new Set(poruke.map(x=>x.id));
   const nove=p.data.filter(x=>!prijeId.has(x.id));
   poruke=p.data;
   if(zvukOK&&nove.length){
    if(uloga==="kuhinja"&&nove.some(x=>x.od==="gost"))odsviraj("poruka");
    if(uloga==="gost"&&mojaId&&nove.some(x=>x.od==="kuhinja"&&x.narudzba_id===mojaId))odsviraj("poruka");}}
- if(uloga!=="gost"){
+ // spremno narudžbe koje je označio PULT (on ne smije slagati ture) — kuhinja ih sama složi u ture
+ if(osoblje&&uloga==="kuhinja"&&!vlasnikGleda&&!grupiranjeUTijeku
+    &&narudzbe.some(o=>o.stanje==="spremno"&&!o.tura_id&&o.nacin!=="osobno")){
+  grupiraj().then(()=>setTimeout(osvjezi,300));}
+ if(osoblje){
   const h=await sb.from("narudzbe").select("telefon,vozac,placanje,iznos,stvoreno")
    .eq("lokal_id",lokal.id).eq("stanje","dostavljeno");
   if(!h.error){svePredane=h.data;brojac_kupaca={};
    h.data.forEach(x=>{const t=String(x.telefon).replace(/\D/g,"");
     brojac_kupaca[t]=(brojac_kupaca[t]||0)+1;});}}
- if(kupac){const k=await sb.from("kupci").select("*").eq("lokal_id",lokal.id)
-   .eq("tel",kupac.tel).maybeSingle(); if(k.data)kupac=k.data;}
+ if(kupac&&!kupac.novi){const k=await sb.rpc("gost_kupac",{p_lokal:lokal.id,p_tel:kupac.tel});
+   if(!k.error&&k.data)kupac=k.data;}
  crtaj();}
 
 function crtaj(prisilno){
@@ -2486,6 +2567,7 @@ function gostHTML(){
     <div class="kola-red"><b>0,33 L gratis</b><img class="kola-lim" src="${SLIKE.LIMENKA}" alt=""></div>
     <span>uz svaku naručenu pizzu</span></div>
    <div class="promo"><div><b>4 + 1</b>peta pizza gratis</div><div><b>10%</b>jeftinije nego na aplikacijama</div></div>
+   <div class="pay-traka"><img src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.style.display='none'"><img src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.style.display='none'"><span>plaćanje online ili karticom pri dostavi</span></div>
    <button class="cta" onclick="glatkoNaEl('meni')">Naruči odmah<i>jelovnik je odmah ispod</i></button>
    <div class="tel"><small>Radije telefonom?</small>
     <a href="${telH(lokal.tel1)}">${esc(lokal.tel1)}</a>
@@ -2495,7 +2577,7 @@ function gostHTML(){
   <div class="pr reveal" data-rk="pr1"><b>10%</b><span>niže cijene nego na aplikacijama</span></div>
   <div class="pr reveal r2" data-rk="pr2"><b>0,33 L</b><span>Coca-Cola gratis uz svaku pizzu</span></div>
   <div class="pr reveal r3" data-rk="pr3"><b>4+1</b><span>peta pizza gratis, odbija se sama</span></div>
-  <div class="pr reveal r4" data-rk="pr4"><div class="pr-kartice-row"><img src="${SLIKE.VISA}" alt="Visa"><img src="${SLIKE.MASTERCARD}" alt="MasterCard"></div><span>moguće plaćanje karticom pri dostavi</span></div></div>
+  <div class="pr reveal r4" data-rk="pr4"><div class="pr-kartice-row"><img src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.style.display='none'"><img src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.style.display='none'"><img src="${SLIKE.VISA}" alt="Visa"><img src="${SLIKE.MASTERCARD}" alt="MasterCard"></div><span>Apple Pay i Google Pay online, ili karticom pri dostavi</span></div></div>
  ${gbZona("ispod")}
  ${vjernostHTML()}
  <section class="onama reveal" data-rk="onama">
@@ -2595,8 +2677,9 @@ async function prijaviKupca(){
  const t=samoBrojke(el("k-tel").value);
  const e=el("k-err");
  if(t.length<8){e.textContent="Upišite ispravan broj mobitela.";e.classList.add("on");return;}
- const p=await sb.from("kupci").select("*").eq("lokal_id",lokal.id).eq("tel",t).maybeSingle();
- if(p.error){e.textContent="Baza još nije postavljena. Pokreni BAZA-SVE.sql u Supabaseu.";
+ if(!sb){e.textContent="Još se spajam — pokušajte za sekundu.";e.classList.add("on");return;}
+ const p=await sb.rpc("gost_kupac",{p_lokal:lokal.id,p_tel:t});
+ if(p.error){e.textContent="Provjera trenutno ne radi — pokušajte ponovno.";
   e.classList.add("on");return;}
  kupac=p.data||{tel:t,ime:"",dostavljenih:0,iskoristeno:0,novi:true};
  if(!forma.tel)forma.tel=el("k-tel").value;
@@ -2665,9 +2748,9 @@ function uKosaricu(id,gratis){
 function izbaci(i){kosarica.splice(i,1);if(!kosarica.length)korak="meni";crtaj(1);}
 function odaberiPlacanje(v){
  placanje=v;
- const g=el("pl-g"),k=el("pl-k");
- if(g)g.setAttribute("aria-pressed",v==="gotovina");
- if(k)k.setAttribute("aria-pressed",v==="kartica");}
+ [["pl-g","gotovina"],["pl-k","kartica"],["pl-o","online"]].forEach(([id,p])=>{
+  const b=el(id); if(b)b.setAttribute("aria-pressed",v===p);});
+ const bt=el("salji"); if(bt)bt.textContent=tj(v==="online"?"Nastavi na plaćanje":"Pošalji narudžbu");}
 function naPregled(){korak="pregled";crtaj(1);scrollTo(0,0);}
 
 function stavkaRed(s,gratis4){
@@ -2741,17 +2824,26 @@ function podaciHTML(){
   <textarea class="f" id="f-nap" rows="2" placeholder="npr. alergičan sam na kukuruz, nemojte ga stavljati" oninput="forma.nap=this.value">${esc(forma.nap)}</textarea>
   ${osobno?"":`<label class="f" for="f-napd">Poruka vozaču za dostavu (nije obavezno)</label>
   <textarea class="f" id="f-napd" rows="2" placeholder="npr. nazovite me kad dođete, dijete mi spava — ne zvonite" oninput="forma.napD=this.value">${esc(forma.napD)}</textarea>`}
-  <label class="f">Način plaćanja ${osobno?"pri preuzimanju u lokalu":"pri preuzimanju"} — obavezno</label>
-  <div class="izbor">
-   <button id="pl-g" aria-pressed="${placanje==="gotovina"}" onclick="odaberiPlacanje('gotovina')">Gotovina</button>
-   <button id="pl-k" class="pl-kartica" aria-pressed="${placanje==="kartica"}" aria-label="Kartica" onclick="odaberiPlacanje('kartica')"><img src="${SLIKE.VISA}" alt=""><img src="${SLIKE.MASTERCARD}" alt=""></button></div>
+  <label class="f">Način plaćanja — obavezno</label>
+  <div class="pl-izbor">
+   <button class="pl-opcija" id="pl-o" aria-pressed="${placanje==="online"}" onclick="odaberiPlacanje('online')">
+    <span class="pl-krug"></span>
+    <span class="pl-t"><b>Plati odmah online</b><small>Apple Pay, Google Pay ili kartica — na sigurnoj Teya stranici</small></span>
+    <span class="pl-logo"><img src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.style.display='none'"><img src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.style.display='none'"></span></button>
+   <button class="pl-opcija" id="pl-k" aria-pressed="${placanje==="kartica"}" onclick="odaberiPlacanje('kartica')">
+    <span class="pl-krug"></span>
+    <span class="pl-t"><b>Karticom ${osobno?"u lokalu":"pri dostavi"}</b><small>${osobno?"Plaćate karticom kad dođete po narudžbu":"Dostavljač nosi POS uređaj sa sobom"}</small></span>
+    <span class="pl-logo"><img src="${SLIKE.VISA}" alt="Visa"><img src="${SLIKE.MASTERCARD}" alt="MasterCard"></span></button>
+   <button class="pl-opcija" id="pl-g" aria-pressed="${placanje==="gotovina"}" onclick="odaberiPlacanje('gotovina')">
+    <span class="pl-krug"></span>
+    <span class="pl-t"><b>Gotovinom</b><small>${osobno?"Plaćate u lokalu":"Plaćate dostavljaču"}</small></span></button></div>
   ${ima18?`<label class="kuc"><input type="checkbox" ${potvrda18?"checked":""} onchange="potvrda18=this.checked">
    <span>Potvrđujem da imam navršenih 18 godina. Alkoholna pića ne isporučujemo maloljetnim osobama.</span></label>`:""}
   <p class="err ${greska?"on":""}">${esc(greska)}</p>
   ${narudzbePauzirane()?`<div class="pauza-banner" style="margin:0 0 10px">
     <b>⏸ ${tj("Trenutno ne primamo narudžbe")}</b><span>${pauzaGostTekst()}</span></div>
    <button class="btn tiho" disabled>${tj("Narudžbe trenutno pauzirane")}</button>`
-   :`<button class="btn" id="salji" onclick="posalji()">Pošalji narudžbu</button>`}</div>`;}
+   :`<button class="btn" id="salji" onclick="posalji()">${placanje==="online"?"Nastavi na plaćanje":"Pošalji narudžbu"}</button>`}</div>`;}
 
 const bezKvacica=t=>t.normalize("NFD").replace(/[\u0300-\u036f]/g,"")
  .replace(/đ/g,"d").replace(/Đ/g,"D");
@@ -2960,50 +3052,84 @@ async function posalji(){
    el("salji").disabled=false; el("salji").textContent=tj("Pošalji narudžbu");
    crtaj(1);return;}}
  const r=racun(kosarica);
- const osnovno={lokal_id:lokal.id,ime,telefon:tel,
+ const narudzba={lokal_id:lokal.id,ime,telefon:tel,
    adresa:osobno?("Osobno preuzimanje u lokalu — "+lokal.adresa):adr,
    naselje:osobno?null:(forma.naselje||null),napomena:nap,placanje,
    iznos:r.ukupno,popust:r.popust,gratis_pice:r.gratisPice,stanje:"novo",
    lat:osobno?null:g.lat,lng:osobno?null:g.lng,
    nacin:osobno?"osobno":"dostava",preuzimanje_min:osobno?forma.preuzMin:null};
- // stupci nacin/preuzimanje_min/naselje/kupac_tel/lojalnost mozda jos ne postoje u bazi (stara shema) —
- // pokusaj s punim zapisom pa postupno skidaj stupce koje baza odbije, dok ne prode
- const opcionalno=["napomena_dostava","nacin","preuzimanje_min","naselje","kupac_tel","lojalnost"];
- let payload={...osnovno,napomena_dostava:(osobno?null:(napD||null)),
-   kupac_tel:samoBrojke(tel),lojalnost:r.lojalnost};
- let ins=await sb.from("narudzbe").insert(payload).select().single();
- let pokusaji=0;
- while(ins.error&&pokusaji<opcionalno.length+1){
-  const msg=ins.error.message||"";
-  let pogodjen=opcionalno.find(k=>k in payload&&new RegExp(k,"i").test(msg));
-  if(!pogodjen&&/schema cache/i.test(msg))
-   pogodjen=opcionalno.find(k=>k in payload);
-  if(!pogodjen)break;
-  delete payload[pogodjen];
-  pokusaji++;
-  ins=await sb.from("narudzbe").insert(payload).select().single();}
- if(ins.error){greska="Greška: "+ins.error.message;
+ narudzba.napomena_dostava=osobno?null:(napD||null); narudzba.lojalnost=r.lojalnost;
+ const redovi=kosarica.map(st=>({
+   naziv:jelo(st.jeloId).naziv,cijena:cijenaStavke(st),gratis:!!st.gratis,
+   dodaci:st.dodaci.map(i=>dod(i).naziv).join(", "),
+   uz:st.uz.filter(i=>jelo(i).kategorija==="Piće").map(i=>jelo(i).naziv).join(", ")
+     +"‖"+st.uz.filter(i=>jelo(i).kategorija==="Deserti").map(i=>jelo(i).naziv).join(", ")}));
+ if(r.dostava)redovi.push({naziv:"Dostava",cijena:r.dostava,dodaci:"",uz:"",gratis:false});
+ // narudžba i stavke upisuju se odjednom, preko funkcije na serveru (gost nema izravan pristup tablicama)
+ const ins=await sb.rpc("gost_nova_narudzba",{p:narudzba,p_stavke:redovi});
+ if(ins.error||!ins.data||!ins.data.id){greska="Greška: "+((ins.error&&ins.error.message)||"narudžba nije spremljena");
   el("salji").disabled=false; el("salji").textContent=tj("Pošalji narudžbu");crtaj(1);return;}
- const redovi=kosarica.map(s=>({lokal_id:lokal.id,narudzba_id:ins.data.id,
-   naziv:jelo(s.jeloId).naziv,cijena:cijenaStavke(s),
-   dodaci:s.dodaci.map(i=>dod(i).naziv).join(", "),
-   uz:s.uz.filter(i=>jelo(i).kategorija==="Piće").map(i=>jelo(i).naziv).join(", ")
-     +"‖"+s.uz.filter(i=>jelo(i).kategorija==="Deserti").map(i=>jelo(i).naziv).join(", ")}));
- if(r.dostava)redovi.push({lokal_id:lokal.id,narudzba_id:ins.data.id,
-   naziv:"Dostava",cijena:r.dostava,dodaci:"",uz:""});
- let st=await sb.from("stavke").insert(redovi.map((x,i)=>({...x,
-   gratis:!!(kosarica[i]&&kosarica[i].gratis)})));
- if(st.error&&/gratis|schema cache/i.test(st.error.message||"")) await sb.from("stavke").insert(redovi);
- if(r.lojalnost>0){
-  await sb.from("kupci").update({iskoristeno:(kupac?kupac.iskoristeno:0)+1})
-   .eq("lokal_id",lokal.id).eq("tel",samoBrojke(tel));
-  if(kupac)kupac.iskoristeno++;}
+ if(r.lojalnost>0&&kupac)kupac.iskoristeno++;
+ const online=placanje==="online";
  mojaId=ins.data.id; spremiMojuNarudzbu(mojaId); kosarica=[];
  korak="meni"; placanje=null; potvrda18=false; greska="";
+ if(online){forma={ime:"",tel:"",adr:"",nap:"",napD:"",naselje:"",lat:null,lng:null,nacin:"dostava",preuzMin:30};
+  await zapocniPlacanje(mojaId); return;}
  forma={ime:"",tel:"",adr:"",nap:"",napD:"",naselje:"",lat:null,lng:null,nacin:"dostava",preuzMin:30};
  await osvjezi(); scrollTo(0,0);}
 
+/* ---- ONLINE PLAĆANJE (Teya) ----
+   Narudžba s online plaćanjem sprema se kao "ceka_placanje" i kuhinja je NE vidi. Gost ide na
+   Teyinu stranicu (tamo bira Apple Pay / Google Pay / karticu); kad Teya potvrdi plaćanje, server
+   provjeri Teyin potpis i tek tada narudžba postaje "novo" i zazvoni u kuhinji. Tajni ključ je
+   samo na serveru (funkcija "teya"), nikad u ovoj datoteci. */
+let placanjeProvjeraOd=0;
+async function zapocniPlacanje(id){
+ const bt=el("pl-plati"); if(bt){bt.disabled=true; bt.textContent=tj("Otvaram plaćanje…");}
+ try{
+  const r=await sb.functions.invoke("teya?a=start",{body:{narudzba_id:id}});
+  const d=r.data||{};
+  if(r.error||!d.ok||!d.url){
+   gbPoruka(d.poruka||tj("Plaćanje se trenutno ne može otvoriti — pokušajte ponovno ili odaberite plaćanje pri dostavi."));
+   await osvjezi(); return;}
+  const f=document.createElement("form"); f.method="POST"; f.action=d.url; f.style.display="none";
+  Object.entries(d.polja).forEach(([k,v])=>{const i=document.createElement("input");
+   i.type="hidden"; i.name=k; i.value=String(v); f.appendChild(i);});
+  document.body.appendChild(f); f.submit();
+ }catch(e){gbPoruka(tj("Plaćanje se trenutno ne može otvoriti — provjerite internet.")); await osvjezi();}}
+async function promijeniPlacanje(id,nacin){
+ const r=await sb.rpc("gost_promijeni_placanje",{p_id:id,p_nacin:nacin});
+ if(r.error||r.data===false){gbPoruka(tj("Promjena nije uspjela — osvježite stranicu."));}
+ else gbPoruka(tj("Narudžba je poslana u pizzeriju."));
+ await osvjezi();}
+function cekaPlacanjeHTML(o){
+ const provjera=placanjeProvjeraOd&&(Date.now()-placanjeProvjeraOd<60000);
+ return `<div class="trk">
+  <div class="big">Narudžba <em>#${o.broj}</em></div>
+  <div class="sub">${esc(o.adresa)} · ${eur(o.iznos)}</div>
+  <div class="pl-cekanje">
+   ${provjera?`<b>Provjeravamo plaćanje…</b><p>Pričekajte nekoliko sekundi, ekran će se sam osvježiti čim Teya potvrdi plaćanje.</p>`
+   :`<b>Plaćanje nije dovršeno</b>
+    <p>Narudžba još nije poslana u pizzeriju — čeka plaćanje. Možete platiti sada ili odabrati plaćanje pri ${o.nacin==="osobno"?"preuzimanju":"dostavi"}.</p>
+    <button class="btn" id="pl-plati" onclick="zapocniPlacanje('${o.id}')">Plati online — Apple Pay / Google Pay / kartica</button>
+    <button class="btn ghost" onclick="promijeniPlacanje('${o.id}','kartica')">Platit ću karticom ${o.nacin==="osobno"?"u lokalu":"pri dostavi"}</button>
+    <button class="btn ghost" onclick="promijeniPlacanje('${o.id}','gotovina')">Platit ću gotovinom</button>
+    <button class="btn tiho" onclick="otkaziSvoju('${o.id}')">Otkaži narudžbu</button>`}</div>
+  <a class="zovi" href="${telH(lokal.tel1)}">Nazovi ${esc(lokal.tel1)}</a></div>`;}
+const plNaziv=o=>o.placanje==="online"?(o.placeno?"plaćeno online":"online — nije plaćeno")
+  :o.placanje==="kartica"?"kartica":"gotovina";
+const plKlasa=o=>o.placanje==="online"?"n-onl":o.placanje==="gotovina"?"n-kes":"n-kar";
+(function(){try{
+ const q=new URLSearchParams(location.search), pl=q.get("placanje"); if(!pl)return;
+ if(pl==="ok")placanjeProvjeraOd=Date.now();
+ setTimeout(()=>{
+  if(pl==="ok")gbPoruka(tj("Hvala! Provjeravamo plaćanje…"));
+  else gbPoruka(tj("Plaćanje nije dovršeno — možete pokušati ponovno ili platiti pri dostavi."));},900);
+ history.replaceState(null,"",location.pathname+location.hash);
+}catch(e){}})();
+
 function pracenje(o){
+ if(o.stanje==="ceka_placanje")return cekaPlacanjeHTML(o);
  if(o.stanje==="otkazano")return `<div class="trk">
   <div class="big">Narudžba <em>#${o.broj}</em></div>
   ${o.razlog==="Gost je otkazao narudžbu"
@@ -3064,23 +3190,24 @@ function pracenje(o){
      <div class="ime male" style="color:var(--or)">${o.gratis_pice}× Coca-Cola 0,33 L</div>
      <div class="cij">gratis</div></div></div>`:""}
    <div class="tot"><span>Za platiti</span><span>${eur(o.iznos)}</span></div>
-   <div class="nacin ${o.placanje==="gotovina"?"n-kes":"n-kar"}">${esc(o.placanje)}</div></div>
+   <div class="nacin ${plKlasa(o)}">${o.placeno?"✓ ":""}${esc(plNaziv(o))}</div></div>
   <a class="zovi" href="${telH(lokal.tel1)}">Nazovi ${esc(lokal.tel1)}</a>
   <button class="btn ghost" onclick="novaNarudzba()">Nova narudžba</button></div>`;}
 
 async function otkaziSvoju(id){
  const o=narudzbe.find(x=>x.id===id);
- if(!o||o.stanje!=="novo"){alert(tj("Narudžba je već potvrđena i više se ne može otkazati putem stranice."));return;}
+ if(!o||(o.stanje!=="novo"&&o.stanje!=="ceka_placanje")){alert(tj("Narudžba je već potvrđena i više se ne može otkazati putem stranice."));return;}
  if(!confirm(tj("Sigurno želite otkazati narudžbu?")))return;
- const r=await sb.from("narudzbe").update({stanje:"otkazano",razlog:"Gost je otkazao narudžbu"})
-  .eq("id",id).eq("stanje","novo");
+ const r=await sb.rpc("gost_otkazi",{p_id:id});
  if(r.error){alert("Greška: "+r.error.message);return;}
+ if(r.data===false)alert(tj("Narudžba je već potvrđena i više se ne može otkazati putem stranice."));
  await osvjezi();}
 async function brzaPor(id,t){
- await sb.from("poruke").insert({lokal_id:lokal.id,narudzba_id:id,od:"gost",tekst:t});await osvjezi();}
+ await sb.rpc("gost_poruka",{p_id:id,p_tekst:t});await osvjezi();}
 async function posaljiPor(id,od){
  const p=el(od==="gost"?"cg":"ck-"+id); const t=(p.value||"").trim(); if(!t)return;
- await sb.from("poruke").insert({lokal_id:lokal.id,narudzba_id:id,od,tekst:t});
+ if(od==="gost")await sb.rpc("gost_poruka",{p_id:id,p_tekst:t});
+ else await sb.from("poruke").insert({lokal_id:lokal.id,narudzba_id:id,od,tekst:t});
  // slanje odgovora znaci da je poruka procitana — prekini alarm za ovu narudzbu
  poruke.filter(x=>x.narudzba_id===id).forEach(x=>procitane.add(x.id));
  p.value="";await osvjezi();}
@@ -3124,7 +3251,7 @@ async function osvjeziVlasnickeListe(){
  if(!v.error)vozaciDB=v.data; if(!zp.error)zaposlenici=zp.data;
  if(!vo.error)vozila=vo.data;}
 
-const LOZ_VLASNIK=()=>(lokal&&lokal.loz_vlasnik)||"9999";
+const LOZ_VLASNIK=()=>(tajne&&tajne.loz_vlasnik)||null;
 const mjesecSad=()=>new Date().toISOString().slice(0,7);
 const hrMjesec=m=>["siječanj","veljača","ožujak","travanj","svibanj","lipanj","srpanj",
  "kolovoz","rujan","listopad","studeni","prosinac"][+m.split("-")[1]-1]+" "+m.split("-")[0];
@@ -3133,8 +3260,7 @@ function vlasnikHTML(){
  if(!vlUlaz)return `<div class="login"><h2>Vlasnik</h2><p>Pristup svemu</p>
   <div class="box"><label class="f" for="vl">Lozinka</label><input class="f" id="vl" type="password">
   <p class="err" id="vle">Pogrešna lozinka.</p>
-  <button class="btn" onclick="ulazVl()">Prijavi se</button></div>
-  <p style="color:var(--dim2);font-size:13px;margin-top:18px">Demo lozinka: ${LOZ_VLASNIK()}</p></div>`;
+  <button class="btn" onclick="ulazVl()">Prijavi se</button></div></div>`;
  let h=`${historijaIzmjena.length?`<button class="undo" onclick="ponistiZadnju()">↩ Poništi zadnju izmjenu (${historijaIzmjena.length})</button>`:""}<div class="podtab">
   ${[["pregled","Pregled"],["jelovnik","Jelovnik"],["pocetna","Početna"],["dodaci","Dodaci"],["normativi","Normativi"],["troskovi","Troškovi"],
      ["vozaci","Vozači"],["voznipark","Vozni park"],["nadzor","Kuhinja i vozači"],["izvjestaj","Izvještaji"],["postavke","Postavke"]]
@@ -3153,11 +3279,15 @@ function vlasnikHTML(){
  return h;}
 function vlNa(k){vlTab=k;
  if(k==="pregled"||k==="izvjestaj")ucitajVl(); else crtaj(1);}
-function ulazVl(){
- if(el("vl").value===LOZ_VLASNIK()){vlUlaz=true;ucitajVlasnika();}
- else el("vle").classList.add("on");}
+async function ulazVl(){
+ const e=el("vle"); if(e)e.classList.remove("on");
+ const r=await prijaviOsoblje("vlasnik",el("vl")?el("vl").value:"");
+ if(r.ok){vlUlaz=true; ucitajVlasnika();}
+ else{const x=el("vle"); if(x){x.textContent=r.poruka; x.classList.add("on");}}}
 
 async function ucitajVlasnika(){
+ const tj_=await sb.from("lokal_tajne").select("*").eq("id",lokal.id).maybeSingle();
+ tajne=(!tj_.error&&tj_.data)?tj_.data:null;
  const [v,n,nr,f,t,zp,vo,dd]=await Promise.all([
   sb.from("vozaci").select("*").eq("lokal_id",lokal.id).order("ime"),
   sb.from("namirnice").select("*").eq("lokal_id",lokal.id).order("naziv"),
@@ -3754,7 +3884,7 @@ function vlIzvjestaj(){
     <div><span>Gost</span><b>${esc(o.ime)} · ${esc(o.telefon)}</b></div>
     <div><span>Adresa</span><b>${esc(o.adresa)}</b></div>
     <div><span>Sadržaj</span><b>${(o.stavke||[]).map(x=>esc(x.naziv)).join(", ")||"—"}</b></div>
-    <div><span>Iznos</span><b>${eur(o.iznos)} · ${esc(o.placanje)}</b></div>
+    <div><span>Iznos</span><b>${eur(o.iznos)} · ${esc(plNaziv(o))}</b></div>
     <div><span>Vozač</span><b>${o.vozac?esc(o.vozac):"—"}</b></div>
    </div></div>`).join(""):`<div class="prazno">Nema narudžbi u razdoblju.</div>`}`;}
 
@@ -3945,7 +4075,7 @@ function vlNadzor(){
     <span class="tag t-spr">${esc(o.vozac||"—")}</span></div>
    <div class="povredak">
     <div><span>Adresa</span><b>${esc(o.adresa)}</b></div>
-    <div><span>Iznos</span><b>${eur(o.iznos)} · ${esc(o.placanje)}</b></div>
+    <div><span>Iznos</span><b>${eur(o.iznos)} · ${esc(plNaziv(o))}</b></div>
     <div><span>Krenuo</span><b>${o.krenula_u?sat(o.krenula_u):"—"}</b></div>
     <div><span>Dostavljeno</span><b>${o.dostavljeno_u?sat(o.dostavljeno_u):"—"}</b></div></div></div>`).join("")
   ||`<div class="prazno">Nema vožnji.</div>`}`;}
@@ -3985,7 +4115,14 @@ function vlPostavke(){
   ${polje("cijena_dizel","Cijena dizela (€/l)","type=number step=0.01")}
   <p class="savjet">Koristi se za izračun troška goriva po vozilu u kartici Vozni park.</p></div>
  <div class="sec"><h3>LOZINKE</h3></div>
- <div class="box">${polje("loz_kuhinja","Lozinka kuhinje")}${polje("loz_vlasnik","Lozinka vlasnika")}
+ <div class="box">${tajne?`
+  <label class="f" for="pl-lozk">Lozinka kuhinje</label>
+  <input class="f" id="pl-lozk" value="${esc((izmjene.tajne&&izmjene.tajne.loz_kuhinja!==undefined)?izmjene.tajne.loz_kuhinja:(tajne.loz_kuhinja||""))}" oninput="mijenjajTajnu('loz_kuhinja',this.value)">
+  <label class="f" for="pl-lozv">Lozinka vlasnika</label>
+  <input class="f" id="pl-lozv" value="${esc((izmjene.tajne&&izmjene.tajne.loz_vlasnik!==undefined)?izmjene.tajne.loz_vlasnik:(tajne.loz_vlasnik||""))}" oninput="mijenjajTajnu('loz_vlasnik',this.value)">
+  <button class="btn sm ${izmjene.tajne?"":"tiho"}" ${izmjene.tajne?"":"disabled"} style="margin-top:10px" onclick="spremiTajne()">Spremi lozinke</button>
+  <p class="savjet">Lozinke se provjeravaju na serveru i više se nigdje ne prikazuju gostima.</p>`
+  :`<p class="savjet">Lozinke se nisu učitale — odjavi se i prijavi ponovno.</p>`}
   <p class="savjet">PIN-ove vozača mijenjaš u kartici Vozači.</p></div>
  <div style="padding:0 18px 26px">
   <button class="btn ${izmjene.lokal?"":"tiho"}" ${izmjene.lokal?"":"disabled"} onclick="spremiLokal()">Spremi sve postavke</button></div>
@@ -3997,6 +4134,15 @@ function vlPostavke(){
   <button class="btn crven" onclick="resetPovijest()">Obriši sve narudžbe i povijest</button>
   <p class="savjet" style="margin:-4px 0 0">Trajno briše sve narudžbe (nove, u pripremi, u dostavi), cijelu povijest, sve ture/vožnje i program vjernosti. Koristi se npr. kod predaje pizzerije novom vlasniku.</p></div>`;}
 function mijenjajLokal(k,v){izmjene.lokal=izmjene.lokal||{};izmjene.lokal[k]=v;crtaj(1);}
+function mijenjajTajnu(k,v){izmjene.tajne=izmjene.tajne||{};izmjene.tajne[k]=v;crtaj(1);}
+async function spremiTajne(){
+ const pod={...izmjene.tajne};
+ for(const k in pod){pod[k]=String(pod[k]).trim();
+  if(pod[k].length<4){alert(tj("Lozinka mora imati barem 4 znaka."));return;}}
+ const r=await sb.from("lokal_tajne").upsert({...(tajne||{}),...pod,id:lokal.id});
+ if(r.error){alert(tj("Greška: ")+r.error.message);return;}
+ tajne={...(tajne||{}),...pod,id:lokal.id}; delete izmjene.tajne;
+ alert(tj("Lozinke su spremljene.")); crtaj(1);}
 async function spremiLokal(){
  const pod={...izmjene.lokal};
  ["dostava_prag_km","dostava_cijena","rezerva","brzina","rok_vracanja","trosak_posto","cijena_benzin","cijena_dizel"]
@@ -4012,11 +4158,14 @@ async function resetTvornicki(){
  if(!confirm(tj("Ovo vraća SVE postavke (rok dostave, cijene, rezervu vremena, cijenu goriva i lozinke kuhinje/vlasnika) na tvorničke vrijednosti. Naziv, adresa, telefoni i jelovnik ostaju kako jesu. Jesi li siguran?")))return;
  const pin=prompt(tj("Za potvrdu upiši PIN vlasnika:"));
  if(pin===null)return;
- if(pin!==LOZ_VLASNIK()){alert(tj("Pogrešan PIN. Ništa nije promijenjeno."));return;}
+ if(!LOZ_VLASNIK()||pin!==LOZ_VLASNIK()){alert(tj("Pogrešan PIN. Ništa nije promijenjeno."));return;}
  const zad={dostava_prag_km:3,dostava_cijena:2,rezerva:5,brzina:23,rok_vracanja:7,trosak_posto:32,
-   cijena_benzin:1.45,cijena_dizel:1.40,loz_kuhinja:"1234",loz_vlasnik:"9999"};
+   cijena_benzin:1.45,cijena_dizel:1.40};
  const r=await sb.from("lokali").update(zad).eq("id",lokal.id);
  if(r.error){alert(tj("Greška: ")+r.error.message);return;}
+ const rt=await sb.from("lokal_tajne").upsert({id:lokal.id,loz_kuhinja:"1234",loz_vlasnik:"9999"});
+ if(rt.error){alert(tj("Greška (lozinke): ")+rt.error.message);return;}
+ tajne={id:lokal.id,loz_kuhinja:"1234",loz_vlasnik:"9999"}; delete izmjene.tajne;
  Object.assign(lokal,zad); izmjene.lokal={};
  alert(tj("Postavke su vraćene na tvorničke."));
  crtaj(1);}
@@ -4024,7 +4173,7 @@ async function resetPovijest(){
  if(!confirm(tj("OVO TRAJNO BRIŠE sve narudžbe (nove, u pripremi, spremne, u dostavi), cijelu povijest narudžbi, sve ture/vožnje i program vjernosti (bodove svih kupaca). NE MOŽE se vratiti. Jesi li potpuno siguran?")))return;
  const pin=prompt(tj("Za potvrdu upiši PIN vlasnika:"));
  if(pin===null)return;
- if(pin!==LOZ_VLASNIK()){alert(tj("Pogrešan PIN. Ništa nije obrisano."));return;}
+ if(!LOZ_VLASNIK()||pin!==LOZ_VLASNIK()){alert(tj("Pogrešan PIN. Ništa nije obrisano."));return;}
  let r=await sb.from("narudzbe").delete().eq("lokal_id",lokal.id);
  if(r.error){alert(tj("Greška (narudžbe): ")+r.error.message);return;}
  r=await sb.from("ture").delete().eq("lokal_id",lokal.id);
@@ -4040,8 +4189,7 @@ function kuhinjaHTML(){
  if(!kuhUlaz)return `<div class="login"><h2>Kuhinja</h2><p>Ova stranica nije dostupna gostima</p>
   <div class="box"><label class="f" for="kl">Lozinka</label><input class="f" id="kl" type="password">
   <p class="err" id="kle">Pogrešna lozinka.</p>
-  <button class="btn" onclick="ulazK()">Prijavi se</button></div>
-  <p style="color:var(--dim2);font-size:13px;margin-top:18px">Demo lozinka: ${LOZ_KUHINJA()}</p></div>`;
+  <button class="btn" onclick="ulazK()">Prijavi se</button></div></div>`;
  if(telNar)return telefonHTML();
  if(kuhTab==="povijest")return `${pauzaKontrolaHTML()}`+povijestHTML();
  const f=s=>narudzbe.filter(o=>o.stanje===s);
@@ -4119,7 +4267,7 @@ function povijestHTML(){
    <div class="povredak">
     <div><span>Gost</span><b>${esc(o.ime)} · ${esc(o.telefon)}</b></div>
     <div><span>Naručeno</span><b>${(o.stavke||[]).map(x=>esc(x.naziv)).join(", ")||"—"}</b></div>
-    <div><span>Iznos</span><b>${eur(o.iznos)} · ${esc(o.placanje)}</b></div>
+    <div><span>Iznos</span><b>${eur(o.iznos)} · ${esc(plNaziv(o))}</b></div>
     <div><span>Vozač</span><b>${o.vozac?esc(o.vozac):"—"}</b></div>
     <div><span>Krenuo</span><b>${o.krenula_u?sat(o.krenula_u):"—"}</b></div>
     <div><span>Dostavljeno</span><b>${o.dostavljeno_u?sat(o.dostavljeno_u):"—"}</b></div>
@@ -4129,7 +4277,11 @@ function rasponPovijesti(d){
  const n=new Date();povDo=n.toISOString().slice(0,10);
  povOd=new Date(n.getTime()-d*864e5).toISOString().slice(0,10);
  ucitajPovijest();}
-function ulazK(){if(el("kl").value===LOZ_KUHINJA()){kuhUlaz=true;crtaj();}else el("kle").classList.add("on");}
+async function ulazK(){
+ const e=el("kle"); if(e)e.classList.remove("on");
+ const r=await prijaviOsoblje("kuhinja",el("kl")?el("kl").value:"");
+ if(r.ok){kuhUlaz=true; crtaj(); osvjezi();}
+ else{const x=el("kle"); if(x){x.textContent=r.poruka; x.classList.add("on");}}}
 function blizina(o){
  if(!o.lat)return "";
  const bl=narudzbe.filter(x=>x.id!==o.id&&x.lat&&["novo","u_pripremi","spremno"].includes(x.stanje)
@@ -4172,7 +4324,7 @@ function kartica(o,gumbi){
     <div class="ime male" style="color:var(--or)">${o.gratis_pice}× COCA-COLA 0,33 GRATIS</div>
     <div class="cij">0,00 €</div></div></div>`:""}
   <div class="tot"><span>Naplatiti</span><span>${eur(o.iznos)}</span></div>
-  <div class="nacin ${o.placanje==="gotovina"?"n-kes":"n-kar"}">Naplata: ${esc(o.placanje)}</div>
+  <div class="nacin ${plKlasa(o)}">${o.placeno?"✓ PLAĆENO ONLINE — ne naplaćuje se":"Naplata: "+esc(plNaziv(o))}</div>
   ${osobno?`<div class="kratko"><span class="tag t-osobno">🏠 Osobno preuzimanje${vrijemeDo?" — dolazi oko "+vrijemeDo:""}</span></div>`
    :`<div class="kratko">${o.naselje?`<span class="kvart-oz">${esc(o.naselje)}</span>`:""}
    <span class="adr-kratko">${esc(o.adresa)}</span></div>`}
@@ -4230,6 +4382,10 @@ async function kasni(id){
  if(javiGresku(r,"prijava kašnjenja"))return;
  await osvjezi();}
 async function stanje(id,s){
+ if(uloga==="pult"&&!jeOsoblje()){
+  const rp=await sb.rpc("pult_spremno",{p_id:id});
+  if(rp.error)alert("Greška: "+rp.error.message);
+  await osvjezi(); return;}
  const r=await sb.from("narudzbe").update({stanje:s}).eq("id",id);
  if(javiGresku(r,"promjena stanja"))return;
  if(s==="spremno")await grupiraj();
@@ -4239,7 +4395,11 @@ async function preuzeoGost(id){
  if(javiGresku(r,"gost preuzeo narudžbu"))return;
  await osvjezi();}
 
+let grupiranjeUTijeku=false;
 async function grupiraj(){
+ if(grupiranjeUTijeku)return; grupiranjeUTijeku=true;
+ try{await grupirajSada();}finally{grupiranjeUTijeku=false;}}
+async function grupirajSada(){
  const sv=await sb.from("narudzbe").select("*").eq("lokal_id",lokal.id)
   .eq("stanje","spremno").is("tura_id",null);
  if(sv.error)return;
@@ -4276,8 +4436,7 @@ function vozacHTML(){
    <select class="f" id="vv">${VOZILA.map(v=>`<option value="${v.id}">${esc(v.naziv)} (${v.gorivo})</option>`).join("")}</select>`:""}
    <label class="f" for="vp">PIN</label><input class="f" id="vp" type="password" inputmode="numeric">
    <p class="err" id="vpe">Pogrešan PIN.</p>
-   <button class="btn" onclick="ulazV()">Prijavi se</button></div>
-  <p style="color:var(--dim2);font-size:13px;margin-top:18px">Demo: ${VOZACI.map(v=>v.ime+" "+v.pin).join(" · ")}</p></div>`;
+   <button class="btn" onclick="ulazV()">Prijavi se</button></div></div>`;
  const moja=ture.find(t=>t.vozac===vozac&&t.stanje==="preuzeta");
  const slob=ture.filter(t=>!t.vozac&&t.stanje==="ponudjena"
    &&narudzbe.some(o=>o.tura_id===t.id&&o.stanje==="spremno"));
@@ -4317,7 +4476,7 @@ function vozacHTML(){
       ${o.naselje?`<div style="font-size:13px;color:var(--dim2);margin-top:3px">${esc(o.naselje)}</div>`:""}
       <a class="dp-tel" href="${telH(o.telefon)}">${esc(o.telefon)}</a>
       ${o.napomena_dostava?`<div class="napom">${esc(o.napomena_dostava)}</div>`:""}</div>
-     <div class="nacin ${o.placanje==="gotovina"?"n-kes":"n-kar"}">Naplati ${eur(o.iznos)} — <span>${esc(o.placanje)}</span></div>
+     <div class="nacin ${plKlasa(o)}">${o.placeno?`✓ PLAĆENO ONLINE (${eur(o.iznos)}) — NE naplaćuj`:`Naplati ${eur(o.iznos)} — <span>${esc(plNaziv(o))}</span>`}</div>
      <div class="row2" style="margin-top:9px">
       ${!o.dostavljeno?`<button class="btn sm go" onclick="isporucio('${o.id}')">Dostavljeno</button>`:""}
       ${!o.dostavljeno?`<button class="btn sm tiho" onclick="kasnimJa('${o.id}')">Kasnim</button>`:""}
@@ -4334,7 +4493,7 @@ function vozacHTML(){
   h+=`<div class="sec"><h3>SPREMNO, BEZ TURE</h3></div>`+bezTure.map(o=>`
    <div class="tura"><div class="tura-h"><div class="kv">${esc(o.adresa.split(",")[0])}</div>
     <span class="tag t-spr">#${o.broj}</span></div>
-    <div style="font-size:13.5px;color:var(--dim)">${esc(o.ime)} · ${eur(o.iznos)} · ${esc(o.placanje)}</div>
+    <div style="font-size:13.5px;color:var(--dim)">${esc(o.ime)} · ${eur(o.iznos)} · ${esc(plNaziv(o))}</div>
     <button class="btn" onclick="uzmiSamu('${o.id}')">Preuzimam ovu</button></div>`).join("");}
  h+=`<div class="sec"><h3>PONUĐENE TURE</h3></div>`;
  h+=slob.length?slob.map(t=>{const st=nar(t);
@@ -4344,7 +4503,7 @@ function vozacHTML(){
    <div class="stanice-kratko">${p.map((o,i)=>`<div class="sk">
      <span class="skb">${i+1}</span>
      <div><b>${esc(o.adresa)}</b>
-      <i>#${o.broj} · ${esc(o.ime)} · ${eur(o.iznos)} · ${esc(o.placanje)}</i></div></div>`).join("")}</div>
+      <i>#${o.broj} · ${esc(o.ime)} · ${eur(o.iznos)} · ${esc(plNaziv(o))}</i></div></div>`).join("")}</div>
    ${bliskeTuri(t,st)}
    <div class="stat"><div><span>STANICA</span><b>${st.length}</b></div>
     <div><span>KM</span><b>${rk.toFixed(1)}</b></div>
@@ -4365,7 +4524,7 @@ function vozacHTML(){
    <button class="btn" onclick="uzmi('${t.id}')">${moja?"Dodaj u moju turu":"Preuzimam ovu turu"}</button></div>`;}).join("")
   :`<div class="prazno"><strong>Nema slobodnih tura</strong>Kuhinja još ništa nije označila spremnim.</div>`;
  h+=blagajnaHTML();
- h+=`<p style="padding:0 18px;margin-top:16px"><button class="btn sm tiho" onclick="vozac=null;voziloId=null;crtaj(1)">Odjava</button></p>`;
+ h+=`<p style="padding:0 18px;margin-top:16px"><button class="btn sm tiho" onclick="odjaviOsoblje()">Odjava</button></p>`;
  return h;}
 
 const APOENI=[50,20,10,5,2,1,0.5,0.2,0.1];
@@ -4453,10 +4612,15 @@ async function zatvoriPraznu(turaId){
  const r=await sb.from("narudzbe").select("id").eq("tura_id",turaId).limit(1);
  if(!r.error&&r.data.length===0)
   await sb.from("ture").update({stanje:"zavrsena"}).eq("id",turaId);}
-function ulazV(){const v=VOZACI[+el("vt").value];
- if(v&&el("vp").value.trim()===v.pin){vozac=v.ime;
-  const vv=el("vv"); voziloId=vv?vv.value:null;
-  crtaj();}else el("vpe").classList.add("on");}
+async function ulazV(){
+ const v=VOZACI[+el("vt").value], e=el("vpe"); if(e)e.classList.remove("on");
+ if(!v){if(e){e.textContent="Odaberi vozača.";e.classList.add("on");}return;}
+ const vv=el("vv"), vozilo=vv?vv.value:null;
+ const r=await prijaviOsoblje("vozac",el("vp").value.trim(),v.ime);
+ if(r.ok){vozac=v.ime; voziloId=vozilo;
+  try{localStorage.setItem("rikys-vozac",JSON.stringify({ime:vozac,vozilo:voziloId}));}catch(x){}
+  crtaj(); osvjezi();}
+ else{const x=el("vpe"); if(x){x.textContent=r.poruka; x.classList.add("on");}}}
 /* Google Maps: format /maps/dir/A/B/C/ — svaku stanicu traži zasebno,
    kao da si je sam utipkao. Kratice se raspisuju jer ih Google krivo tumači. */
 function normAdr(a){
