@@ -539,13 +539,15 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .pl-opcija .pl-t small{font-size:12.5px;color:var(--dim);line-height:1.35}
 .pl-opcija[aria-pressed="true"] .pl-t b{color:var(--or)}
 .pl-logo{display:flex;align-items:center;gap:5px;flex:none}
-.pl-logo img{height:24px;width:auto;display:block;border-radius:5px}
+.pl-logo img{height:26px;width:auto;display:block}
 .pl-krug{width:20px;height:20px;border-radius:50%;border:var(--bw) solid var(--line2);flex:none;position:relative}
 .pl-opcija[aria-pressed="true"] .pl-krug{border-color:var(--or)}
 .pl-opcija[aria-pressed="true"] .pl-krug::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--or)}
-.pay-traka{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 0;flex-wrap:wrap;
+.pay-traka{display:flex;align-items:center;justify-content:center;gap:10px;margin:16px auto 0;flex-wrap:wrap;
  font-family:"Oswald",sans-serif;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(246,239,232,.85)}
-.pay-traka img{height:26px;width:auto;display:block;border-radius:6px}
+/* Apple Pay / Google Pay prikazuju se TOČNO kako su uploadane (bez rezanja rubova, bez mijenjanja pozadine) */
+.pay-traka img{height:44px;width:auto;display:block}
+.pr-kartice-row img.pay-ik{height:34px}
 .pl-cekanje{margin-top:16px;padding:16px;border-radius:12px;border:var(--bw) solid var(--pice);background:rgba(62,156,201,.08);text-align:left}
 .pl-cekanje b{display:block;font-family:"Oswald",sans-serif;font-size:17px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px}
 .pl-cekanje p{font-size:14px;color:var(--dim);margin-bottom:12px}
@@ -2577,7 +2579,7 @@ function gostHTML(){
   <div class="pr reveal" data-rk="pr1"><b>10%</b><span>niže cijene nego na aplikacijama</span></div>
   <div class="pr reveal r2" data-rk="pr2"><b>0,33 L</b><span>Coca-Cola gratis uz svaku pizzu</span></div>
   <div class="pr reveal r3" data-rk="pr3"><b>4+1</b><span>peta pizza gratis, odbija se sama</span></div>
-  <div class="pr reveal r4" data-rk="pr4"><div class="pr-kartice-row"><img src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.style.display='none'"><img src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.style.display='none'"><img src="${SLIKE.VISA}" alt="Visa"><img src="${SLIKE.MASTERCARD}" alt="MasterCard"></div><span>Apple Pay i Google Pay online, ili karticom pri dostavi</span></div></div>
+  <div class="pr reveal r4" data-rk="pr4"><div class="pr-kartice-row"><img class="pay-ik" src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.style.display='none'"><img class="pay-ik" src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.style.display='none'"><img src="${SLIKE.VISA}" alt="Visa"><img src="${SLIKE.MASTERCARD}" alt="MasterCard"></div><span>Apple Pay i Google Pay online, ili karticom pri dostavi</span></div></div>
  ${gbZona("ispod")}
  ${vjernostHTML()}
  <section class="onama reveal" data-rk="onama">
