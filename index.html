@@ -16,9 +16,39 @@
      "Karta se učitava…" umjesto da se sruši. Leaflet/CARTO (OpenStreetMap pločice) uklonjeni — CARTO-ove
      besplatne pločice počele su tražiti API ključ ("API KEY REQUIRED" na karti), a korisnik svakako
      želi pravi Google Maps izgled karte, ne OpenStreetMap. -->
-<script>window.__gmapsOk=false;window.googleMapsSpreman=function(){window.__gmapsOk=true;};</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=googleMapsSpreman"></script>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script>window.__gmapsOk=false;window.googleMapsSpreman=function(){window.__gmapsOk=true;
+ try{if(typeof crtaj==="function")crtaj(1);}catch(e){}};</script>
+<!-- BRZINA OTVARANJA (gost skenira QR):
+     1) jelovnik se počinje dohvaćati ODMAH, ovdje na vrhu, istovremeno dok se ostatak stranice
+        i biblioteka baze još skidaju — prije se čekalo: stranica → biblioteka → lokal → jela.
+     2) slike s naslovne (peć, pizze, Coca-Cola) počinju se skidati odmah, pa su spremne kad
+        se naslovna nacrta — ne pojavljuju se "dio po dio".
+     3) Google Maps (~300 KB) gostu na otvaranju ne treba — učitava se tek kasnije (ucitajGoogleMaps).
+     4) fontovi više ne blokiraju pokretanje stranice. -->
+<link rel="preconnect" href="https://ajhgvczgjbkhzdzuzyby.supabase.co" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" as="script">
+<script>
+(function(){try{
+ var h=(location.hash||"").replace("#","");
+ if(h&&h!=="meni")return;               // samo gost; kuhinja/vozač/vlasnik/pult idu starim putem
+ ["pec-pozadina.jpg","pizza-1.png","pizza-2.png","pizza-3.png","cola-logo.png","cola-limenka.png"].forEach(function(f,i){
+  var l=document.createElement("link");l.rel="preload";l.as="image";l.href=f;
+  if(i<4)l.setAttribute("fetchpriority","high");document.head.appendChild(l);});
+ // isti upit kao start(): lokal + dostupna jela + dostupni dodaci, ali JEDNIM odlaskom do baze
+ var U="https://ajhgvczgjbkhzdzuzyby.supabase.co/rest/v1/lokali?select=*,jela(*),dodaci(*)"
+  +"&domena=eq.rikys.hr&jela.dostupno=eq.true&dodaci.dostupno=eq.true"
+  +"&jela.order=redoslijed.asc&dodaci.order=redoslijed.asc";
+ window.__rani=fetch(U,{headers:{apikey:"sb_publishable_kGlSS-fTHaEDGl0f4TMnsw_OpLHcVDI",
+   Accept:"application/vnd.pgrst.object+json"}})
+  .then(function(r){if(!r.ok)throw new Error("rani dohvat "+r.status);return r.json();});
+ window.__rani.catch(function(){});
+}catch(e){}})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet"></noscript>
 <style>
 body.svijetlo{--bg:#F1E7D6;--bg2:#FAF3E6;--card:#FAF3E6;--line:#B29B6E;--line2:#8C734A;
  --cream:#1C1614;--dim:#4A4038;--dim2:#5E5044;--or:#C44E1C;--gold:#A9741F;
@@ -832,40 +862,41 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
  box-shadow:0 6px 18px rgba(0,0,0,.3);transition:transform .15s ease,border-color .2s}
 .gb-like:active{transform:scale(.96)}
 .gb-like.on{border-color:#E8434F}
-.gb-like-sl{width:48px;height:48px;border-radius:50%;object-fit:cover;flex:none;display:block}
-.gb-like-sl.gb-zamjena{background:#E8434F;font-family:inherit;font-size:24px}
+.gb-like-sl{width:44px;height:44px;object-fit:contain;flex:none;display:block;background:transparent;border-radius:0}
+.gb-like-sl.gb-zamjena{background:transparent;color:#E8434F;font-family:inherit;font-size:40px;box-shadow:none}
+.gb-srce{width:44px;height:44px;flex:none;display:block;overflow:visible;filter:drop-shadow(0 3px 8px rgba(232,67,79,.45))}
 .gb-like-t{display:flex;flex-direction:column;line-height:1.1}
 .gb-like-t b{font-family:"Anton",sans-serif;font-weight:400;font-size:22px;letter-spacing:.03em;text-transform:uppercase}
 .gb-like-t small{font-size:13px;color:var(--dim);margin-top:4px}
 .gb-broj{font-family:"Anton",sans-serif;font-size:16px;color:#E8434F;letter-spacing:.02em;margin-right:4px}
-.gb-pop .gb-like-sl{animation:gbPop .6s cubic-bezier(.3,1.6,.5,1)}
+.gb-pop .gb-like-sl,.gb-pop .gb-srce{animation:gbPop .6s cubic-bezier(.3,1.6,.5,1)}
 @keyframes gbPop{0%{transform:scale(1)}35%{transform:scale(1.4)}100%{transform:scale(1)}}
-.gb-plut{position:fixed;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;
- align-items:center;gap:10px;padding:8px 6px 10px;background:var(--bg2);border:var(--bw) solid var(--line2);
- box-shadow:0 10px 28px rgba(0,0,0,.45);max-height:80vh;overflow-y:auto}
-.gb-desno{right:0;border-right:none;border-radius:16px 0 0 16px;padding-right:calc(6px + env(safe-area-inset-right))}
-.gb-lijevo{left:0;border-left:none;border-radius:0 16px 16px 0;padding-left:calc(6px + env(safe-area-inset-left))}
+/* "lebdeći" gumbi stoje GORE na naslovnoj slici (lijevo/desno) i odlaze s njom kad gost
+   skrola — korisnik ne želi da ga srce prati kroz jelovnik */
+.gb-plut{position:absolute;top:12px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:10px;
+ padding:10px 6px;border-radius:18px;background:rgba(11,9,8,.45);border:1px solid rgba(246,239,232,.14);
+ -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 10px 26px rgba(0,0,0,.35)}
+.gb-desno{right:10px}
+.gb-lijevo{left:10px}
 .gb-plut .gb-ik{min-width:0}
 .gb-plut .gb-ik span{display:none}
-.gb-plut .gb-ik-sl{width:38px;height:38px;border-radius:11px}
-.gb-plut .gb-like{flex-direction:column;gap:3px;padding:4px 2px 2px;border:none;border-radius:12px;width:66px;
- text-align:center;box-shadow:none;background:transparent}
-.gb-plut .gb-like-sl{width:42px;height:42px}
+.gb-plut .gb-ik-sl{width:36px;height:36px;border-radius:10px}
+.gb-plut .gb-like{flex-direction:column;gap:2px;padding:0;border:none;border-radius:0;width:66px;
+ text-align:center;box-shadow:none;background:transparent;color:#F6EFE8}
+.gb-plut .gb-srce,.gb-plut .gb-like-sl{width:40px;height:40px}
 .gb-plut .gb-like-t{align-items:center}
-.gb-plut .gb-like-t b{font-size:12.5px;line-height:1.05}
-.gb-plut .gb-like-t small{font-size:9.5px;line-height:1.2;margin-top:2px;text-transform:uppercase;letter-spacing:.03em}
-.gb-plut .gb-broj{display:block;font-size:21px;margin:0}
-.gb-skupi{width:100%;border:none;background:transparent;color:var(--dim2);font-size:17px;padding:0 0 2px;line-height:1}
-.gb-plut.skupljeno{gap:4px;padding-top:6px;padding-bottom:8px}
-.gb-mini{border:none;background:transparent;color:#E8434F;font-size:22px;line-height:1;padding:2px 4px}
+.gb-plut .gb-like-t b{font-size:13px;line-height:1.05;color:#F6EFE8}
+.gb-plut .gb-like-t small{font-size:9.5px;line-height:1.2;margin-top:2px;text-transform:uppercase;letter-spacing:.03em;color:rgba(246,239,232,.75)}
+.gb-plut .gb-broj{display:block;font-size:22px;margin:0}
 .gb-toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:220;background:var(--card);color:var(--cream);
  border:var(--bw) solid var(--line2);border-radius:999px;padding:10px 18px;font-size:14px;white-space:nowrap;
  box-shadow:0 10px 26px rgba(0,0,0,.4);animation:gbT .25s ease}
 @keyframes gbT{from{opacity:0;transform:translate(-50%,8px)}}
 /* uređivač rasporeda u vlasničkom sučelju */
-.gb-mock{display:grid;grid-template-columns:64px 1fr 64px;gap:6px;background:var(--bg);border:var(--bw) solid var(--line2);
+.gb-mock{display:flex;flex-direction:column;gap:6px;background:var(--bg);border:var(--bw) solid var(--line2);
  border-radius:24px;padding:12px 8px;max-width:440px;margin:0 auto}
-.gb-mock-sred{display:flex;flex-direction:column;gap:6px;min-width:0}
+.gb-mock-vrh{display:grid;grid-template-columns:70px 1fr 70px;gap:6px}
+.gb-mock-vrh .gb-mock-blok{display:flex;flex-direction:column;justify-content:center;min-height:120px}
 .gb-mock-blok{border-radius:10px;background:var(--card);color:var(--dim2);font-size:10.5px;font-family:"Oswald",sans-serif;
  letter-spacing:.06em;text-transform:uppercase;padding:9px 8px;text-align:center}
 .gb-mock-blok b{display:block;font-family:"Anton",sans-serif;font-weight:400;font-size:19px;letter-spacing:.04em;color:var(--cream)}
@@ -1920,25 +1951,66 @@ async function ucitajBiblioteku(){
    if(window.supabase&&window.supabase.createClient)return true;}catch(e){}}
  return false;}
 
+/* ---- jelovnik zapamćen na mobitelu gosta: kad se vrati (novi sken QR-a), stranica se
+   nacrta ODMAH iz zapamćenog, a svježi podaci iz baze samo je tiho osvježe sekundu kasnije.
+   Lozinke se nikad ne spremaju na gostov mobitel. ---- */
+const MENI_KLJUC="rikys-meni-v1";
+function citajMeniKes(){
+ try{const c=JSON.parse(localStorage.getItem(MENI_KLJUC)||"null");
+  if(c&&c.lokal&&c.lokal.id&&Array.isArray(c.jela)&&c.jela.length&&Array.isArray(c.dodaci))return c;}catch(e){}
+ return null;}
+function spremiMeniKes(){
+ try{const l={...lokal}; delete l.loz_kuhinja; delete l.loz_vlasnik;
+  const t=JSON.stringify({lokal:l,jela,dodaci,t:Date.now()});
+  if(t.length<1500000)localStorage.setItem(MENI_KLJUC,t);}catch(e){}}
+let gmapsUcitavanje=false;
+function ucitajGoogleMaps(){
+ if(gmapsUcitavanje||(window.google&&window.google.maps))return; gmapsUcitavanje=true;
+ const t=document.createElement("script"); t.async=true;
+ t.src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=googleMapsSpreman";
+ t.onerror=()=>{gmapsUcitavanje=false;}; document.head.appendChild(t);}
+
 async function start(){
  citajUlogu();
  if(uloga==="gost")citajMojuNarudzbu();
- window.addEventListener("hashchange",()=>{citajUlogu();crtaj();});
- if(!await ucitajBiblioteku()){veza("lose","biblioteka");
+ window.addEventListener("hashchange",()=>{
+  const bio=uloga; citajUlogu();
+  // gost ne dobiva lozinke u zapamćenom jelovniku — ako netko s gostinske stranice prijeđe na
+  // kuhinju/vlasnika, stranica se ponovno učita da se lozinke dohvate iz baze
+  if(bio==="gost"&&uloga!=="gost"&&lokal&&lokal.loz_vlasnik===undefined){location.reload();return;}
+  crtaj();});
+ if(uloga!=="gost")ucitajGoogleMaps();          // kuhinja/vozač odmah trebaju karte i adrese
+ else setTimeout(ucitajGoogleMaps,4000);         // gostu tek kasnije, kad je jelovnik već na ekranu
+ const gost = (uloga==="gost" && !mojaId);
+ const vz=el("veza"); if(vz&&uloga==="gost")vz.style.display="none";   // gostu "spajam…" ne treba
+ let nacrtano=false;
+ if(gost){const c=citajMeniKes();
+  if(c){lokal=c.lokal; jela=c.jela; dodaci=c.dodaci; crtaj(); nacrtano=true;}}
+ const biblioteka=ucitajBiblioteku();           // skida se istovremeno s podacima
+ let svjeze=null;
+ if(gost&&window.__rani){try{svjeze=await window.__rani;}catch(e){svjeze=null;}}
+ if(svjeze&&svjeze.id&&Array.isArray(svjeze.jela)){
+  const {jela:sj,dodaci:sd,...sl}=svjeze;
+  const promjena=!nacrtano||JSON.stringify(sj)!==JSON.stringify(jela)||JSON.stringify(sd)!==JSON.stringify(dodaci)
+   ||JSON.stringify({...sl,loz_kuhinja:0,loz_vlasnik:0})!==JSON.stringify({...lokal,loz_kuhinja:0,loz_vlasnik:0});
+  lokal=sl; jela=sj; dodaci=sd||[]; spremiMeniKes();
+  if(promjena){crtaj(nacrtano?1:undefined);} nacrtano=true;}
+ if(!await biblioteka){veza("lose","biblioteka");
+  if(nacrtano)return;
   el("app").innerHTML=`<div class="setup"><h2>Ne mogu učitati biblioteku</h2>
    <p>U Braveu klikni lava ikonu i isključi Shields za ovu stranicu, pa osvježi.</p></div>`;return;}
  try{
   sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-  const l=await sb.from("lokali").select("*").eq("domena",DOMENA).single(); if(l.error)throw l.error;
-  lokal=l.data;
-  // jela i dodaci dohvaćeni ISTOVREMENO (Promise.all), ne jedan pa drugi — prije se čekalo
-  // dva puna kruga do baze zaredom, sad samo jedan, pa je početno "spajam…" osjetno kraće
-  const [j,d]=await Promise.all([
-   sb.from("jela").select("*").eq("lokal_id",lokal.id).eq("dostupno",true).order("redoslijed"),
-   sb.from("dodaci").select("*").eq("lokal_id",lokal.id).eq("dostupno",true).order("redoslijed")]);
-  if(j.error)throw j.error; jela=j.data;
-  if(d.error)throw d.error; dodaci=d.data;
-  const vz=el("veza"); if(vz)vz.style.display="none";
+  if(!svjeze){
+   const l=await sb.from("lokali").select("*").eq("domena",DOMENA).single(); if(l.error)throw l.error;
+   lokal=l.data;
+   const [j,d]=await Promise.all([
+    sb.from("jela").select("*").eq("lokal_id",lokal.id).eq("dostupno",true).order("redoslijed"),
+    sb.from("dodaci").select("*").eq("lokal_id",lokal.id).eq("dostupno",true).order("redoslijed")]);
+   if(j.error)throw j.error; jela=j.data;
+   if(d.error)throw d.error; dodaci=d.data;
+   if(uloga==="gost")spremiMeniKes();}
+  if(vz)vz.style.display="none";
 
   /* GOST VIDI JELOVNIK ODMAH.
      Prije se čekalo redom: vozači → vozila → (geokodiranje) → osvjezi() (još 4 upita zaredom)
@@ -1949,8 +2021,7 @@ async function start(){
      localStorage-a), gostHTML() bi je tražio u još praznom polju narudžbi, ne bi je našao
      i obrisao bi mu je iz memorije — gost bi izgubio praćenje svoje narudžbe. Takav gost
      zato čeka podatke, kao i kuhinja/vozač/vlasnik. */
-  const gost = (uloga==="gost" && !mojaId);
-  if(gost) crtaj();
+  if(gost&&!nacrtano) crtaj(); else if(gost) crtaj(1);
 
   const ostatak = (async()=>{
    /* Gostu vozači i vozila nikad ne trebaju, pa njegovo osvježavanje (narudžbe/poruke —
@@ -2110,11 +2181,11 @@ const GB_ZONE=[
  ["hero","U zaglavlju, ispod slogana"],
  ["ispod","Ispod prednosti (10% · 0,33 L · 4+1)"],
  ["dno","Na dnu, ispod jelovnika"],
- ["lijevo","Lebdi sa strane — lijevo"],
- ["desno","Lebdi sa strane — desno"],
+ ["lijevo","Gore lijevo — na naslovnoj slici"],
+ ["desno","Gore desno — na naslovnoj slici"],
  ["skriveno","Skriveno — gosti ga ne vide"]];
 const GB_ZADANO=[
- {id:"like",vrsta:"like",naziv:"Like us here",slika:"like-us",link:"",zona:"desno"},
+ {id:"like",vrsta:"like",naziv:"Like us here",slika:"",link:"",zona:"desno"},
  {id:"facebook",vrsta:"link",naziv:"Facebook",slika:"facebook",link:"https://www.facebook.com/profile.php?id=100091792689469&locale=hr_HR",zona:"hero"},
  {id:"instagram",vrsta:"link",naziv:"Instagram",slika:"instagram",link:"https://www.instagram.com/rikys_pizza/",zona:"hero"},
  {id:"gmail",vrsta:"link",naziv:"Pišite nam",slika:"gmail",link:"mailto:riky.s.pizza@gmail.com",zona:"hero"},
@@ -2133,6 +2204,7 @@ function gbLink(v){
  return null;}   // sve ostalo (npr. javascript:) se odbija
 const gbVidljiv=g=>g.zona!=="skriveno"&&(g.vrsta==="like"||!!gbSigurnoLink(g.link));
 const gbSigurnId=s=>String(s||"").replace(/[^A-Za-z0-9_-]/g,"");
+const GB_SRCE=kl=>`<svg class="${kl} gb-srce" viewBox="0 0 24 24" aria-hidden="true"><path fill="#E8434F" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
 
 /* --- slike s pogađanjem nastavka --- */
 const SLIKA_EXT=["png","jpg","jpeg","webp","svg","PNG","JPG","JPEG","WEBP"];
@@ -2147,6 +2219,8 @@ function gbSlikaHTML(g,kl){
  const s=String(g.slika||"");
  const znak=g.vrsta==="like"?"♥":esc((String(g.naziv||"?").trim().charAt(0)||"?").toUpperCase());
  const zamjena=`<span class="${kl} gb-zamjena" aria-hidden="true">${znak}</span>`;
+ // like bez vlastite slike = ugrađeno prozirno srce (bez kruga/okvira), oštro na svakom ekranu
+ if(g.vrsta==="like"&&(!s||s==="like-us"))return GB_SRCE(kl);
  if(/^data:image\/[a-z+]+;base64,[A-Za-z0-9+/=]+$/.test(s))return `<img class="${kl}" src="${s}" alt="">`;
  const ime=cistoImeSlike(s); if(!ime)return zamjena;
  const i=slikaNadjena[ime]!==undefined?slikaNadjena[ime]:(slikaPokusaj[ime]||0); if(i<0)return zamjena;
@@ -2185,20 +2259,10 @@ function gbZona(z){
  const lista=gbLista().filter(g=>g.zona===z&&gbVidljiv(g));
  if(!lista.length)return "";
  return `<div class="gb-red gb-z-${z}">${lista.map(g=>g.vrsta==="like"?gbLikeHTML(g,false):gbLinkHTML(g)).join("")}</div>`;}
-let gbSkupljeno={}; try{gbSkupljeno=JSON.parse(sessionStorage.getItem("rikys-gb-skup")||"{}")||{};}catch(e){}
-function gbSkupi(z){gbSkupljeno[z]=!gbSkupljeno[z];
- try{sessionStorage.setItem("rikys-gb-skup",JSON.stringify(gbSkupljeno));}catch(e){} crtaj(1);}
 function gbPlutajuce(){
  return ["lijevo","desno"].map(z=>{
   const lista=gbLista().filter(g=>g.zona===z&&gbVidljiv(g)); if(!lista.length)return "";
-  const sk=!!gbSkupljeno[z];
-  const str=z==="desno"?(sk?"‹":"›"):(sk?"›":"‹");
-  if(sk)return `<div class="gb-plut gb-${z} skupljeno">
-   <button class="gb-skupi" onclick="gbSkupi('${z}')" aria-label="Prikaži">${str}</button>
-   <button class="gb-mini" onclick="gbSkupi('${z}')" aria-label="Prikaži">${lista.some(g=>g.vrsta==="like")?"♥":"•••"}</button></div>`;
-  return `<div class="gb-plut gb-${z}">
-   <button class="gb-skupi" onclick="gbSkupi('${z}')" aria-label="Skloni sa strane">${str}</button>
-   ${lista.map(g=>g.vrsta==="like"?gbLikeHTML(g,true):gbLinkHTML(g)).join("")}</div>`;}).join("");}
+  return `<div class="gb-plut gb-${z}">${lista.map(g=>g.vrsta==="like"?gbLikeHTML(g,true):gbLinkHTML(g)).join("")}</div>`;}).join("");}
 function gbPoruka(t){
  document.querySelectorAll(".gb-toast").forEach(x=>x.remove());
  const d=document.createElement("div"); d.className="gb-toast"; d.textContent=t;
@@ -2256,7 +2320,8 @@ function smanjiIkonu(file,cb){
  fr.readAsDataURL(file);}
 function gbUcitajSliku(input){
  const f=input.files&&input.files[0]; if(!f)return;
- smanjiIkonu(f,d=>{const l=gbKopija(), g=l.find(x=>x.id===gbOdabran); if(!g)return;
+ smanjiIkonu(f,async d0=>{const d=await spremiUSpremiste(d0,"gumbi");
+  const l=gbKopija(), g=l.find(x=>x.id===gbOdabran); if(!g)return;
   g.slika=d; gbSpremi(l,"Slika gumba "+g.naziv);});}
 function gbPremjesti(id,zona){
  const l=gbKopija(), i=l.findIndex(x=>x.id===id); if(i<0)return;
@@ -2292,7 +2357,7 @@ function gbUrediHTML(g){
    <input class="f" id="gbk-${id}" value="${esc(g.link||"")}" placeholder="https://…  ili e-mail adresa" onchange="gbPolje('link',this.value)">
    <p class="savjet">Za mail je dovoljno upisati samo adresu — stranica je sama pretvori u mail link.
     ${gbSigurnoLink(g.link)?"":`<br><b style="color:var(--red)">Dok nema linka, gosti ovaj gumb ne vide.</b>`}</p>`}
-  <label class="f" for="gbs-${id}">Slika — naziv datoteke na GitHubu</label>
+  <label class="f" for="gbs-${id}">Slika — naziv datoteke na GitHubu${g.vrsta==="like"?" (prazno = ugrađeno crveno srce)":""}</label>
   <input class="f" id="gbs-${id}" value="${jeData?"":esc(g.slika||"")}" placeholder="${jeData?"slika je učitana s uređaja":"npr. facebook"}" onchange="gbPolje('slika',this.value)">
   <input type="file" accept="image/*" id="gbf-${id}" style="display:none" onchange="gbUcitajSliku(this)">
   <button class="btn xs ghost" onclick="el('gbf-${id}').click()">Ili učitaj sliku s mobitela</button>
@@ -2312,19 +2377,20 @@ function vlGumbi(){
  return `<div class="sec"><h3>GUMBI NA POČETNOJ STRANICI</h3></div>
  <div class="box">
   <p class="savjet" style="margin-top:0">Primi gumb prstom i <b>povuci ga</b> u dio stranice gdje želiš da stoji — i redoslijed mijenjaš povlačenjem.
-   Kratki dodir otvara uređivanje. Gumb u "Skriveno" gosti ne vide. Sprema se samo, odmah.</p>
+   Kratki dodir otvara uređivanje. "Gore lijevo/desno" stoji na naslovnoj slici i ne ide za gostom kad skrola.
+   Gumb u "Skriveno" gosti ne vide. Sprema se samo, odmah.</p>
   <div class="gb-mock" style="margin-top:12px">
-   ${dz("lijevo","Lijevo","strana")}
-   <div class="gb-mock-sred">
-    <div class="gb-mock-blok"><b>RIKY'S PIZZA</b>naslovna · adresa · radno vrijeme</div>
-    ${dz("hero","Zaglavlje")}
-    <div class="gb-mock-blok">Pizze · Coca-Cola · 4+1 · naruči</div>
-    <div class="gb-mock-blok">Prednosti</div>
-    ${dz("ispod","Ispod prednosti")}
-    <div class="gb-mock-blok">Vjernost · O nama · Jelovnik</div>
-    ${dz("dno","Dno stranice")}
-    <div class="gb-mock-blok">Recenzije · kontakt</div></div>
-   ${dz("desno","Desno","strana")}</div>
+   <div class="gb-mock-vrh">
+    ${dz("lijevo","Lijevo","strana")}
+    <div class="gb-mock-blok"><b>RIKY'S PIZZA</b>naslovna slika · adresa · radno vrijeme</div>
+    ${dz("desno","Desno","strana")}</div>
+   ${dz("hero","Zaglavlje, ispod slogana")}
+   <div class="gb-mock-blok">Pizze · Coca-Cola · 4+1 · naruči</div>
+   <div class="gb-mock-blok">Prednosti</div>
+   ${dz("ispod","Ispod prednosti")}
+   <div class="gb-mock-blok">Vjernost · O nama · Jelovnik</div>
+   ${dz("dno","Dno stranice")}
+   <div class="gb-mock-blok">Recenzije · kontakt</div></div>
   ${dz("skriveno","Skriveno — gosti ne vide","skriveno")}
   <div class="gb-stanje">${esc(gbStatus)}</div>
   ${gbUrediHTML(lista.find(g=>g.id===gbOdabran))}
@@ -2407,6 +2473,7 @@ function gostHTML(){
  const r=racun(kosarica);
  return `
  <div class="hero"><div class="pec" style="background-image:url('${lokal.naslovna_url||SLIKE.PEC}')"></div>
+  ${gbPlutajuce()}
   <div class="hero-in reveal" data-rk="hero"><div class="deco">◆ ◆ ◆</div>
    <div class="mark">Riky's</div><div class="mark2">Pizza</div>
    <div class="rule"><i></i><span>${esc(lokal.adresa.split(",")[0])}</span><i></i></div>
@@ -2458,8 +2525,7 @@ function gostHTML(){
   ${r.gratisPizza?`<br>${r.gratisPizza}× pizza gratis po akciji 4+1 — ušteda ${eur(r.popust)}`:""}</div>`:""}
  ${gbZona("dno")}
  ${recenzijeTraka()}
- ${pravno()}
- ${gbPlutajuce()}`;}
+ ${pravno()}`;}
 
 const RECENZIJE=[
  ["Ana M.","Najbolje tijesto u kvartu. Lagana je i nakon dvije kriške nisi težak."],
@@ -3357,9 +3423,26 @@ function smanjiSliku(file,cb){
    cb(c.toDataURL("image/jpeg",0.78));};
   im.src=e.target.result;};
  fr.readAsDataURL(file);}
+/* Slike se spremaju kao prave datoteke u javno spremište "slike" (Supabase Storage, preko CDN-a),
+   a u bazu ide samo kratki link. Prije su išle u bazu kao dugačak tekst (base64) — 37 slika
+   jela bilo je 2,6 MB koje je SVAKI gost skidao prije nego što vidi jelovnik (glavni uzrok
+   sporog otvaranja). Ako spremište ne uspije, slika ide u bazu kao prije, da ništa ne pukne. */
+async function spremiUSpremiste(dataUrl,mapa){
+ try{
+  const m=String(dataUrl).match(/^data:(image\/[a-z+]+);base64,(.+)$/); if(!m)return dataUrl;
+  const bin=atob(m[2]), u8=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
+  const ext=m[1]==="image/png"?"png":m[1]==="image/webp"?"webp":"jpg";
+  const put=`${mapa}/${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+  const r=await sb.storage.from("slike").upload(put,new Blob([u8],{type:m[1]}),
+   {contentType:m[1],cacheControl:"31536000",upsert:false});
+  if(r.error)throw r.error;
+  return sb.storage.from("slike").getPublicUrl(put).data.publicUrl;
+ }catch(e){console.warn("Spremište slika nije uspjelo, slika ide u bazu:",e); return dataUrl;}}
 function ucitajSliku(id,input){
  const f=input.files&&input.files[0]; if(!f)return;
- smanjiSliku(f,async d=>{
+ smanjiSliku(f,async d0=>{
+  const d=await spremiUSpremiste(d0,"jela");
   const r=await sb.from("jela").update({slika_url:d}).eq("id",id);
   if(r.error){alert("Greška: "+r.error.message);return;}
   await ucitajJela();});}
@@ -3367,7 +3450,8 @@ async function makniSliku(id){
  await sb.from("jela").update({slika_url:null}).eq("id",id); await ucitajJela();}
 function ucitajNaslovnu(input){
  const f=input.files&&input.files[0]; if(!f)return;
- smanjiSliku(f,async d=>{
+ smanjiSliku(f,async d0=>{
+  const d=await spremiUSpremiste(d0,"naslovna");
   const r=await sb.from("lokali").update({naslovna_url:d}).eq("id",lokal.id);
   if(r.error){alert("Greška: "+r.error.message);return;}
   lokal.naslovna_url=d; crtaj(1);});}
