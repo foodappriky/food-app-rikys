@@ -66,6 +66,8 @@ body.svijetlo .onama{background:linear-gradient(180deg,rgba(46,122,69,.08),#fff 
    definirane osnovne klase iste specifičnosti. */
 .karta{width:100%;height:230px;border-radius:10px;border:var(--bw) solid var(--line);margin-bottom:11px;
  background:var(--bg2);overflow:hidden}
+.ruta-info{font-size:13px;color:var(--dim);margin:0 0 10px;padding:8px 11px;border-radius:9px;background:rgba(78,155,95,.08)}
+.ruta-info b{color:var(--cream)}
 .karta-prazno{display:flex;align-items:center;justify-content:center;height:100%;color:var(--dim2);font-size:13px}
 .on-glava{display:block;width:100%;background:transparent;border:0;text-align:center;padding:4px 0;color:var(--cream)}
 .on-glava h3{color:var(--cream)}
@@ -333,15 +335,21 @@ a{color:var(--gold)}
  .trio img:nth-child(2){animation:vd 42s linear infinite}}
 @keyframes vd{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 @keyframes vl{from{transform:rotate(360deg)}to{transform:rotate(0)}}
+/* Coca-Cola: logo, "+", veliki "0,33L GRATIS" i nagnuta limenka koja stoji malo ISPOD teksta
+   (tekst je preko limenke), po uzoru na korisnikov plakat */
 .kola{margin-top:18px}
-.kola-logo{display:block;width:clamp(150px,42vw,230px);margin:0 auto 6px;
+.kola-scena{position:relative;max-width:380px;margin:0 auto;padding:4px 0 6px 5%;text-align:left;min-height:clamp(215px,62vw,285px)}
+.kola-lim{position:absolute;z-index:0;right:6%;top:13%;height:clamp(180px,52vw,245px);width:auto;
+ transform:rotate(15deg);transform-origin:50% 60%;filter:drop-shadow(0 10px 18px rgba(0,0,0,.75))}
+.kola-logo{position:relative;z-index:1;display:block;width:clamp(170px,56vw,255px);margin:0;
  filter:drop-shadow(0 4px 12px rgba(0,0,0,.6))}
-.kola-red{display:flex;align-items:center;justify-content:center;gap:12px}
-.kola-red b{font-family:"Anton",sans-serif;font-size:clamp(26px,8vw,42px);color:#fff;
- text-transform:uppercase;line-height:1}
-.kola-lim{height:clamp(64px,17vw,96px);width:auto;filter:drop-shadow(0 6px 14px rgba(0,0,0,.7))}
-.kola span{display:block;font-family:"Oswald",sans-serif;font-size:12.5px;letter-spacing:.2em;
- text-transform:uppercase;margin-top:6px}
+.kola-plus{position:relative;z-index:1;font-family:"Anton",sans-serif;font-size:clamp(34px,10vw,48px);
+ line-height:.7;color:#E41E26;margin:2px 0 0 clamp(70px,24vw,110px);text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.kola-gratis{position:relative;z-index:2;display:block;font-family:"Anton",sans-serif;font-weight:400;
+ font-size:clamp(44px,14vw,70px);line-height:.95;color:#fff;text-transform:uppercase;letter-spacing:.01em;white-space:nowrap;
+ text-shadow:0 3px 14px rgba(0,0,0,.75)}
+.kola-scena span{position:relative;z-index:2;display:block;font-family:"Oswald",sans-serif;font-size:clamp(14px,4.2vw,19px);
+ letter-spacing:.24em;text-transform:uppercase;margin:4px 0 0 clamp(20px,8vw,40px);color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.8)}
 .promo{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;justify-content:center}
 .promo div{border:1.5px solid var(--or);border-radius:8px;padding:9px 13px;font-family:"Oswald",sans-serif;
  font-size:13px;text-transform:uppercase;line-height:1.25;background:rgba(11,9,8,.6)}
@@ -1008,6 +1016,10 @@ async function vratiPrijavu(){
    try{const zv=JSON.parse(localStorage.getItem("rikys-vozac")||"null");
     if(zv&&zv.ime){vozac=zv.ime; voziloId=zv.vozilo||null;}}catch(e){}}
  }catch(e){}}
+async function ucitajPopisPrijave(){   // imena vozača i vozila za ekran prijave (bez PIN-ova)
+ if(!sb||!lokal)return;
+ const pp=await sb.rpc("prijava_popis",{p_lokal:lokal.id});
+ if(!pp.error&&pp.data){VOZACI=pp.data.vozaci||[]; VOZILA=pp.data.vozila||[];}}
 async function odjaviOsoblje(){
  try{localStorage.removeItem("rikys-vozac");}catch(e){}
  vozac=null; voziloId=null; kuhUlaz=false; vlUlaz=false; osobljeUloga=null; tajne=null;
@@ -2034,10 +2046,12 @@ async function start(){
  if(uloga==="gost")citajMojuNarudzbu();
  window.addEventListener("hashchange",()=>{
   const bio=uloga; citajUlogu();
-  if(sb&&bio!==uloga){vratiPrijavu().then(()=>{if(uloga==="vlasnik"&&vlUlaz)ucitajVlasnika(); osvjezi();});}
+  if(sb&&bio!==uloga){vratiPrijavu().then(async()=>{
+   if(uloga==="vozac"&&!VOZACI.length){await ucitajPopisPrijave(); crtaj(1);}
+   if(uloga==="vlasnik"&&vlUlaz)ucitajVlasnika(); osvjezi();});}
   crtaj();});
- if(uloga!=="gost")ucitajGoogleMaps();          // kuhinja/vozač odmah trebaju karte i adrese
- else setTimeout(ucitajGoogleMaps,4000);         // gostu tek kasnije, kad je jelovnik već na ekranu
+ // Google Maps se više ne učitava (nema ključa) — adrese traži Geoapify/OpenStreetMap, rute računa
+ // Geoapify, a navigaciju vozač otvara u svojoj Google/Apple Maps aplikaciji preko linka (to ne treba ključ).
  const gost = (uloga==="gost" && !mojaId);
  const vz=el("veza"); if(vz&&uloga==="gost")vz.style.display="none";   // gostu "spajam…" ne treba
  let nacrtano=false;
@@ -2089,8 +2103,7 @@ async function start(){
    const osvjezavanjeGosta = (uloga==="gost") ? osvjezi() : null;
    // vozači i vozila istovremeno (oba trebaju samo lokal.id)
    // za ekran prijave vozača: samo imena i vozila, bez PIN-ova
-   if(uloga!=="gost"){const pp=await sb.rpc("prijava_popis",{p_lokal:lokal.id});
-    if(!pp.error&&pp.data){VOZACI=pp.data.vozaci||[]; VOZILA=pp.data.vozila||[];}}
+   if(uloga!=="gost")await ucitajPopisPrijave();
    // koordinate lokala već su u bazi (upisane kod postavljanja) — geokodiraj SAMO ako nedostaju,
    // ne na svaki učitani ekran (usporavalo je spajanje i nepotrebno opterećivalo vanjski servis)
    if(!lokal.lat||!lokal.lng){
@@ -2564,10 +2577,12 @@ function gostHTML(){
    <div class="slogan">Real food. Real pizza.</div>
    ${gbZona("hero")}
    <div class="trio"><img src="${SLIKE.P1}" alt=""><img src="${SLIKE.P2}" alt=""><img src="${SLIKE.P3}" alt=""></div>
-   <div class="kola">
+   <div class="kola"><div class="kola-scena">
+    <img class="kola-lim" src="${SLIKE.LIMENKA}" alt="">
     <img class="kola-logo" src="${SLIKE.LOGO}" alt="Coca-Cola">
-    <div class="kola-red"><b>0,33 L gratis</b><img class="kola-lim" src="${SLIKE.LIMENKA}" alt=""></div>
-    <span>uz svaku naručenu pizzu</span></div>
+    <div class="kola-plus">+</div>
+    <b class="kola-gratis">0,33L gratis</b>
+    <span>(uz svaku pizzu)</span></div></div>
    <div class="promo"><div><b>4 + 1</b>peta pizza gratis</div><div><b>10%</b>jeftinije nego na aplikacijama</div></div>
    <div class="pay-traka"><img src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.style.display='none'"><img src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.style.display='none'"><span>plaćanje online ili karticom pri dostavi</span></div>
    <button class="cta" onclick="glatkoNaEl('meni')">Naruči odmah<i>jelovnik je odmah ispod</i></button>
@@ -4453,10 +4468,11 @@ function vozacHTML(){
   const rkm=duljinaRute(st);
   h+=`<div class="tura moja"><div class="tura-h"><div class="kv">${esc(moja.kvart||"—")}</div>
    <span class="tag t-dost">moja tura</span></div>
-   <div class="karta" id="karta-tura"></div>
+   ${vlasnikGleda?`<div class="karta" id="karta-tura"></div>`:""}
+   ${rutaStanjeHTML(st)}
    <div class="stat"><div><span>STANICA</span><b>${st.length}</b></div>
     <div><span>KM</span><b>${rkm.toFixed(1)}</b></div>
-    <div><span>OKO</span><b>${minute(rkm/1.35)+st.length*3}′</b></div>
+    <div><span>OKO</span><b>${trajanjeRute(st,rkm)}′</b></div>
     <div><span>NAPLATITI</span><b>${st.reduce((s,o)=>s+ +o.iznos,0).toFixed(0)} €</b></div></div>
    <div class="redoslijed">Redoslijed vožnje: pizzeria → ${st.map((o,i)=>(i+1)+". "+esc(o.adresa.split(",")[0])).join(" → ")} → pizzeria</div>
    ${st.map((o,i)=>{
@@ -4509,10 +4525,10 @@ function vozacHTML(){
    ${bliskeTuri(t,st)}
    <div class="stat"><div><span>STANICA</span><b>${st.length}</b></div>
     <div><span>KM</span><b>${rk.toFixed(1)}</b></div>
-    <div><span>OKO</span><b>${minute(rk/1.35)+st.length*3}′</b></div>
+    <div><span>OKO</span><b>${trajanjeRute(p,rk)}′</b></div>
     <div><span>NAPLATITI</span><b>${st.reduce((s,o)=>s+ +o.iznos,0).toFixed(0)} €</b></div></div>
    <button class="vise" onclick="prebaci('${t.id}')" aria-expanded="${otv}">${otv?"▲ Sakrij pregled":"▼ Pregledaj narudžbe i rutu"}</button>
-   ${otv?`<div class="karta" id="karta-${t.id}"></div>
+   ${otv?`${vlasnikGleda?`<div class="karta" id="karta-${t.id}"></div>`:""}${rutaStanjeHTML(p)}
     <div class="redoslijed">Pizzeria → ${p.map((o,i)=>(i+1)+". "+esc(o.adresa)).join(" → ")} → pizzeria</div>
     ${p.map((o,i)=>`<div class="nosim" style="margin-top:9px">
       <b>${i+1}. ${esc(o.adresa)}${o.naselje?" — "+esc(o.naselje):""}</b>
@@ -4672,10 +4688,18 @@ async function uzmi(id){
    .eq("tura_id",id);
   if(r2.error)alert("Tura je preuzeta, ali narudžbe nisu ažurirane: "+r2.error.message);}
  await osvjezi();}
-function poredaj(st){
+/* ==================== RUTE (bez Google Maps ključa) ====================
+   Redoslijed stanica računa se sam (najkraći krug pizzeria → stanice → pizzeria), a STVARNE
+   kilometre i vrijeme vožnje po cestama vraća Geoapify (isti besplatni ključ kao za adrese,
+   1 upit po turi). Vozač nakon "Preuzimam ovu turu" otvara rutu u Google/Apple Maps aplikaciji
+   preko linka s adresama poredanim tim redom — za to ne treba nikakav API ključ.
+   Kartu (besplatna, OpenStreetMap preko Geoapify pločica) vidi samo vlasnik. */
+const rutaKes={};
+const rutaKljuc=st=>st.map(o=>o.id).sort().join(",");
+function poredajPriblizno(st){
  if(st.length<2)return st;
  const R=L();
- if(st.length>6||st.some(o=>!o.lat)){
+ if(st.length>7||st.some(o=>!o.lat)){
   return st.slice().sort((a,b)=>km(R,a)-km(R,b));}
  const perms=p=>p.length<=1?[p]:p.flatMap((x,i)=>perms([...p.slice(0,i),...p.slice(i+1)]).map(r=>[x,...r]));
  let best=st,bd=Infinity;
@@ -4685,41 +4709,99 @@ function poredaj(st){
   d+=km(p[p.length-1],R);
   if(d<bd){bd=d;best=p;}}
  return best;}
+function poredaj(st){
+ const p=poredajPriblizno(st);
+ const sa=p.filter(o=>o.lat&&o.lng);
+ if(sa.length&&lokal&&lokal.lat){
+  const k=rutaKljuc(sa), c=rutaKes[k];
+  if(!c||(c.stanje==="greska"&&Date.now()-c.t>60000))izracunajRutu(sa,k);}
+ return p;}
+async function izracunajRutu(sa,k){
+ rutaKes[k]={stanje:"racuna",t:Date.now()};
+ try{
+  const R=L();
+  const tocke=[R].concat(sa.map(o=>({lat:+o.lat,lng:+o.lng}))).concat([R]);
+  const way=tocke.map(t=>(+t.lat).toFixed(6)+","+(+t.lng).toFixed(6)).join("|");
+  const r=await fetch("https://api.geoapify.com/v1/routing?waypoints="+encodeURIComponent(way)
+   +"&mode=drive&apiKey="+GEOAPIFY_KEY);
+  if(!r.ok)throw new Error("routing "+r.status);
+  const j=await r.json(), f=j.features&&j.features[0];
+  if(!f)throw new Error("nema rute");
+  const g=f.geometry&&f.geometry.coordinates;
+  const geo=g?(f.geometry.type==="LineString"?g:g.flat()).map(c=>[c[1],c[0]]):null;
+  rutaKes[k]={stanje:"ok",t:Date.now(),km:(f.properties.distance||0)/1000,
+   min:Math.round((f.properties.time||0)/60),geo};
+  azurirajKmTure(sa,rutaKes[k].km);
+ }catch(e){rutaKes[k]={stanje:"greska",t:Date.now()};}
+ crtaj(1);}
+function rutaIz(st){const sa=st.filter(o=>o.lat&&o.lng); if(!sa.length)return null;
+ const c=rutaKes[rutaKljuc(sa)]; return c&&c.stanje==="ok"?c:null;}
 function duljinaRute(st){
  if(!st.length)return 0;
+ const c=rutaIz(st); if(c)return c.km;
  const R=L(); let d=km(R,st[0]);
  for(let i=0;i<st.length-1;i++)d+=km(st[i],st[i+1]);
  return cestKm(d+km(st[st.length-1],R));}
-/* Oznake na karti kao pravi Google Maps marker (SVG ikona umjesto Leaflet divIcon-a) —
-   narančasti krug s brojem stanice, crveni krug "P" za pizzeriju (isti izgled kao prije). */
-function svgOznakaUrl(oznaka,dom){
- const boja=dom?"#D0021B":"#E8622A";
- const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30">`+
-  `<circle cx="15" cy="15" r="13" fill="${boja}" stroke="rgba(11,9,8,.85)" stroke-width="2"/>`+
-  `<text x="15" y="19.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" `+
-  `font-size="13" fill="#fff">${esc(oznaka)}</text></svg>`;
- return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);}
+function trajanjeRute(st,rk){
+ const c=rutaIz(st);
+ return (c?c.min:minute(rk/1.35))+st.length*3;}   // + ~3 min po stanici za predaju
+function rutaStanjeHTML(st){
+ const sa=st.filter(o=>o.lat&&o.lng); if(!sa.length)return "";
+ const c=rutaKes[rutaKljuc(sa)];
+ if(c&&c.stanje==="ok")return `<div class="ruta-info">✓ Ruta izračunata po cestama: <b>${c.km.toFixed(1)} km</b>, vožnje oko <b>${c.min} min</b></div>`;
+ if(c&&c.stanje==="racuna")return `<div class="ruta-info">Računam rutu po cestama…</div>`;
+ return `<div class="ruta-info">Kilometri su procjena (ruta po cestama trenutno nedostupna).</div>`;}
+// stvarni kilometri ture spremaju se u bazu (za potrošnju goriva po vozilu) — samo za turu koju vozač vozi
+const kmAzurirano=new Set();
+function azurirajKmTure(sa,kmStvarno){
+ try{
+  if(!jeOsoblje()||uloga!=="vozac"||vlasnikGleda)return;
+  const tid=sa[0]&&sa[0].tura_id; if(!tid||!sa.every(o=>o.tura_id===tid))return;
+  const t=ture.find(x=>x.id===tid); if(!t||t.vozac!==vozac||t.stanje!=="preuzeta")return;
+  const kl=tid+":"+kmStvarno.toFixed(1); if(kmAzurirano.has(kl))return; kmAzurirano.add(kl);
+  if(Math.abs((+t.ukupno_km||0)-kmStvarno)<0.2)return;
+  sb.from("ture").update({ukupno_km:+kmStvarno.toFixed(1)}).eq("id",tid).then(()=>{t.ukupno_km=+kmStvarno.toFixed(1);});
+ }catch(e){}}
+/* ---- karta za vlasnika: Leaflet + besplatne OpenStreetMap pločice (Geoapify), bez Google ključa ---- */
+let LEAF=null, leafletObecanje=null;
+function ucitajLeaflet(){
+ if(LEAF)return Promise.resolve(LEAF);
+ if(leafletObecanje)return leafletObecanje;
+ leafletObecanje=new Promise((ok,ne)=>{
+  const c=document.createElement("link"); c.rel="stylesheet";
+  c.href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"; document.head.appendChild(c);
+  const t=document.createElement("script");
+  t.src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js";
+  t.onload=()=>{LEAF=window.L; try{LEAF.noConflict();}catch(e){} ok(LEAF);};
+  t.onerror=()=>{leafletObecanje=null; ne(new Error("leaflet"));};
+  document.head.appendChild(t);});
+ return leafletObecanje;}
+const karte={};
+function oznakaIkona(oz,dom){
+ return LEAF.divIcon({className:"",iconSize:[28,28],iconAnchor:[14,14],
+  html:`<div style="width:28px;height:28px;border-radius:50%;background:${dom?"#D0021B":"#E8622A"};color:#fff;
+   display:flex;align-items:center;justify-content:center;font:700 13px Arial,sans-serif;
+   border:2px solid rgba(11,9,8,.85);box-shadow:0 2px 6px rgba(0,0,0,.4)">${esc(oz)}</div>`});}
 function kartaRute(id,st){
  const div=el(id); if(!div)return;
  const tocke=[{lat:+lokal.lat,lng:+lokal.lng,oz:"P",naz:lokal.adresa,dom:1}]
   .concat(st.filter(o=>o.lat).map((o,i)=>({lat:+o.lat,lng:+o.lng,oz:String(i+1),naz:o.adresa})));
  if(tocke.length<2){div.innerHTML='<div class="karta-prazno">Adrese još nisu pronađene na karti</div>';return;}
- if(!window.google||!google.maps||!google.maps.Map){
-  div.innerHTML='<div class="karta-prazno">Karta se učitava…</div>';return;}
+ if(!LEAF){div.innerHTML='<div class="karta-prazno">Karta se učitava…</div>';
+  ucitajLeaflet().then(()=>crtaj(1)).catch(()=>{const d=el(id); if(d)d.innerHTML='<div class="karta-prazno">Karta se nije učitala</div>';});
+  return;}
  try{
-  const m=new google.maps.Map(div,{zoomControl:true,streetViewControl:false,
-   mapTypeControl:false,fullscreenControl:false,gestureHandling:"cooperative"});
-  const bounds=new google.maps.LatLngBounds();
-  tocke.forEach(t=>{
-   const pos={lat:t.lat,lng:t.lng};
-   bounds.extend(pos);
-   new google.maps.Marker({position:pos,map:m,title:t.naz,
-    icon:{url:svgOznakaUrl(t.oz,t.dom),scaledSize:new google.maps.Size(30,30),
-     anchor:new google.maps.Point(15,15)}});});
-  new google.maps.Polyline({
-   path:tocke.map(t=>({lat:t.lat,lng:t.lng})).concat([{lat:tocke[0].lat,lng:tocke[0].lng}]),
-   strokeColor:"#E8622A",strokeWeight:3,strokeOpacity:1,map:m});
-  m.fitBounds(bounds,40);
+  const stara=karte[id]; if(stara){try{stara.remove();}catch(e){}}
+  const m=LEAF.map(div,{zoomControl:true,attributionControl:true,scrollWheelZoom:false});
+  karte[id]=m;
+  const tamno=!document.body.classList.contains("svijetlo");
+  LEAF.tileLayer("https://maps.geoapify.com/v1/tile/"+(tamno?"dark-matter-brown":"osm-bright")+"/{z}/{x}/{y}.png?apiKey="+GEOAPIFY_KEY,
+   {maxZoom:19,attribution:'© OpenStreetMap · Geoapify'}).addTo(m);
+  const c=rutaIz(st);
+  const linija=(c&&c.geo&&c.geo.length)?c.geo:tocke.map(t=>[t.lat,t.lng]).concat([[tocke[0].lat,tocke[0].lng]]);
+  LEAF.polyline(linija,{color:"#E8622A",weight:4,opacity:.95}).addTo(m);
+  tocke.forEach(t=>LEAF.marker([t.lat,t.lng],{icon:oznakaIkona(t.oz,t.dom),title:t.naz}).addTo(m));
+  m.fitBounds(LEAF.latLngBounds(linija.concat(tocke.map(t=>[t.lat,t.lng]))),{padding:[28,28]});
  }catch(e){div.innerHTML='<div class="karta-prazno">Karta se nije učitala</div>';}}
 const mozeVratiti=o=>!o.uzeta_u||(Date.now()-new Date(o.uzeta_u).getTime())/60000<=ROK_VRACANJA();
 const ostaloZaVratiti=o=>Math.max(0,Math.ceil(ROK_VRACANJA()-(Date.now()-new Date(o.uzeta_u||Date.now()).getTime())/60000));
