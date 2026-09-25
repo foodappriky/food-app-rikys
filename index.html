@@ -592,8 +592,8 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .povredak span{flex:0 0 96px;font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.07em;
  text-transform:uppercase;color:var(--dim2);padding-top:2px}
 .povredak b{flex:1;font-weight:500}
-.podtab{display:flex;gap:6px;padding:12px 18px}
-.podtab button{flex:1;font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:12px;font-weight:600;
+.podtab{display:flex;flex-wrap:wrap;gap:6px;padding:12px 18px} /* vlasnik ima 11 kartica — prelamaju se u redove umjesto da guraju stranicu u širinu */
+.podtab button{flex:1 1 auto;font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:12px;font-weight:600;
  padding:11px 4px;border:var(--bw) solid var(--line2);background:transparent;color:var(--dim);border-radius:6px}
 .podtab button[aria-selected="true"]{background:var(--card);border-color:var(--or);color:var(--or);font-weight:600}
 .kratko{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
@@ -813,6 +813,89 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
  .pult-grupa-vrh{grid-column:1/-1;padding-top:6px}
  .pult-kartica{margin-bottom:0}
 }
+
+/* ---- GUMBI NA POČETNOJ: društvene mreže, "like" srce i vlastiti gumbi ----
+   Raspored (u kojem dijelu stranice i kojim redom) uređuje vlasnik povlačenjem u kartici
+   "Početna"; sprema se u lokali.gumbi. Sve linije pune (bez isprekidanih rubova). */
+.gb-red{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:14px 18px;margin:18px auto 4px;padding:0 14px}
+.gb-z-ispod,.gb-z-dno{margin:24px auto 10px}
+.gb-ik{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--dim);
+ font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase;min-width:58px;
+ transition:transform .15s ease}
+.hero .gb-ik{color:rgba(246,239,232,.82)}
+.gb-ik:active{transform:scale(.92)}
+.gb-ik-sl{width:46px;height:46px;border-radius:13px;object-fit:contain;display:block;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.gb-zamjena{display:flex;align-items:center;justify-content:center;background:var(--or);color:#fff;
+ font-family:"Anton",sans-serif;font-size:22px;line-height:1}
+.gb-like{display:flex;align-items:center;gap:12px;padding:9px 20px 9px 9px;border-radius:999px;
+ background:var(--card);border:var(--bw) solid var(--line2);color:var(--cream);text-align:left;
+ box-shadow:0 6px 18px rgba(0,0,0,.3);transition:transform .15s ease,border-color .2s}
+.gb-like:active{transform:scale(.96)}
+.gb-like.on{border-color:#E8434F}
+.gb-like-sl{width:48px;height:48px;border-radius:50%;object-fit:cover;flex:none;display:block}
+.gb-like-sl.gb-zamjena{background:#E8434F;font-family:inherit;font-size:24px}
+.gb-like-t{display:flex;flex-direction:column;line-height:1.1}
+.gb-like-t b{font-family:"Anton",sans-serif;font-weight:400;font-size:22px;letter-spacing:.03em;text-transform:uppercase}
+.gb-like-t small{font-size:13px;color:var(--dim);margin-top:4px}
+.gb-broj{font-family:"Anton",sans-serif;font-size:16px;color:#E8434F;letter-spacing:.02em;margin-right:4px}
+.gb-pop .gb-like-sl{animation:gbPop .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes gbPop{0%{transform:scale(1)}35%{transform:scale(1.4)}100%{transform:scale(1)}}
+.gb-plut{position:fixed;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;
+ align-items:center;gap:10px;padding:8px 6px 10px;background:var(--bg2);border:var(--bw) solid var(--line2);
+ box-shadow:0 10px 28px rgba(0,0,0,.45);max-height:80vh;overflow-y:auto}
+.gb-desno{right:0;border-right:none;border-radius:16px 0 0 16px;padding-right:calc(6px + env(safe-area-inset-right))}
+.gb-lijevo{left:0;border-left:none;border-radius:0 16px 16px 0;padding-left:calc(6px + env(safe-area-inset-left))}
+.gb-plut .gb-ik{min-width:0}
+.gb-plut .gb-ik span{display:none}
+.gb-plut .gb-ik-sl{width:38px;height:38px;border-radius:11px}
+.gb-plut .gb-like{flex-direction:column;gap:3px;padding:4px 2px 2px;border:none;border-radius:12px;width:66px;
+ text-align:center;box-shadow:none;background:transparent}
+.gb-plut .gb-like-sl{width:42px;height:42px}
+.gb-plut .gb-like-t{align-items:center}
+.gb-plut .gb-like-t b{font-size:12.5px;line-height:1.05}
+.gb-plut .gb-like-t small{font-size:9.5px;line-height:1.2;margin-top:2px;text-transform:uppercase;letter-spacing:.03em}
+.gb-plut .gb-broj{display:block;font-size:21px;margin:0}
+.gb-skupi{width:100%;border:none;background:transparent;color:var(--dim2);font-size:17px;padding:0 0 2px;line-height:1}
+.gb-plut.skupljeno{gap:4px;padding-top:6px;padding-bottom:8px}
+.gb-mini{border:none;background:transparent;color:#E8434F;font-size:22px;line-height:1;padding:2px 4px}
+.gb-toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:220;background:var(--card);color:var(--cream);
+ border:var(--bw) solid var(--line2);border-radius:999px;padding:10px 18px;font-size:14px;white-space:nowrap;
+ box-shadow:0 10px 26px rgba(0,0,0,.4);animation:gbT .25s ease}
+@keyframes gbT{from{opacity:0;transform:translate(-50%,8px)}}
+/* uređivač rasporeda u vlasničkom sučelju */
+.gb-mock{display:grid;grid-template-columns:64px 1fr 64px;gap:6px;background:var(--bg);border:var(--bw) solid var(--line2);
+ border-radius:24px;padding:12px 8px;max-width:440px;margin:0 auto}
+.gb-mock-sred{display:flex;flex-direction:column;gap:6px;min-width:0}
+.gb-mock-blok{border-radius:10px;background:var(--card);color:var(--dim2);font-size:10.5px;font-family:"Oswald",sans-serif;
+ letter-spacing:.06em;text-transform:uppercase;padding:9px 8px;text-align:center}
+.gb-mock-blok b{display:block;font-family:"Anton",sans-serif;font-weight:400;font-size:19px;letter-spacing:.04em;color:var(--cream)}
+.gb-dz{min-height:54px;border-radius:12px;border:var(--bw) solid var(--line);background:rgba(232,98,42,.05);
+ padding:19px 6px 6px;position:relative;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;
+ transition:border-color .15s,background .15s}
+.gb-dz-ime{position:absolute;top:4px;left:8px;right:6px;font-size:9.5px;font-family:"Oswald",sans-serif;letter-spacing:.08em;
+ text-transform:uppercase;color:var(--dim2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.gb-dz.strana{flex-direction:column;flex-wrap:nowrap;align-items:center;padding:19px 4px 6px}
+.gb-dz.strana .gb-dz-ime{left:4px;right:4px;text-align:center}
+.gb-dz.cilj{border-color:var(--or);background:rgba(232,98,42,.18)}
+.gb-dz.skriveno{margin:12px auto 0;max-width:440px;background:transparent}
+.gb-chip{display:flex;align-items:center;gap:6px;padding:4px 10px 4px 4px;border-radius:999px;background:var(--bg2);
+ border:var(--bw) solid var(--line2);color:var(--cream);font-size:12.5px;touch-action:none;user-select:none;
+ -webkit-user-select:none;-webkit-touch-callout:none;cursor:grab;max-width:100%}
+.gb-chip.odabran{border-color:var(--or);box-shadow:0 0 0 3px rgba(232,98,42,.3)}
+.gb-chip.nevidljiv{opacity:.5}
+.gb-chip .gb-ik-sl,.gb-chip .gb-like-sl{width:26px;height:26px;border-radius:8px;box-shadow:none;font-size:14px}
+.gb-chip .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gb-dz.strana .gb-chip{padding:4px;border-radius:12px}
+.gb-dz.strana .gb-chip .t{display:none}
+.gb-chip.izvor{opacity:.25}
+.gb-duh{position:fixed;z-index:300;pointer-events:none;transform:translate(-50%,-50%) scale(1.1);
+ box-shadow:0 14px 32px rgba(0,0,0,.55);border-color:var(--or)}
+.gb-mjesto{width:4px;min-height:30px;border-radius:2px;background:var(--or)}
+.gb-dz.strana .gb-mjesto{width:100%;min-height:4px;height:4px}
+.gb-stanje{font-size:12.5px;color:var(--go);text-align:center;min-height:18px;margin-top:8px}
+.gb-uredi-vrh{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.gb-uredi-vrh b{font-family:"Oswald",sans-serif;font-size:16px;letter-spacing:.04em;text-transform:uppercase}
+.gb-uredi-vrh .gb-ik-sl,.gb-uredi-vrh .gb-like-sl{width:40px;height:40px}
 </style>
 </head>
 <body>
@@ -1940,12 +2023,13 @@ async function osvjezi(){
     ekrana čekalo četiri puna odlaska do baze umjesto jednog). Prvi je sigurnosna mreža za
     pauzu narudžbi, za slučaj da realtime poruka o promjeni lokala promakne. */
  const [lk,n,t,p]=await Promise.all([
-  sb.from("lokali").select("narudzbe_pauza_do").eq("id",lokal.id).single(),
+  sb.from("lokali").select("narudzbe_pauza_do,lajkovi").eq("id",lokal.id).single(),
   sb.from("narudzbe").select("*, stavke(*)").eq("lokal_id",lokal.id)
    .in("stanje",["novo","u_pripremi","spremno","u_dostavi","otkazano"]).order("stvoreno"),
   sb.from("ture").select("*").eq("lokal_id",lokal.id).neq("stanje","zavrsena"),
   sb.from("poruke").select("*").eq("lokal_id",lokal.id).order("stvoreno")]);
- if(!lk.error&&lk.data)lokal.narudzbe_pauza_do=lk.data.narudzbe_pauza_do;
+ if(!lk.error&&lk.data){lokal.narudzbe_pauza_do=lk.data.narudzbe_pauza_do;
+  if(typeof lk.data.lajkovi==="number")lokal.lajkovi=lk.data.lajkovi;}
  if(!n.error)narudzbe=n.data;
  // nova narudžba mora odmah biti VIDLJIVO OTVORENA u kuhinji — inače je kartica zbijena
  // i gumb "Prihvati" fizički ne postoji na ekranu dok ga netko ručno ne otvori (pravi uzrok
@@ -1976,6 +2060,7 @@ async function osvjezi(){
 
 function crtaj(prisilno){
  if(!lokal)return;
+ if(gbVuca&&gbVuca.pocelo){gbCeka=true;return;}   // vlasnik upravo vuče gumb — ne ruši mu ekran ispod prsta
  const preskociVracanje = prisilno===2;
  const akt=preskociVracanje?null:document.activeElement, aktId=akt&&akt.id;
  const poz=akt&&akt.selectionStart!==undefined?akt.selectionStart:null;
@@ -2014,6 +2099,300 @@ function crtaj(prisilno){
    ?` · još ${eur(najjeftinijaPizza()-rr.bezDostave)} do minimuma`:"";}
 }
 
+
+/* ==================== GUMBI NA POČETNOJ ====================
+   Društvene mreže (Facebook, Instagram, mail, TikTok), "like" srce s brojačem i vlastiti gumbi.
+   Vlasnik ih u kartici "Početna" pali/gasi, dodaje, briše i POVLAČI u dio stranice gdje želi.
+   Spremaju se u lokali.gumbi (JSON); dok vlasnik ništa ne dira, vrijedi GB_ZADANO.
+   Slike se traže po nazivu datoteke na GitHubu (npr. "facebook") — nastavak (.png/.jpg/...)
+   stranica sama pogađa, jer Windows ga po zadanom ne pokazuje pa ga je lako krivo upisati. */
+const GB_ZONE=[
+ ["hero","U zaglavlju, ispod slogana"],
+ ["ispod","Ispod prednosti (10% · 0,33 L · 4+1)"],
+ ["dno","Na dnu, ispod jelovnika"],
+ ["lijevo","Lebdi sa strane — lijevo"],
+ ["desno","Lebdi sa strane — desno"],
+ ["skriveno","Skriveno — gosti ga ne vide"]];
+const GB_ZADANO=[
+ {id:"like",vrsta:"like",naziv:"Like us here",slika:"like-us",link:"",zona:"desno"},
+ {id:"facebook",vrsta:"link",naziv:"Facebook",slika:"facebook",link:"https://www.facebook.com/profile.php?id=100091792689469&locale=hr_HR",zona:"hero"},
+ {id:"instagram",vrsta:"link",naziv:"Instagram",slika:"instagram",link:"https://www.instagram.com/rikys_pizza/",zona:"hero"},
+ {id:"gmail",vrsta:"link",naziv:"Pišite nam",slika:"gmail",link:"mailto:riky.s.pizza@gmail.com",zona:"hero"},
+ {id:"tiktok",vrsta:"link",naziv:"TikTok",slika:"tik-tok",link:"",zona:"skriveno"}];
+function gbLista(){
+ const g=lokal&&lokal.gumbi;
+ if(Array.isArray(g))return g.filter(x=>x&&x.id);
+ return GB_ZADANO.map(x=>({...x}));}
+const gbSigurnoLink=l=>/^(https?:\/\/|mailto:|tel:)/i.test(String(l||"").trim())?String(l).trim():"";
+function gbLink(v){
+ v=String(v||"").trim(); if(!v)return "";
+ if(/^(https?:\/\/|mailto:|tel:)/i.test(v))return v;
+ if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))return "mailto:"+v;
+ if(/^\+?[\d\s\/-]{6,}$/.test(v))return "tel:"+v.replace(/[\s\/-]/g,"");
+ if(/^[\w-]+(\.[\w-]+)+(\/\S*)?$/i.test(v))return "https://"+v;
+ return null;}   // sve ostalo (npr. javascript:) se odbija
+const gbVidljiv=g=>g.zona!=="skriveno"&&(g.vrsta==="like"||!!gbSigurnoLink(g.link));
+const gbSigurnId=s=>String(s||"").replace(/[^A-Za-z0-9_-]/g,"");
+
+/* --- slike s pogađanjem nastavka --- */
+const SLIKA_EXT=["png","jpg","jpeg","webp","svg","PNG","JPG","JPEG","WEBP"];
+const slikaPokusaj={};   // naziv -> dokle se stiglo s pogađanjem (-1 = datoteka ne postoji)
+const slikaNadjena={};   // naziv -> indeks nastavka koji je STVARNO učitan
+const cistoImeSlike=s=>String(s||"").trim().replace(/[^A-Za-z0-9._-]/g,"");
+function slikaKandidati(ime){
+ const m=ime.match(/^(.+)\.([A-Za-z0-9]+)$/);
+ if(m&&SLIKA_EXT.includes(m[2]))return [ime,...SLIKA_EXT.filter(e=>e!==m[2]).map(e=>m[1]+"."+e)];
+ return SLIKA_EXT.map(e=>ime+"."+e);}
+function gbSlikaHTML(g,kl){
+ const s=String(g.slika||"");
+ const znak=g.vrsta==="like"?"♥":esc((String(g.naziv||"?").trim().charAt(0)||"?").toUpperCase());
+ const zamjena=`<span class="${kl} gb-zamjena" aria-hidden="true">${znak}</span>`;
+ if(/^data:image\/[a-z+]+;base64,[A-Za-z0-9+/=]+$/.test(s))return `<img class="${kl}" src="${s}" alt="">`;
+ const ime=cistoImeSlike(s); if(!ime)return zamjena;
+ const i=slikaNadjena[ime]!==undefined?slikaNadjena[ime]:(slikaPokusaj[ime]||0); if(i<0)return zamjena;
+ const k=slikaKandidati(ime), j=Math.min(i,k.length-1);
+ return `<img class="${kl}" src="${k[j]}" alt="" data-ime="${ime}" data-i="${j}" data-z="${znak}"
+  onload="slikaNadjena[this.dataset.ime]=+this.dataset.i" onerror="slikaDalje(this)">`;}
+function slikaDalje(im){
+ // svaka slika pogađa od SVOG trenutnog pokušaja dalje — inače bi dvije iste slike na ekranu
+ // (ili stara slika koja javi grešku tek nakon ponovnog crtanja) preskočile ispravan nastavak
+ const ime=im.getAttribute("data-ime"); if(!ime)return;
+ const k=slikaKandidati(ime);
+ if(slikaNadjena[ime]!==undefined){const n=slikaNadjena[ime];
+  if(+im.dataset.i!==n){im.dataset.i=n; im.src=k[n];} return;}
+ const i=(+im.dataset.i||0)+1;
+ if(i<k.length){slikaPokusaj[ime]=Math.max(slikaPokusaj[ime]||0,i); im.dataset.i=i; im.src=k[i]; return;}
+ {slikaPokusaj[ime]=-1; im.onerror=null;
+  const zm=document.createElement("span"); zm.className=im.className+" gb-zamjena";
+  zm.textContent=im.getAttribute("data-z")||"•"; im.replaceWith(zm); return;}
+}
+
+/* --- prikaz za goste --- */
+const gbBroj=n=>(+n||0).toLocaleString("hr-HR");
+const gbLjudi=n=>(+n===1?"osoba nas je lajkala":"ljudi nas je lajkalo");
+function gbLajkano(){try{return localStorage.getItem("rikys-lajk-"+lokal.id)==="1";}catch(e){return false;}}
+function gbLikeHTML(g,plut){
+ const n=+lokal.lajkovi||0, on=gbLajkano();
+ return `<button class="gb-like ${on?"on":""}" onclick="gbLajkaj()" aria-label="${esc(g.naziv)} — ${gbBroj(n)} ${gbLjudi(n)}">
+  ${gbSlikaHTML(g,"gb-like-sl")}
+  <span class="gb-like-t"><b>${esc(g.naziv||"Like us")}</b>
+   <small><span class="gb-broj">${gbBroj(n)}</span>${on&&!plut?"hvala što ste nas lajkali!":gbLjudi(n)}</small></span></button>`;}
+function gbLinkHTML(g){
+ const l=gbSigurnoLink(g.link), van=/^https?:/i.test(l);
+ return `<a class="gb-ik" href="${esc(l)}" ${van?'target="_blank" rel="noopener"':""} aria-label="${esc(g.naziv)}" title="${esc(g.naziv)}">
+  ${gbSlikaHTML(g,"gb-ik-sl")}<span>${esc(g.naziv)}</span></a>`;}
+function gbZona(z){
+ const lista=gbLista().filter(g=>g.zona===z&&gbVidljiv(g));
+ if(!lista.length)return "";
+ return `<div class="gb-red gb-z-${z}">${lista.map(g=>g.vrsta==="like"?gbLikeHTML(g,false):gbLinkHTML(g)).join("")}</div>`;}
+let gbSkupljeno={}; try{gbSkupljeno=JSON.parse(sessionStorage.getItem("rikys-gb-skup")||"{}")||{};}catch(e){}
+function gbSkupi(z){gbSkupljeno[z]=!gbSkupljeno[z];
+ try{sessionStorage.setItem("rikys-gb-skup",JSON.stringify(gbSkupljeno));}catch(e){} crtaj(1);}
+function gbPlutajuce(){
+ return ["lijevo","desno"].map(z=>{
+  const lista=gbLista().filter(g=>g.zona===z&&gbVidljiv(g)); if(!lista.length)return "";
+  const sk=!!gbSkupljeno[z];
+  const str=z==="desno"?(sk?"‹":"›"):(sk?"›":"‹");
+  if(sk)return `<div class="gb-plut gb-${z} skupljeno">
+   <button class="gb-skupi" onclick="gbSkupi('${z}')" aria-label="Prikaži">${str}</button>
+   <button class="gb-mini" onclick="gbSkupi('${z}')" aria-label="Prikaži">${lista.some(g=>g.vrsta==="like")?"♥":"•••"}</button></div>`;
+  return `<div class="gb-plut gb-${z}">
+   <button class="gb-skupi" onclick="gbSkupi('${z}')" aria-label="Skloni sa strane">${str}</button>
+   ${lista.map(g=>g.vrsta==="like"?gbLikeHTML(g,true):gbLinkHTML(g)).join("")}</div>`;}).join("");}
+function gbPoruka(t){
+ document.querySelectorAll(".gb-toast").forEach(x=>x.remove());
+ const d=document.createElement("div"); d.className="gb-toast"; d.textContent=t;
+ document.body.appendChild(d); setTimeout(()=>d.remove(),2400);}
+async function gbLajkaj(){
+ if(gbLajkano()){gbPoruka("Već ste nas lajkali — hvala! ❤");return;}
+ try{localStorage.setItem("rikys-lajk-"+lokal.id,"1");}catch(e){}
+ lokal.lajkovi=(+lokal.lajkovi||0)+1; crtaj(1);
+ document.querySelectorAll(".gb-like").forEach(x=>x.classList.add("gb-pop"));
+ gbPoruka("Hvala što ste nas lajkali! ❤");
+ const r=await sb.rpc("lajkaj",{p_lokal:lokal.id});
+ if(r.error){   // nije prošlo do baze — vrati kako je bilo da gost može pokušati opet
+  try{localStorage.removeItem("rikys-lajk-"+lokal.id);}catch(e){}
+  lokal.lajkovi=Math.max(0,(+lokal.lajkovi||1)-1); crtaj(1);
+  gbPoruka("Lajk nije prošao — provjerite internet i pokušajte opet."); return;}
+ const n=typeof r.data==="number"?r.data:(Array.isArray(r.data)&&typeof r.data[0]==="number"?r.data[0]:null);
+ if(n!==null){lokal.lajkovi=n;
+  document.querySelectorAll(".gb-broj").forEach(x=>x.textContent=gbBroj(n));}}
+
+/* --- vlasnik: uređivač rasporeda (kartica "Početna") --- */
+let gbOdabran=null, gbStatus="", gbVuca=null, gbCeka=false;
+async function gbSpremi(nova,opis){
+ const staro=lokal.gumbi===undefined?null:lokal.gumbi;
+ lokal.gumbi=nova; gbStatus="Spremam…"; crtaj(1);
+ const r=await sb.from("lokali").update({gumbi:nova}).eq("id",lokal.id);
+ if(r.error){lokal.gumbi=staro; gbStatus="";
+  alert("Greška pri spremanju: "+r.error.message); crtaj(1); return false;}
+ zabiljeziIzmjenu("lokali",lokal.id,"gumbi",staro,opis||"Gumbi na početnoj");
+ gbStatus="Spremljeno ✓ — gosti to vide odmah"; crtaj(1);
+ setTimeout(()=>{if(gbStatus.startsWith("Spremljeno")){gbStatus="";crtaj(1);}},2200);
+ return true;}
+function gbKopija(){return gbLista().map(x=>({...x}));}
+function gbPolje(k,v){
+ const l=gbKopija(), g=l.find(x=>x.id===gbOdabran); if(!g)return;
+ if(k==="link"){const n=gbLink(v);
+  if(n===null){alert("Ovaj link ne izgleda ispravno. Upiši cijelu adresu (npr. https://www.instagram.com/...) ili e-mail adresu.");crtaj(2);return;}
+  v=n;}
+ if(k==="naziv")v=String(v).trim().slice(0,40)||"Gumb";
+ if(k==="slika")v=cistoImeSlike(v);
+ g[k]=v; gbSpremi(l,"Gumb "+g.naziv+": "+k);}
+async function gbPostaviLajkove(v){
+ const n=Math.max(0,parseInt(String(v).replace(/\D/g,""))||0), staro=lokal.lajkovi;
+ const r=await sb.from("lokali").update({lajkovi:n}).eq("id",lokal.id);
+ if(r.error){alert("Greška: "+r.error.message);return;}
+ zabiljeziIzmjenu("lokali",lokal.id,"lajkovi",staro,"Broj lajkova");
+ lokal.lajkovi=n; gbStatus="Spremljeno ✓"; crtaj(1);}
+function smanjiIkonu(file,cb){
+ const fr=new FileReader();
+ fr.onload=e=>{const im=new Image();
+  im.onload=()=>{const c=document.createElement("canvas");
+   const s=Math.min(1,160/Math.max(im.width,im.height));
+   c.width=Math.max(1,Math.round(im.width*s)); c.height=Math.max(1,Math.round(im.height*s));
+   c.getContext("2d").drawImage(im,0,0,c.width,c.height); cb(c.toDataURL("image/png"));};
+  im.src=e.target.result;};
+ fr.readAsDataURL(file);}
+function gbUcitajSliku(input){
+ const f=input.files&&input.files[0]; if(!f)return;
+ smanjiIkonu(f,d=>{const l=gbKopija(), g=l.find(x=>x.id===gbOdabran); if(!g)return;
+  g.slika=d; gbSpremi(l,"Slika gumba "+g.naziv);});}
+function gbPremjesti(id,zona){
+ const l=gbKopija(), i=l.findIndex(x=>x.id===id); if(i<0)return;
+ const [g]=l.splice(i,1); g.zona=zona; l.push(g); gbSpremi(l,"Premješten "+g.naziv);}
+function gbPomakni(id,smjer){
+ const l=gbKopija(), g=l.find(x=>x.id===id); if(!g)return;
+ const iste=l.filter(x=>x.zona===g.zona), p=iste.indexOf(g), q=p+smjer;
+ if(q<0||q>=iste.length)return;
+ const a=l.indexOf(g), b=l.indexOf(iste[q]); [l[a],l[b]]=[l[b],l[a]];
+ gbSpremi(l,"Redoslijed "+g.naziv);}
+function gbObrisi(id){
+ const l=gbKopija(), g=l.find(x=>x.id===id); if(!g)return;
+ if(!confirm(`Obrisati gumb "${g.naziv}"? (Ako ga samo želiš maknuti s početne, stavi ga u "Skriveno".)`))return;
+ gbOdabran=null; gbSpremi(l.filter(x=>x.id!==id),"Obrisan "+g.naziv);}
+function gbDodaj(){
+ const l=gbKopija(), id="g"+Date.now().toString(36);
+ l.push({id,vrsta:"link",naziv:"Novi gumb",slika:"",link:"",zona:"skriveno"});
+ gbOdabran=id; gbSpremi(l,"Novi gumb");}
+function gbZadano(){
+ if(!confirm("Vratiti gumbe na početni raspored (Facebook, Instagram, mail, like srce, skriveni TikTok)? Tvoji vlastiti gumbi bit će uklonjeni."))return;
+ gbOdabran=null; gbSpremi(null,"Zadani gumbi");}
+function gbUrediHTML(g){
+ if(!g)return `<p class="savjet" style="text-align:center">Dodirni bilo koji gumb gore da mu promijeniš natpis, link ili sliku.</p>`;
+ const id=gbSigurnId(g.id), jeData=/^data:/.test(g.slika||"");
+ return `<div class="box" style="margin:14px 0 0">
+  <div class="gb-uredi-vrh">${gbSlikaHTML(g,g.vrsta==="like"?"gb-like-sl":"gb-ik-sl")}<b>${esc(g.naziv)}</b></div>
+  <label class="f" for="gbn-${id}">Natpis</label>
+  <input class="f" id="gbn-${id}" value="${esc(g.naziv)}" onchange="gbPolje('naziv',this.value)">
+  ${g.vrsta==="like"?`<label class="f" for="gbl-${id}">Broj lajkova</label>
+   <input class="f" id="gbl-${id}" inputmode="numeric" value="${+lokal.lajkovi||0}" onchange="gbPostaviLajkove(this.value)">
+   <p class="savjet">Broj raste sam kad netko klikne srce. S jednog mobitela može se lajkati samo jednom.</p>`
+  :`<label class="f" for="gbk-${id}">Link</label>
+   <input class="f" id="gbk-${id}" value="${esc(g.link||"")}" placeholder="https://…  ili e-mail adresa" onchange="gbPolje('link',this.value)">
+   <p class="savjet">Za mail je dovoljno upisati samo adresu — stranica je sama pretvori u mail link.
+    ${gbSigurnoLink(g.link)?"":`<br><b style="color:var(--red)">Dok nema linka, gosti ovaj gumb ne vide.</b>`}</p>`}
+  <label class="f" for="gbs-${id}">Slika — naziv datoteke na GitHubu</label>
+  <input class="f" id="gbs-${id}" value="${jeData?"":esc(g.slika||"")}" placeholder="${jeData?"slika je učitana s uređaja":"npr. facebook"}" onchange="gbPolje('slika',this.value)">
+  <input type="file" accept="image/*" id="gbf-${id}" style="display:none" onchange="gbUcitajSliku(this)">
+  <button class="btn xs ghost" onclick="el('gbf-${id}').click()">Ili učitaj sliku s mobitela</button>
+  <p class="savjet">Naziv se piše bez .png/.jpg — stranica sama pronađe datoteku.</p>
+  <label class="f" for="gbz-${id}">Gdje stoji</label>
+  <select class="f" id="gbz-${id}" onchange="gbPremjesti('${id}',this.value)">
+   ${GB_ZONE.map(([k,n])=>`<option value="${k}" ${g.zona===k?"selected":""}>${n}</option>`).join("")}</select>
+  <div style="display:flex;gap:8px;margin-top:12px">
+   <button class="btn sm tiho" onclick="gbPomakni('${id}',-1)">← Ranije</button>
+   <button class="btn sm tiho" onclick="gbPomakni('${id}',1)">Kasnije →</button></div>
+  <button class="btn sm crven" style="margin-top:10px" onclick="gbObrisi('${id}')">Obriši gumb</button></div>`;}
+function vlGumbi(){
+ const lista=gbLista();
+ const chip=g=>`<div class="gb-chip ${gbOdabran===g.id?"odabran":""} ${gbVidljiv(g)?"":"nevidljiv"}" data-gb="${gbSigurnId(g.id)}"
+   onpointerdown="gbDolje(event,this)">${gbSlikaHTML(g,g.vrsta==="like"?"gb-like-sl":"gb-ik-sl")}<span class="t">${esc(g.naziv||"Gumb")}</span></div>`;
+ const dz=(z,ime,kl)=>`<div class="gb-dz ${kl||""}" data-zona="${z}"><span class="gb-dz-ime">${ime}</span>${lista.filter(g=>g.zona===z).map(chip).join("")}</div>`;
+ return `<div class="sec"><h3>GUMBI NA POČETNOJ STRANICI</h3></div>
+ <div class="box">
+  <p class="savjet" style="margin-top:0">Primi gumb prstom i <b>povuci ga</b> u dio stranice gdje želiš da stoji — i redoslijed mijenjaš povlačenjem.
+   Kratki dodir otvara uređivanje. Gumb u "Skriveno" gosti ne vide. Sprema se samo, odmah.</p>
+  <div class="gb-mock" style="margin-top:12px">
+   ${dz("lijevo","Lijevo","strana")}
+   <div class="gb-mock-sred">
+    <div class="gb-mock-blok"><b>RIKY'S PIZZA</b>naslovna · adresa · radno vrijeme</div>
+    ${dz("hero","Zaglavlje")}
+    <div class="gb-mock-blok">Pizze · Coca-Cola · 4+1 · naruči</div>
+    <div class="gb-mock-blok">Prednosti</div>
+    ${dz("ispod","Ispod prednosti")}
+    <div class="gb-mock-blok">Vjernost · O nama · Jelovnik</div>
+    ${dz("dno","Dno stranice")}
+    <div class="gb-mock-blok">Recenzije · kontakt</div></div>
+   ${dz("desno","Desno","strana")}</div>
+  ${dz("skriveno","Skriveno — gosti ne vide","skriveno")}
+  <div class="gb-stanje">${esc(gbStatus)}</div>
+  ${gbUrediHTML(lista.find(g=>g.id===gbOdabran))}
+  <div style="display:flex;gap:8px;margin-top:14px">
+   <button class="btn sm" onclick="gbDodaj()">+ Dodaj novi gumb</button>
+   <a class="btn sm ghost" href="/" target="_blank" rel="noopener" style="text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center">Pogledaj početnu</a></div>
+  <button class="btn sm tiho" style="margin-top:8px" onclick="gbZadano()">Vrati početni raspored</button></div>`;}
+
+/* povlačenje prstom ili mišem (pointer eventi — HTML5 drag&drop ne radi na mobitelu) */
+function gbDolje(e,chip){
+ if(e.button!==undefined&&e.button>0)return;
+ gbVuca={id:chip.getAttribute("data-gb"),chip,sx:e.clientX,sy:e.clientY,x:e.clientX,y:e.clientY,
+  pocelo:false,duh:null,zona:null,prije:null,skrol:null};
+ document.addEventListener("pointermove",gbMakni,{passive:false});
+ document.addEventListener("pointerup",gbGore);
+ document.addEventListener("pointercancel",gbOdustani);}
+function gbAutoSkrol(){
+ const v=gbVuca; if(!v||!v.pocelo)return;
+ if(v.y<70)window.scrollBy(0,-9); else if(v.y>innerHeight-70)window.scrollBy(0,9);}
+function gbMakni(e){
+ const v=gbVuca; if(!v)return;
+ v.x=e.clientX; v.y=e.clientY;
+ if(!v.pocelo){
+  if(Math.hypot(v.x-v.sx,v.y-v.sy)<7)return;
+  v.pocelo=true;
+  v.duh=v.chip.cloneNode(true); v.duh.classList.add("gb-duh"); v.duh.classList.remove("odabran","izvor");
+  document.body.appendChild(v.duh); v.chip.classList.add("izvor");
+  v.skrol=setInterval(gbAutoSkrol,16);}
+ if(e.cancelable)e.preventDefault();
+ v.duh.style.left=v.x+"px"; v.duh.style.top=v.y+"px";
+ const pod=document.elementFromPoint(v.x,v.y), dz=pod&&pod.closest(".gb-dz");
+ document.querySelectorAll(".gb-dz.cilj").forEach(d=>{if(d!==dz)d.classList.remove("cilj");});
+ let mj=document.querySelector(".gb-mjesto");
+ if(!dz){if(mj)mj.remove(); v.zona=null; v.prije=null; return;}
+ dz.classList.add("cilj");
+ const strana=dz.classList.contains("strana");
+ const chipovi=[...dz.querySelectorAll(".gb-chip")].filter(c=>c!==v.chip);
+ let prije=null;
+ for(const c of chipovi){const r=c.getBoundingClientRect();
+  if(strana?v.y<r.top+r.height/2:(v.y<r.top||(v.y<=r.bottom&&v.x<r.left+r.width/2))){prije=c;break;}}
+ if(!mj){mj=document.createElement("div"); mj.className="gb-mjesto";}
+ if(prije){if(mj.nextSibling!==prije)dz.insertBefore(mj,prije);}
+ else if(mj.parentElement!==dz||mj.nextSibling)dz.appendChild(mj);
+ v.zona=dz.getAttribute("data-zona"); v.prije=prije?prije.getAttribute("data-gb"):null;}
+function gbOcisti(){
+ const v=gbVuca; gbVuca=null;
+ document.removeEventListener("pointermove",gbMakni);
+ document.removeEventListener("pointerup",gbGore);
+ document.removeEventListener("pointercancel",gbOdustani);
+ if(v){clearInterval(v.skrol); if(v.duh)v.duh.remove(); v.chip.classList.remove("izvor");}
+ document.querySelectorAll(".gb-mjesto").forEach(m=>m.remove());
+ document.querySelectorAll(".gb-dz.cilj").forEach(d=>d.classList.remove("cilj"));
+ gbCeka=false;
+ return v;}
+function gbOdustani(){gbOcisti(); crtaj(1);}
+function gbGore(){
+ const v=gbOcisti(); if(!v)return;
+ if(!v.pocelo){gbOdabran=(gbOdabran===v.id?null:v.id); crtaj(2); return;}
+ if(!v.zona){crtaj(1); return;}
+ const l=gbKopija(), i=l.findIndex(x=>x.id===v.id); if(i<0){crtaj(1);return;}
+ const [g]=l.splice(i,1); g.zona=v.zona;
+ let j=v.prije?l.findIndex(x=>x.id===v.prije):-1;
+ if(j<0){let zadnji=-1; l.forEach((x,k)=>{if(x.zona===v.zona)zadnji=k;}); j=zadnji<0?l.length:zadnji+1;}
+ l.splice(j,0,g);
+ const isto=JSON.stringify(l)===JSON.stringify(gbLista());
+ if(isto){crtaj(1);return;}
+ gbSpremi(l,"Premješten "+g.naziv);}
+
 /* ==================== GOST ==================== */
 function gostHTML(){
  const moja=narudzbe.find(o=>o.id===mojaId);
@@ -2033,6 +2412,7 @@ function gostHTML(){
    <div class="rule"><i></i><span>${esc(lokal.adresa.split(",")[0])}</span><i></i></div>
    <div class="radno">Uto–ned <b>10:00–23:00</b><i>·</i>pon <b>zatvoreno</b></div>
    <div class="slogan">Real food. Real pizza.</div>
+   ${gbZona("hero")}
    <div class="trio"><img src="${SLIKE.P1}" alt=""><img src="${SLIKE.P2}" alt=""><img src="${SLIKE.P3}" alt=""></div>
    <div class="kola">
     <img class="kola-logo" src="${SLIKE.LOGO}" alt="Coca-Cola">
@@ -2049,6 +2429,7 @@ function gostHTML(){
   <div class="pr reveal r2" data-rk="pr2"><b>0,33 L</b><span>Coca-Cola gratis uz svaku pizzu</span></div>
   <div class="pr reveal r3" data-rk="pr3"><b>4+1</b><span>peta pizza gratis, odbija se sama</span></div>
   <div class="pr reveal r4" data-rk="pr4"><div class="pr-kartice-row"><img src="${SLIKE.VISA}" alt="Visa"><img src="${SLIKE.MASTERCARD}" alt="MasterCard"></div><span>moguće plaćanje karticom pri dostavi</span></div></div>
+ ${gbZona("ispod")}
  ${vjernostHTML()}
  <section class="onama reveal" data-rk="onama">
   <button class="on-glava" onclick="oNamaOtvoreno=!oNamaOtvoreno;crtaj(1)">
@@ -2075,8 +2456,10 @@ function gostHTML(){
  ${kosarica.length&&(r.gratisPizza||r.gratisPice)?`<div class="gratis"><b>Vaše gratis stavke</b>
   ${r.gratisPice?`${r.gratisPice}× Coca-Cola 0,33 L uz naručene pizze`:""}
   ${r.gratisPizza?`<br>${r.gratisPizza}× pizza gratis po akciji 4+1 — ušteda ${eur(r.popust)}`:""}</div>`:""}
+ ${gbZona("dno")}
  ${recenzijeTraka()}
- ${pravno()}`;}
+ ${pravno()}
+ ${gbPlutajuce()}`;}
 
 const RECENZIJE=[
  ["Ana M.","Najbolje tijesto u kvartu. Lagana je i nakon dvije kriške nisi težak."],
@@ -2656,6 +3039,7 @@ function zabiljeziIzmjenu(tablica,id,polje,staro,opis){
 async function ponistiZadnju(){
  const z=historijaIzmjena.pop(); if(!z)return;
  await sb.from(z.tablica).update({[z.polje]:z.staro}).eq("id",z.id);
+ if(z.tablica==="lokali"&&lokal&&lokal.id===z.id)lokal[z.polje]=z.staro;
  await osvjeziVlasnickeListe(); crtaj(1);}
 async function osvjeziVlasnickeListe(){
  const [j,d,n,nr,f,t,v,zp,vo]=await Promise.all([
@@ -2686,11 +3070,12 @@ function vlasnikHTML(){
   <button class="btn" onclick="ulazVl()">Prijavi se</button></div>
   <p style="color:var(--dim2);font-size:13px;margin-top:18px">Demo lozinka: ${LOZ_VLASNIK()}</p></div>`;
  let h=`${historijaIzmjena.length?`<button class="undo" onclick="ponistiZadnju()">↩ Poništi zadnju izmjenu (${historijaIzmjena.length})</button>`:""}<div class="podtab">
-  ${[["pregled","Pregled"],["jelovnik","Jelovnik"],["dodaci","Dodaci"],["normativi","Normativi"],["troskovi","Troškovi"],
+  ${[["pregled","Pregled"],["jelovnik","Jelovnik"],["pocetna","Početna"],["dodaci","Dodaci"],["normativi","Normativi"],["troskovi","Troškovi"],
      ["vozaci","Vozači"],["voznipark","Vozni park"],["nadzor","Kuhinja i vozači"],["izvjestaj","Izvještaji"],["postavke","Postavke"]]
    .map(([k,n])=>`<button aria-selected="${vlTab===k}" onclick="vlNa('${k}')">${n}</button>`).join("")}</div>`;
  if(vlTab==="pregled")   h+=vlPregled();
  if(vlTab==="jelovnik")  h+=vlJelovnik();
+ if(vlTab==="pocetna")   h+=vlGumbi();
  if(vlTab==="dodaci")    h+=vlDodaci();
  if(vlTab==="normativi") h+=vlNormativi();
  if(vlTab==="troskovi")  h+=vlTroskovi();
