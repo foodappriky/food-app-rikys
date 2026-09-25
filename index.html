@@ -338,6 +338,9 @@ a{color:var(--gold)}
 /* Coca-Cola: logo, "+", veliki "0,33L GRATIS" i nagnuta limenka koja stoji malo ISPOD teksta
    (tekst je preko limenke), po uzoru na korisnikov plakat */
 .kola{margin-top:18px}
+/* Coca-Cola blok je gotova slika koju je vlasnik sam složio (coca-cola+.png na GitHubu/Vercelu).
+   Ako se slika ne učita, prikazuje se stari složeni blok (logo + tekst + limenka). */
+.kola-slika{display:block;width:min(94%,460px);height:auto;margin:0 auto;filter:drop-shadow(0 8px 20px rgba(0,0,0,.55))}
 .kola-scena{position:relative;max-width:380px;margin:0 auto;padding:4px 0 6px 5%;text-align:left;min-height:clamp(215px,62vw,285px)}
 .kola-lim{position:absolute;z-index:0;right:6%;top:13%;height:clamp(180px,52vw,245px);width:auto;
  transform:rotate(15deg);transform-origin:50% 60%;filter:drop-shadow(0 10px 18px rgba(0,0,0,.75))}
@@ -2577,7 +2580,8 @@ function gostHTML(){
    <div class="slogan">Real food. Real pizza.</div>
    ${gbZona("hero")}
    <div class="trio"><img src="${SLIKE.P1}" alt=""><img src="${SLIKE.P2}" alt=""><img src="${SLIKE.P3}" alt=""></div>
-   <div class="kola"><div class="kola-scena">
+   <div class="kola">${KOLA_SRC[0]?`<img class="kola-slika" src="${KOLA_SRC[0]}" alt="Coca-Cola 0,33 L gratis uz svaku pizzu" onerror="kolaSlikaDalje(this)">`:""}
+    <div class="kola-scena" style="${KOLA_SRC[0]?"display:none":""}">
     <img class="kola-lim" src="${SLIKE.LIMENKA}" alt="">
     <img class="kola-logo" src="${SLIKE.LOGO}" alt="Coca-Cola">
     <div class="kola-plus">+</div>
@@ -3145,6 +3149,13 @@ const plKlasa=o=>o.placanje==="online"?"n-onl":o.placanje==="gotovina"?"n-kes":"
  history.replaceState(null,"",location.pathname+location.hash);
 }catch(e){}})();
 
+// redom se probaju mogući nazivi datoteke; koji ne postoji izbacuje se s popisa (pamti se dok je stranica otvorena)
+const KOLA_SRC=["coca-cola%2B.png","coca-cola%2B.PNG","coca-cola%2B.webp","coca-cola%2B.jpg","coca-cola%2B.jpeg"];
+function kolaSlikaDalje(im){
+ if(im.getAttribute("src")===KOLA_SRC[0])KOLA_SRC.shift();
+ if(KOLA_SRC.length){im.src=KOLA_SRC[0]; return;}
+ im.onerror=null; im.style.display="none";
+ const sc=im.parentElement&&im.parentElement.querySelector(".kola-scena"); if(sc)sc.style.display="";}
 function pracenje(o){
  if(o.stanje==="ceka_placanje")return cekaPlacanjeHTML(o);
  if(o.stanje==="otkazano")return `<div class="trk">
