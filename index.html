@@ -323,12 +323,7 @@ a{color:var(--gold)}
 .kola{margin-top:18px}
 /* Coca-Cola blok je gotova slika koju je vlasnik sam složio (coca-cola+.png na GitHubu/Vercelu).
    Ako se slika ne učita, prikazuje se stari složeni blok (logo + tekst + limenka). */
-/* Tekst na slici zauzima lijevih ~70 % širine (sredina mu je na ~35 %), limenka je desno.
-   Slika se pomiče ulijevo tako da je SREDINA TEKSTA na sredini ekrana; limenka smije izaći
-   desno preko ruba (hero ima overflow:hidden pa se samo odreže). */
-.kola{--kw:min(112vw,560px);position:relative}
-.kola-slika{display:block;width:var(--kw);max-width:none;height:auto;margin:0 0 0 calc(50% - var(--kw) * .35);
- filter:drop-shadow(0 8px 20px rgba(0,0,0,.55))}
+.kola-slika{display:block;width:min(100%,480px);height:auto;margin:0 auto;filter:drop-shadow(0 8px 20px rgba(0,0,0,.55))}
 .kola-scena{position:relative;max-width:380px;margin:0 auto;padding:4px 0 6px 5%;text-align:left;min-height:clamp(215px,62vw,285px)}
 .kola-lim{position:absolute;z-index:0;right:6%;top:13%;height:clamp(180px,52vw,245px);width:auto;
  transform:rotate(15deg);transform-origin:50% 60%;filter:drop-shadow(0 10px 18px rgba(0,0,0,.75))}
@@ -999,7 +994,6 @@ body.svijetlo .hero{border-bottom:0;border-radius:0 0 28px 28px;box-shadow:0 14p
 body.svijetlo h1,body.svijetlo h2,body.svijetlo h3{color:#120C08}
 body.svijetlo .hero-in h1,body.svijetlo .hero-in h2,body.svijetlo .hero-in h3{color:inherit}
 body.svijetlo .kat-nav{background:rgba(246,237,220,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-body.svijetlo .kat-pill{background:#fff;border-color:var(--line2);color:#1B130E;font-weight:600}
 body.svijetlo .kat h2{color:#120C08}
 /* jelovnik: svako jelo na svojoj bijeloj kartici */
 body.svijetlo .jelo{background:var(--card);margin:0 14px 12px;border:1px solid var(--line);border-radius:16px;
@@ -1024,25 +1018,214 @@ body.svijetlo .glavno,body.svijetlo .dostava-box,body.svijetlo .zap-red,body.svi
 body.svijetlo input.f,body.svijetlo select.f,body.svijetlo textarea.f{background:#fff;border-color:var(--line2);color:#15100C;font-weight:500}
 body.svijetlo input.f::placeholder,body.svijetlo textarea.f::placeholder{color:#8C7B6C}
 body.svijetlo label.f{color:#3A2D24;font-weight:600}
-body.svijetlo .btn.ghost,body.svijetlo .btn.tiho{background-color:#fff;color:#1B130E}
 body.svijetlo .btn:disabled{background:#E3D6C2;color:#7A6A5C}
-body.svijetlo .izbor button,body.svijetlo .podtab button,body.svijetlo .brzi button,body.svijetlo .nav-izbor button,
-body.svijetlo .vise,body.svijetlo .pl-opcija,body.svijetlo .brzepor button,body.svijetlo .strelice button,
-body.svijetlo .apoen button,body.svijetlo .adr-red,body.svijetlo .natrag,body.svijetlo .undo{background-color:#fff;color:#2A1F18}
-body.svijetlo .izbor button[aria-pressed="true"],body.svijetlo .pl-opcija[aria-pressed="true"],
-body.svijetlo .podtab button[aria-selected="true"],body.svijetlo .nav-izbor button.tren{background:#FBE3D6;color:var(--or)}
-body.svijetlo .natrag{border-color:var(--gold);color:var(--gold)}
-body.svijetlo .tb-btn,body.svijetlo .jez-trenutni{background:#fff}
 body.svijetlo .m-gost{background:#fff}
 body.svijetlo .m-kuh{background:rgba(196,67,26,.1)}
 body.svijetlo .veza{background:rgba(255,248,236,.96)}
 body.svijetlo .pult-vrijeme,body.svijetlo .pult-brojke span,body.svijetlo .pult-spr-red{background:#F1E4CC}
 body.svijetlo .pult-spremne{background:#EFE2CA}
-body.svijetlo .gb-like{background:#fff}
 body.svijetlo .gb-toast{background:#fff}
 body.svijetlo .traka{background:#EFE2CA}
 body.svijetlo .tag,body.svijetlo .nacin,body.svijetlo .bedz{font-weight:700}
 body.svijetlo .pravno{border-top-color:var(--line)}
+
+/* ===================== SPOREDNI GUMBI — svijetli, sjajni, 3D (obje teme) =====================
+   Korisnik: tamni gumbi na crnoj pozadini nisu imali kontrasta. Sad su svi sporedni gumbi
+   svijetli (krem/bijeli) s odsjajem na vrhu, "rubom" ispod (vire) i utonu kad se stisnu.
+   Odabrana opcija je narančasta i ostaje utisnuta. */
+:root{--sek-bg:linear-gradient(180deg,#FFFFFF 0%,#F6EEE3 46%,#EADFCF 54%,#E0D2BE 100%);
+ --sek-bg-dolje:linear-gradient(180deg,#E6D9C6 0%,#EFE5D8 100%);
+ --sek-tx:#17100B;--sek-rub:#8E7A63;--sek-brd:#C9B69A;
+ --odab-bg:linear-gradient(180deg,#FF9C66 0%,#F0702F 46%,#E05B21 54%,#C94B1A 100%);--odab-rub:#8F3310}
+body.svijetlo{--sek-rub:#B39A78;--sek-brd:#D5C3A6}
+.btn.ghost,.btn.tiho,.izbor button,.podtab button,.brzi button,.nav-izbor button,.vise,.undo,.natrag,
+.strelice button,.apoen button,.brzepor button,.kat-pill,.tb-btn,.jez-trenutni,.obrisi,.zvuk-ikona,.tel a{
+ background:var(--sek-bg);color:var(--sek-tx);border:1px solid var(--sek-brd);
+ box-shadow:0 4px 0 var(--sek-rub),0 8px 16px rgba(0,0,0,.28),inset 0 1px 0 #fff,inset 0 -2px 4px rgba(120,90,50,.12);
+ font-weight:600;text-shadow:0 1px 0 rgba(255,255,255,.7);
+ transition:transform .08s ease,box-shadow .08s ease,background .12s ease}
+.tb-btn.wide{color:var(--sek-tx)}
+.obrisi{color:#B00018}
+.zvuk-ikona.off{color:#B00018;border-color:#E3A0A8}
+.natrag{color:#6B4208}
+.btn.ghost:active,.btn.tiho:active,.izbor button:active,.podtab button:active,.brzi button:active,.nav-izbor button:active,
+.vise:active,.undo:active,.natrag:active,.strelice button:active,.apoen button:active,.brzepor button:active,.kat-pill:active,
+.tb-btn:active,.jez-trenutni:active,.obrisi:active,.zvuk-ikona:active,.tel a:active,
+.btn.ghost.pritisnut,.btn.tiho.pritisnut,.izbor button.pritisnut,.podtab button.pritisnut,.brzi button.pritisnut,
+.nav-izbor button.pritisnut,.vise.pritisnut,.undo.pritisnut,.natrag.pritisnut,.strelice button.pritisnut,.apoen button.pritisnut,
+.brzepor button.pritisnut,.kat-pill.pritisnut,.tb-btn.pritisnut,.jez-trenutni.pritisnut,.obrisi.pritisnut,.zvuk-ikona.pritisnut,
+.tel a.pritisnut{
+ transform:translateY(4px);background:var(--sek-bg-dolje);
+ box-shadow:0 0 0 var(--sek-rub),0 2px 4px rgba(0,0,0,.2),inset 0 3px 8px rgba(80,55,25,.35)}
+.izbor button[aria-pressed="true"],.podtab button[aria-selected="true"],.nav-izbor button.tren,.brzi button.stisnut,
+.vise[aria-expanded="true"],.kat-pill.akt{
+ background:var(--odab-bg);color:#fff;border-color:#B8441A;text-shadow:0 1px 1px rgba(0,0,0,.3);
+ transform:translateY(3px);box-shadow:0 1px 0 var(--odab-rub),inset 0 3px 8px rgba(80,20,0,.45),inset 0 -1px 0 rgba(255,255,255,.2)}
+.btn.ghost:disabled,.btn.tiho:disabled,.strelice button:disabled{opacity:.45;transform:none;box-shadow:0 2px 0 var(--sek-rub)}
+/* glavni (narančasti/zeleni/crveni) gumbi: jači odsjaj na gornjoj polovici */
+.btn:not(.ghost):not(.tiho):not(:disabled),.cta,.pult-gumb,.zum-vrh button{
+ background-image:linear-gradient(180deg,rgba(255,255,255,.38) 0%,rgba(255,255,255,.14) 46%,rgba(255,255,255,0) 54%,rgba(0,0,0,.1) 100%);
+ text-shadow:0 1px 1px rgba(0,0,0,.28)}
+/* brojevi telefona na naslovnici: veliki sjajni gumbi */
+.tel a{display:flex;align-items:center;justify-content:center;gap:10px;width:min(100%,330px);margin:12px auto 0;
+ padding:9px 16px 7px;border-radius:16px;font-family:"Anton",sans-serif;font-weight:400;font-size:clamp(26px,8vw,34px);
+ letter-spacing:.02em;text-decoration:none;line-height:1.15;color:var(--sek-tx)!important}
+.tel a::before{content:"";width:.72em;height:.72em;flex:none;background:currentColor;
+ -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z'/%3E%3C/svg%3E") center/contain no-repeat;
+ mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z'/%3E%3C/svg%3E") center/contain no-repeat;color:#1D6A37}
+/* lebdeće "like" srce na naslovnici nije gumb s pozadinom — nikad bijela kutija */
+.gb-plut .gb-like,body.svijetlo .gb-plut .gb-like{background:transparent!important;box-shadow:none!important;border:0!important}
+body.svijetlo .gb-red .gb-like{background:#fff}
+
+/* ===================== KUHINJA: prekidač primanja narudžbi uz zvono ===================== */
+.kuh-alati{display:flex;justify-content:flex-end;align-items:flex-start;gap:10px;padding:10px 18px 0}
+.pauza-pill{display:flex;align-items:center;gap:8px;height:40px;padding:0 14px 0 12px;border-radius:999px;border:0;
+ font-family:"Oswald",sans-serif;font-size:13.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#fff;
+ white-space:nowrap;text-shadow:0 1px 1px rgba(0,0,0,.3);transition:transform .08s ease,box-shadow .08s ease}
+.pauza-pill i{width:10px;height:10px;border-radius:50%;background:#fff;flex:none;box-shadow:0 0 0 3px rgba(255,255,255,.3)}
+.pauza-pill.otvoreno{background:linear-gradient(180deg,#5BD17E 0%,#2FA553 48%,#23913F 54%,#1B7A34 100%);
+ box-shadow:0 4px 0 #0F4D20,0 8px 16px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.45)}
+.pauza-pill.otvoreno i{animation:pulsZ 1.6s ease-in-out infinite}
+@keyframes pulsZ{50%{box-shadow:0 0 0 6px rgba(255,255,255,.08)}}
+.pauza-pill.zatvoreno{background:linear-gradient(180deg,#FF6B6B 0%,#DC2A36 48%,#C4172A 54%,#A3101F 100%);
+ box-shadow:0 4px 0 #5E0712,0 8px 16px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.4)}
+.pauza-pill:active,.pauza-pill.pritisnut{transform:translateY(4px);box-shadow:0 0 0 #000,inset 0 3px 8px rgba(0,0,0,.35)}
+.pauza-meni{margin:10px 18px 0;padding:14px;border-radius:14px;background:var(--card);border:1px solid var(--line2);
+ box-shadow:0 10px 26px rgba(0,0,0,.3)}
+.pauza-meni b{display:block;font-family:"Oswald",sans-serif;font-size:15px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.pauza-meni p{font-size:14.5px;color:var(--dim);margin-bottom:10px}
+.pauza-meni .pauza-izbor{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.pauza-meni .pauza-izbor .btn{margin:0;padding:10px 0}
+@media (prefers-reduced-motion:reduce){.pauza-pill.otvoreno i{animation:none}}
+
+/* ===================== GOST: velika obavijest kad kuhinja ne prima narudžbe ===================== */
+.pauza-velika{margin:14px 14px 4px;padding:26px 20px 24px;border-radius:24px;text-align:center;color:#fff;
+ background:radial-gradient(120% 100% at 50% 0%,#E5313F 0%,#B3121F 55%,#8A0B17 100%);
+ box-shadow:0 7px 0 #56060E,0 18px 36px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.35)}
+.pauza-velika .pv-ik{width:62px;height:62px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+ background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 3px rgba(255,255,255,.55);font-size:26px;letter-spacing:-2px}
+.pauza-velika h2{font-family:"Anton",sans-serif;font-weight:400;font-size:clamp(28px,8.4vw,40px);line-height:1.05;
+ letter-spacing:.03em;text-transform:uppercase;color:#fff}
+.pauza-velika p{font-size:17px;font-weight:600;line-height:1.5;margin:12px auto 0;max-width:480px;color:rgba(255,255,255,.95)}
+.pauza-velika .pv-do{display:inline-block;margin-top:14px;padding:8px 16px;border-radius:999px;background:#fff;color:#A3101F;
+ font-family:"Oswald",sans-serif;font-weight:700;font-size:16px;letter-spacing:.04em;text-transform:uppercase}
+
+/* ===================== O NAMA: uska traka koja se otvara ===================== */
+.onama2{margin:14px 18px 0;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--line2);
+ box-shadow:0 4px 0 var(--line2),0 10px 22px rgba(0,0,0,.18)}
+.on2-traka{display:flex;align-items:center;gap:12px;width:100%;padding:11px 14px;border:0;background:transparent;
+ color:var(--cream);text-align:left}
+.on2-ik{width:38px;height:38px;flex:none;border-radius:12px;display:flex;align-items:center;justify-content:center;
+ background:linear-gradient(180deg,#3FA35F,#1D6A37);font-size:19px;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.on2-t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2}
+.on2-t b{font-family:"Oswald",sans-serif;font-size:18px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.on2-t small{font-size:14px;font-weight:600;color:var(--dim)}
+.on2-str{font-size:26px;line-height:1;color:var(--dim);transition:transform .2s ease}
+.onama2.otv .on2-str{transform:rotate(90deg)}
+.onama2 .on-tekst{margin:0;padding:16px 18px 20px;border-top:1px solid var(--line)}
+
+/* ===================== PROGRAM VJERNOSTI — kartica s pečatima ===================== */
+.vj2{position:relative;margin:22px 14px 0;padding:22px 18px 20px;border-radius:24px;color:#F6EFE8;text-align:center;
+ background:radial-gradient(130% 90% at 50% 0%,#3B2A1B 0%,#1B130E 58%,#120C09 100%);
+ border:1px solid rgba(233,164,76,.35);
+ box-shadow:0 7px 0 #070504,0 20px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.1)}
+.vj2-oz{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;
+ background:linear-gradient(180deg,#F7C55E,#D9962E);color:#1B120A;font-family:"Oswald",sans-serif;font-size:13px;
+ font-weight:700;letter-spacing:.16em;text-transform:uppercase;box-shadow:0 3px 0 #8A5A14}
+.vj2 h2{font-family:"Anton",sans-serif;font-weight:400;font-size:clamp(30px,8.6vw,42px);line-height:1.05;margin:14px 0 4px;
+ letter-spacing:.03em;text-transform:uppercase;color:#F6EFE8}
+.vj2 h2 em{font-style:normal;color:#F2B24C}
+.vj2-pecati{display:grid;grid-template-columns:repeat(5,52px);justify-content:center;gap:10px;margin:16px auto 6px}
+.vj2-pecat{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;
+ background:rgba(255,255,255,.05);box-shadow:inset 0 2px 5px rgba(0,0,0,.6),inset 0 0 0 2px rgba(246,239,232,.16);color:rgba(246,239,232,.35);
+ font-family:"Oswald",sans-serif;font-weight:700;font-size:15px}
+.vj2-pecat.pun{background:radial-gradient(circle at 35% 30%,#FFD27A,#E0922C 70%);color:#3A1E05;font-size:20px;
+ box-shadow:0 3px 0 #7A4A0E,0 6px 12px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.6)}
+.vj2-pecat.nagrada{background:linear-gradient(180deg,#3FA35F,#1D6A37);color:#fff;font-size:20px;
+ box-shadow:0 3px 0 #0E3F1E,inset 0 1px 0 rgba(255,255,255,.4)}
+.vj2-pecat.nagrada.ceka{background:rgba(63,163,95,.16);box-shadow:inset 0 0 0 2px rgba(95,200,125,.55);color:#7FD39A}
+.vj2-stanje{font-family:"Oswald",sans-serif;font-size:16px;font-weight:600;letter-spacing:.04em;color:#F2B24C;margin-top:6px}
+.vj2-opis{font-size:15.5px;font-weight:500;line-height:1.5;color:#D9CBBF;max-width:420px;margin:10px auto 0}
+.vj2-opis b{color:#fff}
+.vj2-unos{display:flex;gap:8px;max-width:420px;margin:16px auto 0}
+.vj2-unos input{flex:1;min-width:0;height:52px;padding:0 14px;border-radius:14px;border:1px solid rgba(246,239,232,.25);
+ background:#fff;color:#15100C;font-family:inherit;font-size:17px;font-weight:600;box-shadow:inset 0 2px 5px rgba(0,0,0,.25)}
+.vj2-unos input::placeholder{color:#8C7B6C;font-weight:500}
+.vj2-unos .btn{width:auto;margin:0;padding:0 18px;min-height:52px;border-radius:14px}
+.vj2 .err{text-align:center}
+.vj2-kupac{display:flex;align-items:center;gap:10px;max-width:420px;margin:14px auto 0;padding:10px 12px;border-radius:14px;
+ background:rgba(255,255,255,.06);text-align:left}
+.vj2-kupac div{flex:1;min-width:0}
+.vj2-kupac b{display:block;font-family:"Oswald",sans-serif;font-size:16px;text-transform:uppercase;color:#fff}
+.vj2-kupac span{font-size:14.5px;color:#CDBFB3}
+.vj2-kupac .btn{width:auto;margin:0;padding:8px 12px;min-height:40px}
+.vj2-nagrada{max-width:420px;margin:14px auto 0;padding:14px;border-radius:14px;background:rgba(63,163,95,.16);
+ border:1px solid rgba(95,200,125,.55);color:#D9F3E1;font-size:15px;font-weight:600}
+.vj2-nagrada b{display:block;font-family:"Oswald",sans-serif;font-size:17px;color:#7FD39A;text-transform:uppercase;margin-bottom:4px}
+
+/* ===================== RECENZIJE (samo prave, od gostiju nakon dostave) ===================== */
+.rec-omot{margin-top:26px;padding:22px 0 6px}
+.rec-naslov{font-family:"Anton",sans-serif;font-size:24px;letter-spacing:.08em;text-transform:uppercase;text-align:center}
+.rec-prosjek{text-align:center;font-family:"Oswald",sans-serif;font-size:16px;font-weight:600;color:var(--dim);margin:4px 0 14px}
+.rec-prosjek i{font-style:normal;color:#E9A21C;letter-spacing:.08em}
+.rec-traka{overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+ mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.rec-tok{display:flex;gap:12px;width:max-content;padding:4px 0 12px;animation:klizi var(--rec-t,120s) linear infinite}
+.rec-traka:hover .rec-tok{animation-play-state:paused}
+@keyframes klizi{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.rec{flex:0 0 270px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;
+ box-shadow:0 3px 0 var(--line2),0 8px 18px rgba(0,0,0,.14)}
+.rec .zvj{color:#E9A21C;font-size:16px;letter-spacing:.12em;margin-bottom:6px}
+.rec p{font-size:15.5px;font-weight:500;color:var(--dim);line-height:1.5;min-height:66px}
+.rec b{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-family:"Oswald",sans-serif;font-size:14px;
+ letter-spacing:.05em;text-transform:uppercase;color:var(--cream)}
+.rec b small{font-size:12px;color:var(--dim2);font-weight:500}
+@media (prefers-reduced-motion:reduce){.rec-tok{animation:none}.rec-traka{overflow-x:auto}}
+.ocjena-box{margin-top:18px;padding:18px;border-radius:18px;background:var(--card);border:1px solid var(--line2);text-align:center;
+ box-shadow:0 4px 0 var(--line2),0 10px 22px rgba(0,0,0,.16)}
+.ocjena-box b{display:block;font-family:"Oswald",sans-serif;font-size:19px;text-transform:uppercase;letter-spacing:.05em}
+.zvjezdice{display:flex;justify-content:center;gap:6px;margin:12px 0}
+.zvjezdice button{width:48px;height:48px;border:0;background:transparent;font-size:36px;line-height:1;color:#6B5E55;padding:0}
+.zvjezdice button.on{color:#F2A51C;text-shadow:0 2px 6px rgba(242,165,28,.45)}
+.rv-kartica{margin:0 18px 10px;padding:14px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.rv-kartica.ceka{border-color:var(--wait)}
+.rv-kartica .zvj{color:#E9A21C;letter-spacing:.1em}
+.rv-kartica p{margin:6px 0;font-size:15.5px}
+.rv-kartica small{color:var(--dim2);font-weight:600}
+
+/* ===================== DODACI PO JELU / NORMATIV NA VIŠE JELA (vlasnik) ===================== */
+.note{margin:12px 18px 6px;font-size:15px;font-weight:500;color:var(--dim);line-height:1.5}
+.cip-lista{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.cip{padding:8px 12px;border-radius:999px;border:1px solid var(--sek-brd);background:var(--sek-bg);color:var(--sek-tx);
+ font-size:14px;font-weight:600;box-shadow:0 3px 0 var(--sek-rub)}
+.cip[aria-pressed="true"]{background:var(--odab-bg);color:#fff;border-color:#B8441A;transform:translateY(2px);
+ box-shadow:0 1px 0 var(--odab-rub),inset 0 2px 6px rgba(80,20,0,.4)}
+.cip-kat{width:100%;font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim2);margin-top:8px}
+.norm-prim{margin:4px 0 12px;padding:14px;border-radius:14px;background:var(--bg2);border:1px solid var(--or)}
+.norm-prim>b{display:block;font-family:"Oswald",sans-serif;font-size:15.5px;margin-bottom:6px}
+.dost-nak{display:flex;justify-content:space-between;margin-top:6px;font-size:15px;font-weight:600;color:var(--wait)}
+
+/* ===================== SVIJETLI NAČIN — žuta pozadina na stranici za naručivanje ===================== */
+body.svijetlo.gost-str{--bg:#F6BE2C;--line:#DDA41E;--line2:#B98A12;background:var(--bg)}
+body.svijetlo.gost-str .topbar{background:#15100C;border-bottom:0;box-shadow:0 3px 12px rgba(0,0,0,.25)}
+body.svijetlo.gost-str .kat-nav{background:rgba(246,190,44,.95);border-bottom:1px solid #C9920F}
+body.svijetlo.gost-str .kat h2,body.svijetlo.gost-str .rec-naslov{color:#120C08}
+body.svijetlo.gost-str .kat h2::after{background:#120C08}
+body.svijetlo.gost-str .pravno{border-top-color:#C9920F}
+body.svijetlo.gost-str .pravno h4{color:#2A1E14}
+body.svijetlo.gost-str .pravno p{color:#3A2B1F}
+body.svijetlo.gost-str .rec-prosjek{color:#2A1E14}
+body.svijetlo.gost-str .rec-prosjek i{color:#8A4B00}
+body.svijetlo .pauza-velika h2{color:#fff}
+body.svijetlo .vj2 h2{color:#F6EFE8}
+body.svijetlo .vj2 h2 em{color:#F2B24C}
+body.svijetlo.gost-str .gratis,body.svijetlo.gost-str .pauza-banner{background:var(--card)}
+body.svijetlo.gost-str .onama2{border-color:#C9920F;box-shadow:0 4px 0 #B98A12,0 10px 22px rgba(90,60,0,.18)}
+body.svijetlo.gost-str .jelo{border-color:#E6B94A;box-shadow:0 3px 0 #C9920F,0 10px 22px rgba(90,60,0,.12)}
+body.svijetlo.gost-str .pr,body.svijetlo.gost-str .uvjeti-dostave>div,body.svijetlo.gost-str .box{box-shadow:0 3px 0 #C9920F,0 10px 22px rgba(90,60,0,.12)}
+body.svijetlo.gost-str .trk .big,body.svijetlo.gost-str .trk .sub{color:#15100C}
+body.svijetlo .pl-opcija,body.svijetlo .adr-red{background-color:#fff;color:#2A1F18}
+body.svijetlo .pl-opcija[aria-pressed="true"]{background:#FBE3D6}
 </style>
 </head>
 <body>
@@ -1118,8 +1301,11 @@ const P=(k,z)=>{const v=lokal&&lokal[k];return v===null||v===undefined||v===""?z
 const REZERVA=()=>P("rezerva",5);
 const BRZINA=()=>P("brzina",23);
 const ROK_VRACANJA=()=>P("rok_vracanja",7);
-const DOSTAVA_PRAG_KM=()=>P("dostava_prag_km",3);
-const DOSTAVA_CIJENA=()=>P("dostava_cijena",2);
+const DOSTAVA_PRAG_KM=()=>P("dostava_prag_km",2);
+const DOSTAVA_CIJENA=()=>P("dostava_cijena",1);
+const DOSTAVA_PRAG2_KM=()=>P("dostava_prag2_km",5);
+const DOSTAVA_CIJENA2=()=>P("dostava_cijena2",2);
+const kmTxt=k=>(Math.round(k*10)/10).toLocaleString("hr-HR",{maximumFractionDigits:1});
 /* Kuhinja može privremeno "pauzirati" primanje novih narudžbi (gužva, prevelika naklada) —
    lokal.narudzbe_pauza_do je timestamp do kad vrijedi pauza; null/prošlost = otvoreno. */
 function narudzbePauzirane(){
@@ -1174,6 +1360,20 @@ async function otvoriNarudzbe(){
  const r=await sb.from("lokali").update({narudzbe_pauza_do:null}).eq("id",lokal.id);
  if(r.error){alert(tj("Greška")+": "+r.error.message);return;}
  lokal.narudzbe_pauza_do=null; crtaj(1);}
+function kuhAlatiHTML(){
+ const zat=narudzbePauzirane();
+ return `<div class="kuh-alati">
+  <button class="pauza-pill ${zat?"zatvoreno":"otvoreno"}" onclick="pauzaOtvoreno=!pauzaOtvoreno;crtaj(1)"
+   aria-expanded="${pauzaOtvoreno}" title="${zat?"Narudžbe su zaustavljene":"Narudžbe se primaju"}">
+   <i></i>${zat?tj("Ne primamo")+" · "+(pauzaJeKrajDana()?tj("danas"):tj("do")+" "+pauzaDoDatuma().toLocaleTimeString("hr-HR",{hour:"2-digit",minute:"2-digit"})):tj("Primamo narudžbe")} ▾</button>
+  ${zvukGumb(true)}</div>
+ ${pauzaOtvoreno?`<div class="pauza-meni">
+   ${zat?`<b>⏸ ${tj("Narudžbe su zaustavljene")}</b><p>${pauzaKuhinjaTekst()} ${tj("Gosti na početnoj vide veliku obavijest.")}</p>
+     <button class="btn go" style="margin-top:0" onclick="otvoriNarudzbe()">${tj("Ponovno primaj narudžbe")}</button>
+     <p style="margin:12px 0 8px">${tj("Ili promijeni trajanje pauze:")}</p>`
+    :`<b>${tj("Zaustavi primanje narudžbi")}</b><p>${tj("Koliko dugo? Gosti će na početnoj stranici vidjeti veliku obavijest da trenutno ne primamo narudžbe.")}</p>`}
+   <div class="pauza-izbor">${[10,15,20,30,60].map(m=>`<button class="btn sm ghost" onclick="pauzirajNarudzbe(${m})">${m}′</button>`).join("")}</div>
+   <button class="btn crven" onclick="zatvoriZaDanas()">${tj("Zatvori za danas")}</button></div>`:""}`;}
 function pauzaKontrolaHTML(){
  if(narudzbePauzirane())return `<div class="pauza-trak pauza-aktivna">
    <div><b>⏸ ${tj("Narudžbe su pauzirane")}</b><span>${pauzaKuhinjaTekst()}</span></div>
@@ -1186,6 +1386,69 @@ function pauzaKontrolaHTML(){
      <button class="btn sm crven" onclick="zatvoriZaDanas()">${tj("Trajno zatvori za danas")}</button></div>`:""}</div>`;}
 let procitane=new Set();
 let oNamaOtvoreno=false;
+let recenzije=[], recVl=null, ocjenaOdabir=0;
+async function ucitajRecenzije(){
+ try{const r=await sb.from("recenzije").select("id,ime,ocjena,tekst,izvor,stvoreno").eq("lokal_id",lokal.id)
+   .eq("odobreno",true).order("stvoreno",{ascending:false}).limit(80);
+  if(!r.error){recenzije=r.data||[]; if(uloga==="gost")crtaj(1);}}catch(e){}}
+const IZVORI={stranica:"",google:"Google",wolt:"Wolt",glovo:"Glovo",facebook:"Facebook",osobno:""};
+function recenzijeTraka(){
+ if(recenzije.length<3)return "";
+ const pros=recenzije.reduce((t,r)=>t+r.ocjena,0)/recenzije.length;
+ const z=n=>"★".repeat(n)+"☆".repeat(5-n);
+ const kart=recenzije.map(r=>`<div class="rec"><div class="zvj">${z(r.ocjena)}</div>
+   <p>${esc(r.tekst||"")}</p><b>${esc(r.ime)}${IZVORI[r.izvor]?`<small>${IZVORI[r.izvor]}</small>`:""}</b></div>`).join("");
+ return `<div class="rec-omot reveal" data-rk="rec"><div class="rec-naslov">Što kažu gosti</div>
+  <div class="rec-prosjek"><i>${z(Math.round(pros))}</i> ${pros.toLocaleString("hr-HR",{maximumFractionDigits:1})} · ${recenzije.length} ${recenzije.length%10===1&&recenzije.length%100!==11?"recenzija":"recenzija"}</div>
+  <div class="rec-traka"><div class="rec-tok" style="--rec-t:${Math.max(40,recenzije.length*7)}s">${kart}${kart}</div></div></div>`;}
+function ocjenaHTML(o){
+ let gotovo=false; try{gotovo=!!localStorage.getItem("rikys-ocjena-"+o.id);}catch(e){}
+ if(gotovo)return `<div class="ocjena-box"><b>Hvala na ocjeni!</b><p class="savjet" style="color:var(--dim)">Vaša recenzija bit će objavljena nakon pregleda.</p></div>`;
+ return `<div class="ocjena-box"><b>Kako vam je bilo?</b>
+  <div class="zvjezdice">${[1,2,3,4,5].map(n=>`<button class="${n<=ocjenaOdabir?"on":""}" onclick="ocjenaOdabir=${n};crtaj(1)" aria-label="${n} zvjezdica">★</button>`).join("")}</div>
+  <textarea class="f" id="oc-tekst" rows="3" placeholder="Napišite nekoliko riječi o hrani i dostavi (nije obavezno)"></textarea>
+  <button class="btn" ${ocjenaOdabir?"":"disabled"} onclick="posaljiOcjenu('${o.id}')">Pošalji ocjenu</button></div>`;}
+async function posaljiOcjenu(id){
+ if(!ocjenaOdabir)return;
+ const t=(el("oc-tekst")?el("oc-tekst").value:"").trim();
+ const r=await sb.rpc("gost_recenzija",{p_id:id,p_ocjena:ocjenaOdabir,p_tekst:t});
+ if(r.error){alert(tj("Ocjena se trenutno ne može poslati — pokušajte ponovno."));return;}
+ try{localStorage.setItem("rikys-ocjena-"+id,"1");}catch(e){}
+ ocjenaOdabir=0; crtaj(1);}
+async function ucitajRecVl(){
+ const r=await sb.from("recenzije").select("*").eq("lokal_id",lokal.id).order("stvoreno",{ascending:false});
+ recVl=r.error?[]:r.data; crtaj(1);}
+function vlRecenzije(){
+ if(recVl===null){ucitajRecVl();return `<div class="prazno">Učitavam recenzije…</div>`;}
+ const ceka=recVl.filter(r=>!r.odobreno), obj=recVl.filter(r=>r.odobreno);
+ const z=n=>"★".repeat(n)+"☆".repeat(5-n);
+ const kart=r=>`<div class="rv-kartica ${r.odobreno?"":"ceka"}"><div class="zvj">${z(r.ocjena)}</div>
+   <p>${esc(r.tekst||"(bez teksta)")}</p><small>${esc(r.ime)} · ${new Date(r.stvoreno).toLocaleDateString("hr-HR")}${IZVORI[r.izvor]?" · "+IZVORI[r.izvor]:""}</small>
+   <div class="row2">${r.odobreno?`<button class="btn sm ghost" onclick="recOdobri('${r.id}',false)">Sakrij sa stranice</button>`
+     :`<button class="btn sm go" onclick="recOdobri('${r.id}',true)">Objavi</button>`}
+    <button class="btn sm tiho" onclick="recObrisi('${r.id}')">Obriši</button></div></div>`;
+ return `<p class="note">Recenzije pišu gosti nakon što im je narudžba dostavljena (na stranici za praćenje). Ti biraš koje se objavljuju. Traka na početnoj pojavi se kad su objavljene barem 3.</p>
+  <div class="sec"><h3>ČEKAJU ODOBRENJE (${ceka.length})</h3></div>
+  ${ceka.length?ceka.map(kart).join(""):`<div class="prazno">Nema novih recenzija.</div>`}
+  <div class="sec"><h3>OBJAVLJENE (${obj.length})</h3></div>
+  ${obj.length?obj.map(kart).join(""):`<div class="prazno">Još nema objavljenih.</div>`}
+  <div class="sec"><h3>PREPIŠI PRAVU RECENZIJU</h3></div>
+  <div class="box">
+   <p class="savjet" style="margin-top:0">Npr. recenziju koju je gost napisao na Googleu ili Woltu. Unosi samo stvarne recenzije stvarnih gostiju — izmišljene recenzije su po zakonu o zaštiti potrošača zabranjena nepoštena poslovna praksa.</p>
+   <label class="f" for="rn-ime">Ime (kako je potpisano)</label><input class="f" id="rn-ime">
+   <label class="f" for="rn-oc">Ocjena</label><select class="f" id="rn-oc">${[5,4,3,2,1].map(n=>`<option value="${n}">${z(n)}</option>`).join("")}</select>
+   <label class="f" for="rn-iz">Izvor</label><select class="f" id="rn-iz">
+    <option value="google">Google</option><option value="wolt">Wolt</option><option value="glovo">Glovo</option><option value="facebook">Facebook</option><option value="osobno">Osobno / poruka</option></select>
+   <label class="f" for="rn-t">Tekst recenzije</label><textarea class="f" id="rn-t" rows="3"></textarea>
+   <button class="btn" onclick="recDodaj()">Dodaj i objavi</button></div>`;}
+async function recOdobri(id,v){await sb.from("recenzije").update({odobreno:v}).eq("id",id); await ucitajRecVl();}
+async function recObrisi(id){if(!confirm(tj("Obrisati recenziju?")))return; await sb.from("recenzije").delete().eq("id",id); await ucitajRecVl();}
+async function recDodaj(){
+ const ime=(el("rn-ime").value||"").trim(), tekst=(el("rn-t").value||"").trim();
+ if(!ime||!tekst){alert(tj("Upiši ime i tekst recenzije."));return;}
+ const r=await sb.from("recenzije").insert({lokal_id:lokal.id,ime,tekst,ocjena:+el("rn-oc").value,izvor:el("rn-iz").value,odobreno:true});
+ if(r.error){alert(tj("Greška: ")+r.error.message);return;}
+ el("rn-ime").value=""; el("rn-t").value=""; await ucitajRecVl();}
 let zumUrl=null, zumNaziv="";
 function zumSlike(url,naziv){zumUrl=url;zumNaziv=naziv;crtaj(1);}
 function zatvoriZum(){zumUrl=null;crtaj(1);}
@@ -1902,7 +2165,8 @@ document.addEventListener("touchstart",otkljucaj);
    "ne osjeti" iako klik radi. Ovo radi identično na mišu i na dodir. */
 const RUKOM_GUMBI=".btn,.tb-btn,.cta,.stop-zatvoren,.natrag,.tema,.vise,.ord-h,.jelo-top,.nav-izbor button,"+
  ".kat-pill,.izbor button,.podtab button,.brzi button,.pl-opcija,.pult-gumb,.bar button,.strelice button,"+
- ".apoen button,.brzepor button,.zum-vrh button,.undo,.gb-like,.kvaka,.obrisi,.adr-red,.jez-trenutni,.zvuk-ikona";
+ ".apoen button,.brzepor button,.zum-vrh button,.undo,.gb-like,.kvaka,.obrisi,.adr-red,.jez-trenutni,.zvuk-ikona,"+
+ ".tel a,.pauza-pill,.cip,.on2-traka";
 function oznaciPritisak(e){
  const b=e.target.closest(RUKOM_GUMBI);
  if(b)b.classList.add("pritisnut");}
@@ -2055,11 +2319,42 @@ const cijenaStavke=s=>(s.gratis?0:+jelo(s.jeloId).cijena)
 const najjeftinijaPizza=()=>{
  const p=jela.filter(j=>jeCijela(j.kategorija)).map(j=>+j.cijena);
  return p.length?Math.min(...p):0;};
+/* Dostava: besplatno do DOSTAVA_PRAG_KM (2 km). Od 2 do 5 km naplaćuje se DOSTAVA_CIJENA (1 €)
+   za svaki km iznad 2, a za dio puta iznad DOSTAVA_PRAG2_KM (5 km) DOSTAVA_CIJENA2 (2 €) po km.
+   Npr. 3,4 km = 1,40 €; 7 km = 3 × 1 € + 2 × 2 € = 7,00 €. Udaljenost = cestovna udaljenost od
+   lokala do adrese (Geoapify ruta); dok ruta ne stigne, koristi se procjena zračna × 1,35. */
+function naknadaZaKm(d){
+ const p1=DOSTAVA_PRAG_KM(),c1=DOSTAVA_CIJENA(),p2=Math.max(p1,DOSTAVA_PRAG2_KM()),c2=DOSTAVA_CIJENA2();
+ if(!(d>p1))return 0;
+ const x=c1*(Math.min(d,p2)-p1)+c2*Math.max(0,d-p2);
+ return Math.round(x*10)/10;}
+let cestaKes={};
+const cestaKljuc=()=>(+forma.lat).toFixed(5)+","+(+forma.lng).toFixed(5);
+function dostavaKm(){
+ if(!forma.lat||!forma.lng||!lokal||!lokal.lat)return null;
+ const c=cestaKes[cestaKljuc()];
+ return typeof c==="number"?c:cestKm(km(L(),{lat:+forma.lat,lng:+forma.lng}));}
+async function izracunajCestu(){
+ if(!forma.lat||!forma.lng||!lokal||!lokal.lat)return;
+ const k=cestaKljuc(); if(cestaKes[k]!==undefined)return;
+ cestaKes[k]="racuna";
+ try{
+  const way=(+lokal.lat).toFixed(6)+","+(+lokal.lng).toFixed(6)+"|"+(+forma.lat).toFixed(6)+","+(+forma.lng).toFixed(6);
+  const r=await fetch("https://api.geoapify.com/v1/routing?waypoints="+encodeURIComponent(way)+"&mode=drive&apiKey="+GEOAPIFY_KEY);
+  const j=await r.json(), f=j.features&&j.features[0];
+  cestaKes[k]=f&&f.properties&&f.properties.distance?f.properties.distance/1000:cestKm(km(L(),{lat:+forma.lat,lng:+forma.lng}));
+ }catch(e){cestaKes[k]=cestKm(km(L(),{lat:+forma.lat,lng:+forma.lng}));}
+ if(uloga==="gost"&&(korak==="podaci"||korak==="pregled"))crtaj(1);}
 function cijenaDostave(){
- /* Naknada za dostavu iznad praga km privremeno je isključena na korisnikov zahtjev —
-    dostava je za sad besplatna na svim udaljenostima. DOSTAVA_PRAG_KM/DOSTAVA_CIJENA
-    ostaju u postavkama za kasnije, samo se trenutno ne primjenjuju. */
- return 0;}
+ if(forma.nacin==="osobno"||!forma.lat)return 0;
+ const d=dostavaKm(); return d?naknadaZaKm(d):0;}
+function adrStanjeTekst(){
+ if(!forma.lat)return tj("Upišite ulicu i kućni broj. Ne morate paziti na kvačice — adresu pronalazimo sami.");
+ const d=dostavaKm(), n=d?naknadaZaKm(d):0;
+ const kv=forma.naselje?esc(forma.naselje)+" · ":"";
+ return n?`${kv}oko ${kmTxt(d)} km od nas — <b>dostava ${eur(n)}</b>`
+  :`${kv}oko ${kmTxt(d||0)} km od nas — <b>dostava besplatna</b>`;}
+let prikazanaNaknada=0;
 function racun(k){
  const pizze=k.filter(s=>!s.gratis&&(jelo(s.jeloId).kategorija.includes("pizze")||jelo(s.jeloId).kategorija==="Calzone"))
    .map(s=>+jelo(s.jeloId).cijena+s.dodaci.reduce((t,i)=>t+ +dod(i).cijena,0)).sort((a,b)=>a-b);
@@ -2205,6 +2500,7 @@ async function start(){
 
   // kuhinja/vozač/vlasnik i dalje čekaju pune podatke prije prvog crtanja (njima prazan
   // ekran s narudžbama nema smisla); gost je već nacrtan gore i ne čeka ništa
+  if(gost) ucitajRecenzije();
   if(gost) ostatak.catch(e=>{console.error("pozadinsko učitavanje:",e);});
   else { await ostatak; crtaj(); }
  }catch(e){veza("lose","greška");
@@ -2334,6 +2630,7 @@ function crtaj(prisilno){
  else if(uloga==="vlasnik")el("app").innerHTML=vlasnikHTML();
  else {el("app").innerHTML=gostHTML(); if(!mojaId&&korak==="meni")vezDodatke();}
  el("app").classList.toggle("sa-razmakom",uloga!=="gost"||korak!=="meni"||!!mojaId);
+ document.body.classList.toggle("gost-str",uloga==="gost");
  vrati();
  crtajZum();
  const jm=el("jez-mjesto"); if(jm)jm.innerHTML=jezikSwitcher();
@@ -2654,7 +2951,12 @@ function gostHTML(){
  const vidljiva=jela.filter(j=>j.dostupno!==false);
  const kats=[...new Set(vidljiva.map(j=>j.kategorija))];
  const r=racun(kosarica);
- return `
+ return `${narudzbePauzirane()?`<div class="pauza-velika" role="alert">
+  <div class="pv-ik">❚❚</div>
+  <h2>${tj("Trenutno ne primamo narudžbe")}</h2>
+  <p>${tj("Kuhinja je trenutno puna narudžbi. Molimo vas za malo strpljenja — čim se gužva smiri, ponovno primamo narudžbe.")}</p>
+  <div class="pv-do">${pauzaGostTekst()}</div>
+  <p style="font-size:15px;margin-top:12px">${tj("Jelovnik možete i dalje pregledavati.")}</p></div>`:""}
  <div class="hero"><div class="pec" style="background-image:url('${lokal.naslovna_url||SLIKE.PEC}')"></div>
   ${gbPlutajuce()}
   <div class="hero-in reveal" data-rk="hero"><div class="deco">◆ ◆ ◆</div>
@@ -2685,13 +2987,12 @@ function gostHTML(){
   <div class="pr reveal r4" data-rk="pr4"><div class="pr-kartice-row"><img class="pay-ik" src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.style.display='none'"><img class="pay-ik" src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.style.display='none'"><img src="${SLIKE.VISA}" alt="Visa"><img src="${SLIKE.MASTERCARD}" alt="MasterCard"></div><span>Apple Pay i Google Pay online, ili karticom pri dostavi</span></div></div>
  ${gbZona("ispod")}
  ${vjernostHTML()}
- <section class="onama reveal" data-rk="onama">
-  <button class="on-glava" onclick="oNamaOtvoreno=!oNamaOtvoreno;crtaj(1)">
-   <span class="on-oz">Organski sastojci</span>
-   <h3>O nama</h3>
-   <span class="on-strelica">${oNamaOtvoreno?"▲":"▼"}</span></button>
+ <section class="onama2 reveal ${oNamaOtvoreno?"otv":""}" data-rk="onama">
+  <button class="on2-traka" onclick="oNamaOtvoreno=!oNamaOtvoreno;crtaj(1)" aria-expanded="${oNamaOtvoreno}">
+   <span class="on2-ik">🌿</span>
+   <span class="on2-t"><b>O nama</b><small>Organski sastojci · tijesto fermentira 3 dana</small></span>
+   <span class="on2-str">›</span></button>
   ${oNamaOtvoreno?`<div class="on-tekst">
-   <div class="on-ukras">✦</div>
    <p class="prvi">Riky's Pizza obiteljska je pizzeria s dugogodišnjom tradicijom i iskrenom ljubavlju prema pravoj pizzi. Nakon godina rada i usavršavanja donosimo vam novu recepturu — pravu talijansku napoletanu.</p>
    <p>Naše tijesto <b>fermentira puna tri dana</b>. Zbog toga je izuzetno lagano i mekano, s hrskavim rubom i punim okusom.</p>
    <p>Umak radimo od <b>organske polpe</b> od pomno probranih talijanskih rajčica, bez dodanog šećera i koncentrata. Sirevi dolaze iz <b>najkvalitetnijih nizozemskih i talijanskih sirana</b>, a šunka i pršut od provjerenih talijanskih dobavljača.</p>
@@ -2699,7 +3000,7 @@ function gostHTML(){
  </section>
  <div class="uvjeti-dostave">
   <div><b>Minimalna narudžba</b><span>${eur(najjeftinijaPizza())}</span></div>
-  <div><b>Dostava</b><span>besplatno</span></div></div>
+  <div><b>Dostava</b><span>besplatna do ${kmTxt(DOSTAVA_PRAG_KM())} km</span></div></div>
  ${narudzbePauzirane()?`<div class="pauza-banner">
    <b>⏸ ${tj("Trenutno ne primamo nove narudžbe")}</b>
    <span>${tj("Zbog trenutne gužve u kuhinji.")} ${pauzaGostTekst()} ${tj("Jelovnik možete i dalje pregledavati.")}</span></div>`:""}
@@ -2711,38 +3012,33 @@ function gostHTML(){
   ${r.gratisPice?`${r.gratisPice}× Coca-Cola 0,33 L uz naručene pizze`:""}
   ${r.gratisPizza?`<br>${r.gratisPizza}× pizza gratis po akciji 4+1 — ušteda ${eur(r.popust)}`:""}</div>`:""}
  ${gbZona("dno")}
+ ${recenzijeTraka()}
  ${pravno()}`;}
 
 function vjernostHTML(){
- if(kupac){
-  const preostalo=PRAG-((kupac.dostavljenih-kupac.iskoristeno*PRAG)%PRAG);
-  const pravo=(kupac.dostavljenih-kupac.iskoristeno*PRAG)>=PRAG;
-  return `<div class="vj-okvir reveal" data-rk="vj" id="vj-sekcija"><div class="vjernost">
-   <div class="vj-oz">Program vjernosti</div>
-   <h2>Svaka 10. pizza<br><em>je gratis</em></h2>
-   <div class="box" style="margin:16px 0 0;text-align:left">
-    <div style="display:flex;gap:12px;align-items:center">
-     <div style="flex:1"><b style="font-family:Oswald;font-size:16px;text-transform:uppercase">${esc(kupac.ime||kupac.tel)}</b>
-      <p style="font-size:15.5px;color:var(--dim2)">${esc(kupac.tel)} · ${kupac.dostavljenih} dostavljenih ${
-       kupac.novi?"— još nemate narudžbi kod nas":"narudžbi"}</p></div>
-     <button class="btn sm tiho" style="width:auto;padding:8px 12px" onclick="kupac=null;crtaj(1)">Odjava</button></div>
-    ${pravo?`<div class="nagrada"><b>★ Osvojili ste besplatnu pizzu</b>
-      Uzmite svoju besplatnu pizzu pritiskom na zeleni gumb pri odabiru bilo koje pizze na jelovniku.</div>`
-     :`<div class="napredak"><div class="traka"><i style="width:${100-preostalo*100/PRAG}%"></i></div>
-       <span>Još ${preostalo} ${preostalo===1?"narudžba":"narudžbi"} do besplatne pizze</span></div>`}
-   </div></div></div>`;}
- return `<div class="vj-okvir reveal" data-rk="vj" id="vj-sekcija"><div class="vjernost">
-  <div class="vj-oz">Program vjernosti</div>
-  <h2>Svaka 10. pizza<br><em>je gratis</em></h2>
-  <p>Ne treba vam račun ni lozinka. Sustav broji vaše dostavljene narudžbe prema <b>broju mobitela koji upišete pri dostavi</b>. Nakon deset birate bilo koju pizzu bez naplate, kad god želite.</p>
-  <div class="box" style="margin:16px 0 0;text-align:left">
-   <label class="f" for="k-tel">Provjerite koliko ste skupili</label>
-   <input class="f" id="k-tel" inputmode="tel" autocomplete="tel" placeholder="" value="${esc(kupacUnos)}"
-    oninput="kupacUnos=this.value">
-   <p class="err" id="k-err"></p>
-   <button class="btn ghost" onclick="prijaviKupca()">Provjeri moje stanje</button>
-   <p class="savjet">Važno: broj koji ovdje provjeravate mora biti <b>isti broj koji upisujete pri dostavi</b>. Po njemu vas sustav prepoznaje.</p>
-  </div></div></div>`;}
+ const PR=PRAG||10;
+ const skupljeno=kupac?Math.max(0,kupac.dostavljenih-kupac.iskoristeno*PR):0;
+ const pravo=!!kupac&&skupljeno>=PR;
+ const pun=pravo?PR:(skupljeno%PR);
+ const pecati=Array.from({length:PR},(_,i)=>{
+  if(i===PR-1)return `<div class="vj2-pecat nagrada ${pravo?"":"ceka"}">🎁</div>`;
+  return `<div class="vj2-pecat ${i<pun?"pun":""}">${i<pun?"🍕":i+1}</div>`;}).join("");
+ return `<div class="vj2 reveal" data-rk="vj" id="vj-sekcija">
+  <span class="vj2-oz">★ Program vjernosti</span>
+  <h2>Svaka ${PR}. pizza <em>gratis</em></h2>
+  <div class="vj2-pecati">${pecati}</div>
+  ${kupac?`${pravo?`<div class="vj2-nagrada"><b>★ Osvojili ste besplatnu pizzu</b>
+     Odaberite bilo koju pizzu na jelovniku i pritisnite zeleni gumb „Uzmi kao nagradnu pizzu”.</div>`
+    :`<div class="vj2-stanje">${pun} od ${PR} — još ${PR-pun} ${PR-pun===1?"narudžba":"narudžbi"} do besplatne pizze</div>`}
+   <div class="vj2-kupac"><div><b>${esc(kupac.ime||kupac.tel)}</b><span>${esc(kupac.tel)} · ${kupac.novi?"još nemate dostavljenih narudžbi":kupac.dostavljenih+" dostavljenih narudžbi"}</span></div>
+    <button class="btn sm tiho" onclick="kupac=null;crtaj(1)">Odjava</button></div>`
+  :`<p class="vj2-opis">Bez računa i lozinke. Brojimo vaše dostavljene narudžbe po <b>broju mobitela koji upišete pri narudžbi</b> — svaka ${PR}. pizza je naša.</p>
+   <div class="vj2-unos">
+    <input id="k-tel" inputmode="tel" autocomplete="tel" placeholder="Vaš broj mobitela" value="${esc(kupacUnos)}"
+     oninput="kupacUnos=this.value" onkeydown="if(event.key==='Enter')prijaviKupca()">
+    <button class="btn" onclick="prijaviKupca()">Provjeri</button></div>
+   <p class="err" id="k-err"></p>`}
+ </div>`;}
 
 const pica_=t=>String(t||"").split("‖")[0]||"";
 const des_=t=>String(t||"").split("‖")[1]||"";
@@ -2761,12 +3057,30 @@ async function prijaviKupca(){
 const pravoNaGratis=()=>kupac&&!kupac.novi&&(kupac.dostavljenih-kupac.iskoristeno*PRAG)>=PRAG;
 
 function jeCijela(k){return k.includes("pizze")||k==="Calzone";}
+/* Dodaci po jelu: jela.dodaci_ids = null → zadano (pizze i calzone: svi dodaci, ostala jela: nijedan);
+   popis id-eva → točno ti dodaci. Vlasnik to mijenja po jelu (Jelovnik) ili po dodatku (Dodaci). */
+const zadaniDodaci=j=>jeCijela(j.kategorija)?dodaci.map(d=>d.id):[];
+const dozvoljeniDodaci=j=>Array.isArray(j.dodaci_ids)?j.dodaci_ids:zadaniDodaci(j);
+function dodaciZaJelo(j){const ids=new Set(dozvoljeniDodaci(j));return dodaci.filter(d=>d.dostupno!==false&&ids.has(d.id));}
+async function spremiDodatkeJela(jid,ids){
+ const j=jela.find(x=>x.id===jid); if(!j)return;
+ zabiljeziIzmjenu("jela",jid,"dodaci_ids",j.dodaci_ids===undefined?null:j.dodaci_ids);
+ const r=await sb.from("jela").update({dodaci_ids:ids}).eq("id",jid);
+ if(r.error){alert(tj("Greška: ")+r.error.message);return;}
+ j.dodaci_ids=ids; crtaj(1);}
+function prebaciDodatakJela(jid,did){
+ const j=jela.find(x=>x.id===jid); if(!j)return;
+ const set=new Set(dozvoljeniDodaci(j));
+ if(set.has(did))set.delete(did); else set.add(did);
+ spremiDodatkeJela(jid,dodaci.map(d=>d.id).filter(id=>set.has(id)));}
+let vlDodOtv=null, dodJelaOtv=null;
 function jeloHTML(j,k){
  const kom=kosarica.filter(s=>s.jeloId===j.id).length;
  const zn=j.oznaka==="veg"?'<span class="znak">🌿</span>':j.oznaka==="ljuto"?'<span class="znak">🌶</span>'
   :j.oznaka==="chef"?'<span class="znak">⭐</span>':j.oznaka==="chef-ljuto"?'<span class="znak">⭐ 🌶</span>'
   :j.oznaka==="18+"?'<span class="znak">18+</span>':"";
- const slozeno=jeCijela(k);
+ const pizza=jeCijela(k), mojiDodaci=dodaciZaJelo(j);
+ const slozeno=pizza||mojiDodaci.length>0;
  const ak=slozeno?`otvori('${j.id}')`:`brzo('${j.id}')`;
  const pica=jela.filter(x=>x.kategorija==="Piće");
  const des=jela.filter(x=>x.kategorija==="Deserti");
@@ -2778,21 +3092,21 @@ function jeloHTML(j,k){
     ${j.opis?`<div class="jelo-o">${esc(j.opis)}</div>`:""}</div>
    <div class="jelo-c">${eur(j.cijena)}</div></div>
   ${slozeno?`<div class="dod ${otvoreno===j.id?"on":""}" id="d-${j.id}">
-   <button class="vise" type="button" onclick="prebaciPod('dodaci')" aria-expanded="${podOtvoreno.dodaci}">${podOtvoreno.dodaci?"▲ Sakrij dodatke":"▼ Želite dodatak na pizzu?"}</button>
+   ${mojiDodaci.length?`<button class="vise" type="button" onclick="prebaciPod('dodaci')" aria-expanded="${podOtvoreno.dodaci}">${podOtvoreno.dodaci?"▲ Sakrij dodatke":pizza?"▼ Želite dodatak na pizzu?":"▼ Želite dodatak?"}</button>
    ${podOtvoreno.dodaci?`<h4 class="h-dod">DODACI PO ŽELJI</h4>
-   <div class="dod-grid">${dodaci.map(d=>`<label><input type="checkbox" data-d="${j.id}" value="${d.id}">
-     ${esc(d.naziv)}<span>+${eur(d.cijena)}</span></label>`).join("")}</div>`:""}
-   <button class="vise" type="button" onclick="prebaciPod('pice')" aria-expanded="${podOtvoreno.pice}">${podOtvoreno.pice?"▲ Sakrij piće":"▼ Želite dodatno piće?"}</button>
+   <div class="dod-grid">${mojiDodaci.map(d=>`<label><input type="checkbox" data-d="${j.id}" value="${d.id}">
+     ${esc(d.naziv)}<span>+${eur(d.cijena)}</span></label>`).join("")}</div>`:""}`:""}
+   ${pizza?`<button class="vise" type="button" onclick="prebaciPod('pice')" aria-expanded="${podOtvoreno.pice}">${podOtvoreno.pice?"▲ Sakrij piće":"▼ Želite dodatno piće?"}</button>
    ${podOtvoreno.pice?`<h4 class="h-pice">DODAJ PIĆE UZ OVU PIZZU</h4>
    <div class="dod-grid jedan">${pica.map(p=>`<label><input type="checkbox" data-u="${j.id}" value="${p.id}">
      ${esc(p.naziv)}<span>+${eur(p.cijena)}</span></label>`).join("")}</div>`:""}
    <button class="vise" type="button" onclick="prebaciPod('desert')" aria-expanded="${podOtvoreno.desert}">${podOtvoreno.desert?"▲ Sakrij desert":"▼ Želite desert?"}</button>
    ${podOtvoreno.desert?`<h4 class="h-des">DODAJ DESERT</h4>
    <div class="dod-grid jedan">${des.map(p=>`<label><input type="checkbox" data-u="${j.id}" value="${p.id}">
-     ${esc(p.naziv)}<span>+${eur(p.cijena)}</span></label>`).join("")}</div>`:""}
+     ${esc(p.naziv)}<span>+${eur(p.cijena)}</span></label>`).join("")}</div>`:""}`:""}
    <div class="row2"><button class="btn sm ghost" onclick="otvori('${j.id}')">Zatvori</button>
     <button class="btn sm" onclick="uKosaricu('${j.id}')">Dodaj <span id="c-${j.id}">${eur(j.cijena)}</span></button></div>
-   ${pravoNaGratis()&&!kosarica.some(x=>x.gratis)?`<button class="btn go" onclick="uKosaricu('${j.id}',1)">Uzmi kao nagradnu pizzu — 0,00 €</button>`:""}
+   ${pizza&&pravoNaGratis()&&!kosarica.some(x=>x.gratis)?`<button class="btn go" onclick="uKosaricu('${j.id}',1)">Uzmi kao nagradnu pizzu — 0,00 €</button>`:""}
   </div>`:""}</div>`;}
 
 function vezDodatke(){
@@ -2856,7 +3170,7 @@ function pregledHTML(){
    <div class="ime male" style="color:var(--go)">Nagradna pizza iz programa vjernosti</div>
    <div class="cij">−${eur(r.lojalnost)}</div></div></div>`:""}
   ${r.dostava?`<div class="stavka"><div class="glavno">
-    <div class="ime male" style="color:var(--wait)">Dostava — izvan ${DOSTAVA_PRAG_KM()} km</div>
+    <div class="ime male" style="color:var(--wait)">Dostava (${kmTxt(dostavaKm()||0)} km)</div>
     <div class="cij">+${eur(r.dostava)}</div></div></div>`
    :forma.lat?`<div class="stavka"><div class="glavno">
     <div class="ime male" style="color:var(--go)">Dostava besplatna</div>
@@ -2882,6 +3196,8 @@ function podaciHTML(){
    <button aria-pressed="${!osobno}" onclick="postaviNacin('dostava')">Dostava</button>
    <button aria-pressed="${osobno}" onclick="postaviNacin('osobno')">Osobno preuzimanje</button></div>
   <div class="tot" style="margin-top:10px"><span>Ukupno za platiti</span><span>${eur(r.ukupno)}</span></div>
+  ${r.dostava?`<div class="dost-nak"><span>uključena dostava (${kmTxt(dostavaKm())} km)</span><span>${eur(r.dostava)}</span></div>`:""}
+  ${(prikazanaNaknada=r.dostava,"")}
   <label class="f" for="f-ime">Ime i prezime</label>
   <input class="f" id="f-ime" autocomplete="name" placeholder="" value="${esc(forma.ime)}" oninput="forma.ime=this.value">
   <label class="f" for="f-tel">Broj mobitela</label>
@@ -2893,7 +3209,7 @@ function podaciHTML(){
   :`<label class="f" for="f-adr">Adresa dostave</label>
   <input class="f" id="f-adr" placeholder="" value="${esc(forma.adr)}"
    autocomplete="off" oninput="forma.adr=this.value;forma.lat=null;provjeriAdresu(this.value)">
-  <p class="savjet" id="adr-stanje">Upišite ulicu i kućni broj. Ne morate paziti na kvačice — adresu pronalazimo sami.</p>`}
+  <p class="savjet" id="adr-stanje">${adrStanjeTekst()}</p>`}
   <label class="f" for="f-nap">Napomena za restoran <i class="neob">(nije obavezno)</i></label>
   <textarea class="f" id="f-nap" rows="2" placeholder="Napišite napomenu kuhinji, npr. alergije, bez luka, dobro pečeno…" oninput="forma.nap=this.value">${esc(forma.nap)}</textarea>
   ${osobno?"":`<label class="f" for="f-napd">Napomena za dostavljača <i class="neob">(nije obavezno)</i></label>
@@ -2933,8 +3249,7 @@ function provjeriAdresu(q){
   const n=await nadiAdrese(q);
   const t=el("adr-stanje"); if(!t)return;
   if(n.length){forma.lat=n[0].lat;forma.lng=n[0].lng;forma.naselje=n[0].naselje||"";
-   t.textContent=tj(n[0].naselje?("Kvart: "+n[0].naselje):"Upišite ulicu i kućni broj.");
-   t.style.color="";}
+   t.innerHTML=adrStanjeTekst(); t.style.color=""; izracunajCestu();}
   else{forma.lat=null;t.textContent=tj("Upišite ulicu i kućni broj.");t.style.color="";}},700);}
 function traziAdresu(q){
  forma.lat=null;forma.lng=null;
@@ -3081,7 +3396,7 @@ function uzmiAdresu(i){
  const broj=(forma.adr.match(/\d+[a-zA-Z]?/)||[])[0];
  const imaBroj=/\d/.test(a.adresa);
  forma.adr=imaBroj?a.adresa:(a.adresa+(broj?" "+broj:""));
- forma.naselje=a.naselje||""; forma.lat=a.lat; forma.lng=a.lng;
+ forma.naselje=a.naselje||""; forma.lat=a.lat; forma.lng=a.lng; izracunajCestu();
  const p=el("f-adr"); if(p)p.value=forma.adr;
  const l=el("adr-lista"); if(l)l.innerHTML="";
  crtaj(1);}
@@ -3125,7 +3440,13 @@ async function posalji(){
    greska=`Nažalost, besplatnu nagradnu pizzu ne možemo dovesti na adresu udaljeniju od ${DOSTAVA_PRAG_KM()} km (vaša adresa je oko ${udalj.toFixed(1)} km). Dođite osobno po nju u lokal, ili za dostavu upišite adresu unutar ${DOSTAVA_PRAG_KM()} km.`;
    el("salji").disabled=false; el("salji").textContent=tj("Pošalji narudžbu");
    crtaj(1);return;}}
+ if(!osobno&&g.lat&&!forma.lat){forma.lat=g.lat;forma.lng=g.lng;}
+ if(!osobno&&forma.lat)await izracunajCestu();
  const r=racun(kosarica);
+ if(Math.abs((r.dostava||0)-(prikazanaNaknada||0))>0.001){
+  greska=r.dostava?`Za vašu adresu (oko ${kmTxt(dostavaKm())} km) dostava iznosi ${eur(r.dostava)} i dodana je u ukupni iznos. Provjerite iznos i pritisnite „Pošalji” još jednom.`
+   :tj("Iznos dostave je ažuriran. Provjerite ukupni iznos i pošaljite još jednom.");
+  el("salji").disabled=false; el("salji").textContent=tj("Pošalji narudžbu"); crtaj(1); return;}
  const narudzba={lokal_id:lokal.id,ime,telefon:tel,
    adresa:osobno?("Osobno preuzimanje u lokalu — "+lokal.adresa):adr,
    naselje:osobno?null:(forma.naselje||null),napomena:nap,placanje,
@@ -3148,7 +3469,7 @@ async function posalji(){
  mojaId=ins.data.id; spremiMojuNarudzbu(mojaId); kosarica=[];
  korak="meni"; placanje=null; potvrda18=false; greska="";
  if(online){forma={ime:"",tel:"",adr:"",nap:"",napD:"",naselje:"",lat:null,lng:null,nacin:"dostava",preuzMin:30};
-  await zapocniPlacanje(mojaId); return;}
+  prikazanaNaknada=0; await zapocniPlacanje(mojaId); return;}
  forma={ime:"",tel:"",adr:"",nap:"",napD:"",naselje:"",lat:null,lng:null,nacin:"dostava",preuzMin:30};
  await osvjezi(); scrollTo(0,0);}
 
@@ -3203,7 +3524,7 @@ const plKlasa=o=>o.placanje==="online"?"n-onl":o.placanje==="gotovina"?"n-kes":"
 }catch(e){}})();
 
 // redom se probaju mogući nazivi datoteke; koji ne postoji izbacuje se s popisa (pamti se dok je stranica otvorena)
-const KOLA_SRC=["coca-cola%2B.png","coca-cola%2B.PNG","coca-cola%2B.webp","coca-cola%2B.jpg","coca-cola%2B.jpeg"];
+const KOLA_SRC=["coca-cola-gratis.webp","coca-cola-gratis.png","coca-cola%2B.png","coca-cola%2B.PNG","coca-cola%2B.webp","coca-cola%2B.jpg","coca-cola%2B.jpeg"];
 function kolaSlikaDalje(im){
  if(im.getAttribute("src")===KOLA_SRC[0])KOLA_SRC.shift();
  if(KOLA_SRC.length){im.src=KOLA_SRC[0]; return;}
@@ -3272,6 +3593,7 @@ function pracenje(o){
      <div class="cij">gratis</div></div></div>`:""}
    <div class="tot"><span>Za platiti</span><span>${eur(o.iznos)}</span></div>
    <div class="nacin ${plKlasa(o)}">${o.placeno?"✓ ":""}${esc(plNaziv(o))}</div></div>
+  ${o.stanje==="dostavljeno"?ocjenaHTML(o):""}
   <a class="zovi" href="${telH(lokal.tel1)}">Nazovi ${esc(lokal.tel1)}</a>
   <button class="btn ghost" onclick="novaNarudzba()">Nova narudžba</button></div>`;}
 
@@ -3295,9 +3617,10 @@ async function posaljiPor(id,od){
 
 function pravno(){return `<div class="pravno">
  <h4>AKCIJE</h4><p>Akcija 4+1 primjenjuje se automatski: na svakih pet naručenih pizza najjeftinija se odbija od konačnog iznosa. Uz svaku pizzu isporučujemo Coca-Colu 0,33 L bez naplate. Vrijedi za narudžbe putem naše izravne dostave.</p>
- <h4>NAPOMENA O NARUČIVANJU</h4><p>Slanjem narudžbe potvrđujete točnost podataka. Namjerno lažno naručivanje kojim se prouzroči imovinska šteta može predstavljati kazneno djelo prijevare iz članka 236. Kaznenog zakona.</p>
+ <h4>DOSTAVA I CIJENE</h4><p>Dostava je besplatna do ${kmTxt(DOSTAVA_PRAG_KM())} km od pizzerije. Za adrese udaljenije od toga naplaćuje se ${eur(DOSTAVA_CIJENA())} po kilometru za dio puta od ${kmTxt(DOSTAVA_PRAG_KM())} do ${kmTxt(DOSTAVA_PRAG2_KM())} km, a za dio puta iznad ${kmTxt(DOSTAVA_PRAG2_KM())} km ${eur(DOSTAVA_CIJENA2())} po kilometru (obračun na desetinku kilometra). Udaljenost se izračunava automatski prema cestovnoj udaljenosti od lokala do adrese dostave, a iznos naknade prikazuje se prije slanja narudžbe i uključen je u ukupni iznos. Osobno preuzimanje u lokalu je bez naknade. Sve cijene iskazane su u eurima (€). Minimalna narudžba jednaka je cijeni naše najjeftinije pizze.</p>
+ <h4>OBVEZA PLAĆANJA I LAŽNE NARUDŽBE</h4><p>Slanjem narudžbe sklapate s nama ugovor i obvezujete se naručeno preuzeti i platiti. Svaku narudžbu pripremamo odmah i isključivo za vas, pa se hrana pripremljena po narudžbi ne može vratiti niti se od narudžbe može odustati nakon što je potvrđena. Ako naručitelj narudžbu ne preuzme, navede lažne podatke ili naruči bez namjere plaćanja, zadržavamo pravo zahtijevati plaćanje punog iznosa narudžbe te naknadu troškova pripreme i dostave, sukladno Zakonu o obveznim odnosima, uključujući naplatu sudskim putem. U tu svrhu čuvamo podatke o takvoj narudžbi (ime, broj telefona, adresu i vrijeme narudžbe). Namjerno lažno naručivanje kojim se prouzroči imovinska šteta može predstavljati kazneno djelo prijevare iz članka 236. Kaznenog zakona, koje prijavljujemo policiji.</p>
  <h4>GREŠKA U NARUDŽBI</h4><p>Ako pogreškom naše kuhinje ili vozača dobijete pogrešno jelo, o trošku ćemo vam poslati zamjensko — pod uvjetom da nam vratite prvobitno jelo cijelo i netaknuto. Ako je jelo djelomično pojedeno, nažalost zamjenu ne možemo ponuditi.</p>
- <h4>ZAŠTITA PODATAKA</h4><p>Ime, broj telefona i adresu koristimo isključivo radi izvršenja narudžbe i ne ustupamo ih trećim stranama.</p>
+ <h4>ZAŠTITA PODATAKA</h4><p>Ime, broj telefona i adresu koristimo isključivo radi izvršenja narudžbe, programa vjernosti te, u slučaju neplaćene ili lažne narudžbe, radi naplate potraživanja. Podatke ne ustupamo trećim stranama osim nadležnim tijelima kada to zakon propisuje.</p>
  <p style="margin-top:14px">${esc(lokal.naziv)} · ${esc(lokal.adresa)} · ${esc(lokal.tel1)}</p></div>`;}
 
 
@@ -3344,7 +3667,7 @@ function vlasnikHTML(){
   <button class="btn" onclick="ulazVl()">Prijavi se</button></div></div>`;
  let h=`${historijaIzmjena.length?`<button class="undo" onclick="ponistiZadnju()">↩ Poništi zadnju izmjenu (${historijaIzmjena.length})</button>`:""}<div class="podtab">
   ${[["pregled","Pregled"],["jelovnik","Jelovnik"],["pocetna","Početna"],["dodaci","Dodaci"],["normativi","Normativi"],["troskovi","Troškovi"],
-     ["vozaci","Vozači"],["voznipark","Vozni park"],["nadzor","Kuhinja i vozači"],["izvjestaj","Izvještaji"],["postavke","Postavke"]]
+     ["recenzije","Recenzije"],["vozaci","Vozači"],["voznipark","Vozni park"],["nadzor","Kuhinja i vozači"],["izvjestaj","Izvještaji"],["postavke","Postavke"]]
    .map(([k,n])=>`<button aria-selected="${vlTab===k}" onclick="vlNa('${k}')">${n}</button>`).join("")}</div>`;
  if(vlTab==="pregled")   h+=vlPregled();
  if(vlTab==="jelovnik")  h+=vlJelovnik();
@@ -3352,6 +3675,7 @@ function vlasnikHTML(){
  if(vlTab==="dodaci")    h+=vlDodaci();
  if(vlTab==="normativi") h+=vlNormativi();
  if(vlTab==="troskovi")  h+=vlTroskovi();
+ if(vlTab==="recenzije") h+=vlRecenzije();
  if(vlTab==="vozaci")    h+=vlVozaci();
  if(vlTab==="voznipark") h+=vlVozniPark();
  if(vlTab==="nadzor")    h+=vlNadzor();
@@ -3509,7 +3833,15 @@ function vlJelo(j,ji,uk){
    <button class="btn sm ${mij?"":"tiho"}" ${mij?"":"disabled"} onclick="spremiJelo('${j.id}')">Spremi</button>
    ${mij?`<button class="btn sm tiho" onclick="ponistiJelo('${j.id}')">Odustani</button>`:""}
    <button class="btn sm tiho" onclick="obrisiJelo('${j.id}','${esc(j.naziv)}')">Obriši</button></div>
-  ${mij?`<p class="savjet">Nespremljene izmjene</p>`:""}</div>`;}
+  ${mij?`<p class="savjet">Nespremljene izmjene</p>`:""}
+  ${["Piće","Deserti"].includes(j.kategorija)?"":(()=>{const ids=new Set(dozvoljeniDodaci(j));
+   return `<button class="vise" aria-expanded="${vlDodOtv===j.id}" onclick="vlDodOtv=vlDodOtv===j.id?null:'${j.id}';crtaj(1)">
+    ${vlDodOtv===j.id?"▲":"▼"} Dodaci za ovo jelo: ${ids.size?ids.size+" od "+dodaci.length:"nijedan"}${Array.isArray(j.dodaci_ids)?"":" (zadano)"}</button>
+   ${vlDodOtv===j.id?`<div class="cip-lista">${dodaci.map(d=>`<button class="cip" aria-pressed="${ids.has(d.id)}" onclick="prebaciDodatakJela('${j.id}','${d.id}')">${esc(d.naziv)}</button>`).join("")}</div>
+    <div class="row2"><button class="btn sm ghost" onclick="spremiDodatkeJela('${j.id}',dodaci.map(d=>d.id))">Svi</button>
+     <button class="btn sm ghost" onclick="spremiDodatkeJela('${j.id}',[])">Nijedan</button>
+     <button class="btn sm ghost" onclick="spremiDodatkeJela('${j.id}',null)">Zadano</button></div>
+    <p class="savjet">Označeni dodaci nude se gostu uz ovo jelo. Zadano: pizze i calzone imaju sve dodatke, ostala jela nijedan.</p>`:""}`;})()}</div>`;}
 
 function mijenjaj(id,polje,v){izmjene[id]=izmjene[id]||{};izmjene[id][polje]=v;crtaj(1);}
 async function spremiJelo(id){
@@ -3706,7 +4038,9 @@ function vlNormativi(){
       <input class="f" id="nrk-${r.id}" type="text" inputmode="decimal" style="max-width:96px" value="${+r.kolicina}"
        oninput="spremiNormativ('${r.id}','kolicina',this.value)">
       <span class="jed">${m?(m.jedinica==="kom"?"kom":m.jedinica==="l"?"ml":"g"):""}</span>
-      <button class="obrisi" onclick="obrisiNormativ('${r.id}')">✕</button></div>`;}).join("")}
+      <button class="obrisi" onclick="obrisiNormativ('${r.id}')">✕</button></div>
+      <button class="btn xs ghost" style="margin:-2px 0 10px" onclick="otvoriPrimjenu('${r.id}')">${normPrim===r.id?"Zatvori":"Primijeni na više jela…"}</button>
+      ${normPrim===r.id?primjenaHTML(r,m):""}`;}).join("")}
     <button class="btn sm ghost" onclick="dodajNormativ('${j.id}')">+ Dodaj namirnicu u normativ</button>
     <div class="racunica">
      <div><span>Prodajna cijena</span><b>${eur(j.cijena)}</b></div>
@@ -3750,7 +4084,45 @@ async function dodajNormativ(jid){
  const r=await sb.from("normativi").insert({lokal_id:lokal.id,jelo_id:jid,
    namirnica_id:prva.id,kolicina:+(prva.zadana_kolicina||0)||50}).select().single();
  if(!r.error)normativi.push(r.data); crtaj(1);}
-let normTajmer={};
+let normTajmer={}, normPrim=null, normOdabir=new Set();
+const zaNormativ=()=>jela.filter(x=>!["Piće"].includes(x.kategorija));
+function otvoriPrimjenu(rid){
+ if(normPrim===rid){normPrim=null;crtaj(1);return;}
+ const r=normativi.find(x=>x.id===rid); if(!r)return;
+ normPrim=rid;
+ normOdabir=new Set(normativi.filter(n=>n.namirnica_id===r.namirnica_id).map(n=>n.jelo_id));
+ normOdabir.add(r.jelo_id); crtaj(1);}
+function normOznaci(ids,on){ids.forEach(id=>on?normOdabir.add(id):normOdabir.delete(id));crtaj(1);}
+function primjenaHTML(r,m){
+ const jed=m?(m.jedinica==="kom"?"kom":m.jedinica==="l"?"ml":"g"):"";
+ const lista=zaNormativ(), kats=[...new Set(lista.map(x=>x.kategorija))];
+ const pizze=lista.filter(x=>jeCijela(x.kategorija)).map(x=>x.id);
+ return `<div class="norm-prim"><b>${esc(m?m.naziv:"Namirnica")} — ${+r.kolicina} ${jed}: na koja jela ide?</b>
+  <div class="row2" style="margin-top:6px">
+   <button class="btn sm ghost" onclick='normOznaci(${JSON.stringify(pizze)},true)'>Sve pizze</button>
+   <button class="btn sm ghost" onclick='normOznaci(${JSON.stringify(lista.map(x=>x.id))},true)'>Sva jela</button>
+   <button class="btn sm ghost" onclick='normOznaci(${JSON.stringify(lista.map(x=>x.id))},false)'>Nijedno</button></div>
+  <div class="cip-lista">${kats.map(k=>`<div class="cip-kat">${esc(k)}</div>
+   ${lista.filter(x=>x.kategorija===k).map(x=>`<button class="cip" aria-pressed="${normOdabir.has(x.id)}"
+     onclick="normOdabir.has('${x.id}')?normOdabir.delete('${x.id}'):normOdabir.add('${x.id}');crtaj(1)">${esc(x.naziv)}</button>`).join("")}`).join("")}</div>
+  <button class="btn go" onclick="primijeniNormativ('${r.id}')">Primijeni na označena jela (${normOdabir.size})</button>
+  <p class="savjet">Označena jela dobiju ovu namirnicu s istom količinom (postojeća se količina zamijeni). S neoznačenih jela ova se namirnica makne. Kasnije i dalje možeš promijeniti količinu na pojedinom jelu.</p></div>`;}
+async function primijeniNormativ(rid){
+ const r=normativi.find(x=>x.id===rid); if(!r)return;
+ const inp=el("nrk-"+rid); const kol=parseFloat(((inp?inp.value:r.kolicina)+"").replace(",","."))||0;
+ const m=nam(r.namirnica_id);
+ const postoje=normativi.filter(n=>n.namirnica_id===r.namirnica_id);
+ const zaAzur=postoje.filter(n=>normOdabir.has(n.jelo_id)).map(n=>n.id);
+ const zaBris=postoje.filter(n=>!normOdabir.has(n.jelo_id)).map(n=>n.id);
+ const imaju=new Set(postoje.map(n=>n.jelo_id));
+ const zaNove=[...normOdabir].filter(jid=>!imaju.has(jid));
+ if(!confirm(tj(`${m?m.naziv:"Namirnica"} ${kol}: postavit će se na ${zaAzur.length+zaNove.length} jela`+(zaBris.length?`, a maknuti s ${zaBris.length} jela`:"")+". Nastaviti?")))return;
+ if(zaAzur.length){const a=await sb.from("normativi").update({kolicina:kol}).in("id",zaAzur); if(a.error){alert(a.error.message);return;}}
+ if(zaNove.length){const b=await sb.from("normativi").insert(zaNove.map(jid=>({lokal_id:lokal.id,jelo_id:jid,namirnica_id:r.namirnica_id,kolicina:kol}))); if(b.error){alert(b.error.message);return;}}
+ if(zaBris.length){const c=await sb.from("normativi").delete().in("id",zaBris); if(c.error){alert(c.error.message);return;}}
+ const n=await sb.from("normativi").select("*").eq("lokal_id",lokal.id);
+ if(!n.error)normativi=n.data;
+ normPrim=null; crtaj(1);}
 function spremiNormativ(id,polje,v){
  clearTimeout(normTajmer[id+polje]);
  const zavrsi=async()=>{
@@ -4059,7 +4431,8 @@ function vlDodaci(){
  const des=jela.filter(j=>j.kategorija==="Deserti");
  return `<p class="note">Sve što gost vidi dok slaže pizzu — dodaci na pizzu, i piće/desert koje može dodati uz nju.
   Piće i deserti su isti popis kao kategorije „Piće” i „Deserti” u Jelovniku — mijenjaš ih ovdje ili tamo, isto je.</p>
- <div class="sec"><h3>DODACI NA PIZZU</h3></div>
+ <div class="sec"><h3>DODACI</h3></div>
+ <p class="note">Po zadanom se dodaci nude samo uz pizze i calzone. Kod svakog dodatka odaberi uz koja jela ide (npr. kranjska kobasica uz grah), ili to uredi kod pojedinog jela u Jelovniku.</p>
  ${dodaci.map(d=>`<div class="box">
    <div class="uj-red">
     <input class="f" id="dn-${d.id}" value="${esc(d.naziv)}" oninput="spremiDodatak('${d.id}','naziv',this.value)">
@@ -4069,6 +4442,12 @@ function vlDodaci(){
    <button class="btn sm ${d.dostupno?"go":"crven"}" style="margin-top:8px"
     onclick="spremiDodatak('${d.id}','dostupno',${!d.dostupno})">
     ${d.dostupno?"Dostupno":"Nedostupno"}</button>
+   ${(()=>{const na=jela.filter(j=>!["Piće","Deserti"].includes(j.kategorija));
+    const ima=na.filter(j=>dozvoljeniDodaci(j).includes(d.id));
+    return `<button class="vise" aria-expanded="${dodJelaOtv===d.id}" onclick="dodJelaOtv=dodJelaOtv===d.id?null:'${d.id}';crtaj(1)">
+     ${dodJelaOtv===d.id?"▲":"▼"} Nudi se uz ${ima.length} ${ima.length===1?"jelo":"jela"}</button>
+    ${dodJelaOtv===d.id?`<div class="cip-lista">${[...new Set(na.map(j=>j.kategorija))].map(k=>`<div class="cip-kat">${esc(k)}</div>
+      ${na.filter(j=>j.kategorija===k).map(j=>`<button class="cip" aria-pressed="${dozvoljeniDodaci(j).includes(d.id)}" onclick="prebaciDodatakJela('${j.id}','${d.id}')">${esc(j.naziv)}</button>`).join("")}`).join("")}</div>`:""}`;})()}
   </div>`).join("")}
  <div style="padding:0 18px 26px"><button class="btn" onclick="noviDodatak()">+ Dodaj dodatak</button></div>
 
@@ -4183,9 +4562,11 @@ function vlPostavke(){
   <p class="savjet">Fotografija se automatski zatamni i stavi iza teksta, kao sada.</p></div>
  <div class="sec"><h3>DOSTAVA I VRIJEME</h3></div>
  <div class="box">
-  <p class="savjet" style="margin-top:0">Naknada za dostavu je trenutno isključena — dostava je besplatna na svim udaljenostima. Ova dva polja ostaju spremljena za kasnije, ali se sad ne primjenjuju.</p>
-  ${polje("dostava_prag_km","Besplatna dostava do (km) — neaktivno","type=number step=0.5")}
-  ${polje("dostava_cijena","Naknada za dostavu (€) — neaktivno","type=number step=0.5")}
+  ${polje("dostava_prag_km","Besplatna dostava do (km)","type=number step=0.5")}
+  ${polje("dostava_cijena","Cijena po km iza toga (€)","type=number step=0.1")}
+  ${polje("dostava_prag2_km","Skuplja cijena kreće od (km)","type=number step=0.5")}
+  ${polje("dostava_cijena2","Cijena po km iznad toga (€)","type=number step=0.1")}
+  <p class="savjet">Primjer s ovim postavkama: adresa 3,4 km → ${eur(naknadaZaKm(3.4))}; 7 km → ${eur(naknadaZaKm(7))}. Gost naknadu vidi tek kad upiše adresu koja je dalje od besplatne zone. Osobno preuzimanje je uvijek bez naknade.</p>
   ${polje("rezerva","Skrivena rezerva (min)","type=number")}
   ${polje("brzina","Prosječna brzina (km/h)","type=number")}
   ${polje("rok_vracanja","Rok za vraćanje narudžbe (min)","type=number")}
@@ -4225,7 +4606,7 @@ async function spremiTajne(){
  alert(tj("Lozinke su spremljene.")); crtaj(1);}
 async function spremiLokal(){
  const pod={...izmjene.lokal};
- ["dostava_prag_km","dostava_cijena","rezerva","brzina","rok_vracanja","trosak_posto","cijena_benzin","cijena_dizel"]
+ ["dostava_prag_km","dostava_cijena","dostava_prag2_km","dostava_cijena2","rezerva","brzina","rok_vracanja","trosak_posto","cijena_benzin","cijena_dizel"]
   .forEach(k=>{if(pod[k]!==undefined)pod[k]=parseFloat((pod[k]+"").replace(",","."))||0;});
  Object.keys(pod).forEach(k=>zabiljeziIzmjenu("lokali",lokal.id,k,lokal[k]));
  const r=await sb.from("lokali").update(pod).eq("id",lokal.id);
@@ -4239,7 +4620,7 @@ async function resetTvornicki(){
  const pin=prompt(tj("Za potvrdu upiši PIN vlasnika:"));
  if(pin===null)return;
  if(!LOZ_VLASNIK()||pin!==LOZ_VLASNIK()){alert(tj("Pogrešan PIN. Ništa nije promijenjeno."));return;}
- const zad={dostava_prag_km:3,dostava_cijena:2,rezerva:5,brzina:23,rok_vracanja:7,trosak_posto:32,
+ const zad={dostava_prag_km:2,dostava_cijena:1,dostava_prag2_km:5,dostava_cijena2:2,rezerva:5,brzina:23,rok_vracanja:7,trosak_posto:32,
    cijena_benzin:1.45,cijena_dizel:1.40};
  const r=await sb.from("lokali").update(zad).eq("id",lokal.id);
  if(r.error){alert(tj("Greška: ")+r.error.message);return;}
@@ -4271,9 +4652,9 @@ function kuhinjaHTML(){
   <p class="err" id="kle">Pogrešna lozinka.</p>
   <button class="btn" onclick="ulazK()">Prijavi se</button></div></div>`;
  if(telNar)return telefonHTML();
- if(kuhTab==="povijest")return `${pauzaKontrolaHTML()}`+povijestHTML();
+ if(kuhTab==="povijest")return `${kuhAlatiHTML()}`+povijestHTML();
  const f=s=>narudzbe.filter(o=>o.stanje===s);
- return `${vlasnikGleda?`<button class="natrag" onclick="natragVlasnik()">← Natrag u vlasničko sučelje</button>`:""}${zvukGumb()}${pauzaKontrolaHTML()}
+ return `${vlasnikGleda?`<button class="natrag" onclick="natragVlasnik()">← Natrag u vlasničko sučelje</button>`:""}${kuhAlatiHTML()}
  <div style="padding:14px 18px 0"><button class="btn" onclick="telPocni()">📞 Narudžba telefonom</button></div>
  <div class="podtab">
   <button aria-selected="true" onclick="kuhTab='rad';crtaj(1)">Radna ploča</button>
@@ -5136,23 +5517,23 @@ function telefonHTML(){
     ${n.nacin==="osobno"?" · OSOBNO":" · "+esc(n.adresa)}</div>
    ${kats.map(k=>`<div class="sec"><h3>${esc(k)}</h3></div>
     ${jela.filter(j=>j.kategorija===k&&j.dostupno!==false).map(j=>{
-     const jePizza=jeCijela(j.kategorija);
+     const jePizza=jeCijela(j.kategorija), tDod=dodaciZaJelo(j), imaOpc=jePizza||tDod.length>0;
      return `<div class="tel-jelo">
       <div class="tel-jelo-red">
        <div class="tel-jelo-ime"><b>${esc(j.naziv)}</b>
         ${j.opis?`<span>${esc(j.opis)}</span>`:""}</div>
        <div class="tel-jelo-cij">${eur(j.cijena)}</div>
        <button class="btn sm" style="max-width:64px" onclick="telBrzo('${j.id}')">+</button>
-       ${jePizza?`<button class="btn sm ghost" style="max-width:96px" onclick="telOtvori('${j.id}')">${telOtvoreno===j.id?"Zatvori":"Dodaci"}</button>`:""}
+       ${imaOpc?`<button class="btn sm ghost" style="max-width:96px" onclick="telOtvori('${j.id}')">${telOtvoreno===j.id?"Zatvori":"Dodaci"}</button>`:""}
       </div>
-      ${(jePizza&&telOtvoreno===j.id)?`<div class="tel-dodaci">
-        ${dodaci.filter(d=>d.dostupno!==false).length?`<h4>DODACI</h4><div class="tel-kvadratici">
-         ${dodaci.filter(d=>d.dostupno!==false).map(d=>`<label><input type="checkbox" data-td="${j.id}" value="${d.id}"> ${esc(d.naziv)} <i>+${eur(d.cijena)}</i></label>`).join("")}
+      ${(imaOpc&&telOtvoreno===j.id)?`<div class="tel-dodaci">
+        ${tDod.length?`<h4>DODACI</h4><div class="tel-kvadratici">
+         ${tDod.map(d=>`<label><input type="checkbox" data-td="${j.id}" value="${d.id}"> ${esc(d.naziv)} <i>+${eur(d.cijena)}</i></label>`).join("")}
         </div>`:""}
-        ${jela.filter(x=>x.kategorija==="Piće"&&x.dostupno!==false).length?`<h4>PIĆE UZ</h4><div class="tel-kvadratici">
+        ${jePizza&&jela.filter(x=>x.kategorija==="Piće"&&x.dostupno!==false).length?`<h4>PIĆE UZ</h4><div class="tel-kvadratici">
          ${jela.filter(x=>x.kategorija==="Piće"&&x.dostupno!==false).map(x=>`<label><input type="checkbox" data-tu="${j.id}" value="${x.id}"> ${esc(x.naziv)} <i>+${eur(x.cijena)}</i></label>`).join("")}
         </div>`:""}
-        ${jela.filter(x=>x.kategorija==="Deserti"&&x.dostupno!==false).length?`<h4>DESERT UZ</h4><div class="tel-kvadratici">
+        ${jePizza&&jela.filter(x=>x.kategorija==="Deserti"&&x.dostupno!==false).length?`<h4>DESERT UZ</h4><div class="tel-kvadratici">
          ${jela.filter(x=>x.kategorija==="Deserti"&&x.dostupno!==false).map(x=>`<label><input type="checkbox" data-tu="${j.id}" value="${x.id}"> ${esc(x.naziv)} <i>+${eur(x.cijena)}</i></label>`).join("")}
         </div>`:""}
         <button class="btn sm" onclick="telUKosaricu('${j.id}')">Dodaj s odabranim</button>
