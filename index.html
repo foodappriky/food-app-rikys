@@ -320,7 +320,7 @@ a{color:var(--gold)}
 @keyframes vl{from{transform:rotate(360deg)}to{transform:rotate(0)}}
 /* Coca-Cola: logo, "+", veliki "0,33L GRATIS" i nagnuta limenka koja stoji malo ISPOD teksta
    (tekst je preko limenke), po uzoru na korisnikov plakat */
-.kola{margin-top:18px}
+.kola{margin-top:-6px}
 /* Coca-Cola blok je gotova slika koju je vlasnik sam složio (coca-cola+.png na GitHubu/Vercelu).
    Ako se slika ne učita, prikazuje se stari složeni blok (logo + tekst + limenka). */
 .kola-slika{display:block;width:min(88%,440px);height:auto;margin:0 auto;filter:drop-shadow(0 8px 20px rgba(0,0,0,.55))}
@@ -1286,34 +1286,40 @@ body.svijetlo:not(.gost-str) .tema .tb-ik{color:#3A2A6B}
 .pwa-nap{text-align:center;font-size:13.5px;font-weight:600;color:var(--dim2);margin-top:10px}
 .pwa-zatvori{top:16px;right:16px;width:34px;height:34px}
 
-/* ---------- KOZA: uđe s lijeve strane, zabije rogove u "R", slovo se zatrese, koza kimne,
-   naočale bljesnu — i tako u krug (koza ostaje na ekranu). Koza je "prikvačena" uz logo, pa
-   pogađa slovo na svakoj veličini ekrana. ---------- */
+/* ---------- KOZA: glatko uđe s lijeve strane, zabije rogove u "R", slovo se zatrese, koza kimne,
+   naočale bljesnu, ispiše se THE G.O.A.T — ciklus se ponavlja, koza ostaje na ekranu.
+   Sve animacije su u JS-u (sinkKoza) "usidrene" na isti početni trenutak, pa ih ponovno
+   iscrtavanje stranice nikad ne pokreće ispočetka (to je uzrokovalo trzanje pri otvaranju). ---------- */
 .mark{position:relative;display:inline-block}
+.mark-desno{--sm:-1}
 .mark-r{display:inline-block;transform-origin:50% 95%;position:relative;z-index:2}
-.hero.s-kozom .mark-r{animation:rTres 6s ease-out var(--kd,1s) infinite}
-@keyframes rTres{0%,12%{transform:none}13%{transform:translate(calc(var(--sm,1)*7%),-2%) rotate(calc(var(--sm,1)*14deg))}
- 14.5%{transform:rotate(calc(var(--sm,1)*-10deg))}16%{transform:rotate(calc(var(--sm,1)*7deg))}17.5%{transform:rotate(calc(var(--sm,1)*-4deg))}
- 19%{transform:rotate(calc(var(--sm,1)*2deg))}20.5%,100%{transform:none}}
+.hero.s-kozom .mark-r{animation:rTres 6s ease-in-out 2.2s infinite}
+@keyframes rTres{0%,11%{transform:none}
+ 12.3%{transform:translate(calc(var(--sm,1)*6%),-2%) rotate(calc(var(--sm,1)*12deg))}
+ 14.6%{transform:rotate(calc(var(--sm,1)*-8deg))}
+ 16.9%{transform:rotate(calc(var(--sm,1)*5deg))}
+ 19.2%{transform:rotate(calc(var(--sm,1)*-2.5deg))}
+ 21.5%{transform:rotate(calc(var(--sm,1)*1deg))}
+ 24%,100%{transform:none}}
 .koza{position:absolute;top:-.3em;z-index:1;width:calc(1.95em * var(--kv,1));pointer-events:none;
  font-size:inherit;line-height:1;text-align:left}
 .ur-mod .koza{pointer-events:auto}
 .koza-lijevo{right:100%;margin-right:-.06em;--sm:1}
 .koza-desno{left:100%;margin-left:-.06em;--sm:-1}
-.koza-ulaz{animation:kozaUlaz 1s cubic-bezier(.2,1,.35,1) both}
+.koza-ulaz{will-change:transform,opacity;animation:kozaUlaz 1.7s cubic-bezier(.16,.84,.3,1) .25s both}
 .koza-desno .koza-ulaz{animation-name:kozaUlazD}
-@keyframes kozaUlaz{from{transform:translateX(-190%) rotate(-8deg)}70%{transform:translateX(6%) rotate(3deg)}to{transform:none}}
-@keyframes kozaUlazD{from{transform:translateX(190%) rotate(8deg)}70%{transform:translateX(-6%) rotate(-3deg)}to{transform:none}}
-.koza-glava{position:relative;transform-origin:50% 85%;animation:kozaCiklus 6s ease-in-out var(--kd,1s) infinite}
-@keyframes kozaCiklus{0%,5%{transform:none}
- 9%{transform:translateX(calc(var(--sm)*-11%)) rotate(calc(var(--sm)*-8deg))}
- 12%{transform:translateX(calc(var(--sm)*13%)) rotate(calc(var(--sm)*10deg))}
- 15%{transform:translateX(calc(var(--sm)*3%)) rotate(calc(var(--sm)*2deg))}
- 19%{transform:none}
- 25%{transform:translateY(6%) rotate(calc(var(--sm)*-2deg)) scaleY(.965)}
- 29%{transform:translateY(-1%)}
- 33%{transform:translateY(4.5%) scaleY(.975)}
- 37%,100%{transform:none}}
+@keyframes kozaUlaz{from{transform:translateX(-170%) rotate(-4deg);opacity:0}30%{opacity:1}to{transform:none;opacity:1}}
+@keyframes kozaUlazD{from{transform:translateX(170%) rotate(4deg);opacity:0}30%{opacity:1}to{transform:none;opacity:1}}
+.koza-glava{position:relative;transform-origin:50% 85%;will-change:transform;animation:kozaCiklus 6s ease-in-out 2.2s infinite}
+@keyframes kozaCiklus{0%{transform:none}
+ 8%{transform:translateX(calc(var(--sm)*-9%)) rotate(calc(var(--sm)*-7deg));animation-timing-function:cubic-bezier(.55,0,.9,.55)}
+ 11%{transform:translateX(calc(var(--sm)*11%)) rotate(calc(var(--sm)*8deg));animation-timing-function:cubic-bezier(.2,.7,.4,1)}
+ 16%{transform:translateX(calc(var(--sm)*2%)) rotate(calc(var(--sm)*1deg))}
+ 22%{transform:none}
+ 28%{transform:translateY(5%) rotate(calc(var(--sm)*-2deg))}
+ 34%{transform:translateY(0)}
+ 40%{transform:translateY(4%) rotate(calc(var(--sm)*-1deg))}
+ 47%,100%{transform:none}}
 .koza-glava img{display:block;width:100%;height:auto;-webkit-mask-image:linear-gradient(#000 52%,transparent 86%);
  mask-image:linear-gradient(#000 52%,transparent 86%);filter:drop-shadow(0 8px 18px rgba(0,0,0,.55))}
 /* odsjaj je SAMO na okruglim staklima (pizzama) — clip-path krug, radi i u Safariju */
@@ -1323,20 +1329,19 @@ body.svijetlo:not(.gost-str) .tema .tb-ik{color:#3A2A6B}
 .koza-sjaj.d{left:74.5%;top:34.2%;width:25.5%}
 .koza-sjaj::after{content:"";position:absolute;top:-30%;bottom:-30%;left:0;width:40%;
  background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.95) 50%,rgba(255,255,255,0));
- transform:translateX(-180%) skewX(-18deg);animation:kozaSjaj 6s ease-in-out var(--kd,1s) infinite}
-.koza-sjaj.d::after{animation-delay:calc(var(--kd,1s) + .12s)}
-@keyframes kozaSjaj{0%,40%{transform:translateX(-180%) skewX(-18deg)}50%,100%{transform:translateX(360%) skewX(-18deg)}}
+ transform:translateX(-180%) skewX(-18deg);animation:kozaSjaj 6s ease-in-out 2.2s infinite}
+.koza-sjaj.d::after{animation-delay:2.32s}
+@keyframes kozaSjaj{0%,50%{transform:translateX(-180%) skewX(-18deg)}60%,100%{transform:translateX(360%) skewX(-18deg)}}
 .koza-tekst{position:absolute;top:57%;left:4%;white-space:nowrap;font-size:.3em}
 .koza-desno .koza-tekst{left:auto;right:4%}
 .koza-tekst span{display:block;font-family:"Anton",sans-serif;letter-spacing:.05em;color:#F2C14E;
- text-shadow:0 2px 0 #000,0 4px 14px rgba(0,0,0,.85);clip-path:inset(0 100% 0 0);
- animation:kozaPisi 1.2s steps(11,end) 1.6s forwards}
-@keyframes kozaPisi{to{clip-path:inset(0 0 0 0)}}
-.hero.koza-odigrano .koza-ulaz{animation:none}
-.hero.koza-odigrano .koza-tekst span{animation:none;clip-path:none}
+ text-shadow:0 2px 0 #000,0 4px 14px rgba(0,0,0,.85);white-space:pre}
+/* slovo po slovo — svih 11 znakova, uključujući zadnje "T" */
+.koza-tekst b{display:inline-block;font-weight:inherit;animation:kozaSlovo .38s cubic-bezier(.2,.8,.3,1) calc(3.1s + var(--i)*.085s) both}
+@keyframes kozaSlovo{from{opacity:0;transform:translateY(40%) scale(.7)}to{opacity:1;transform:none}}
+.hero.koza-odigrano .koza-ulaz,.hero.koza-odigrano .koza-tekst b{animation:none}
 .koza-off{opacity:.3}
-@media (prefers-reduced-motion:reduce){.koza-ulaz,.koza-glava,.koza-sjaj::after,.hero.s-kozom .mark-r{animation:none}
- .koza-tekst span{animation:none;clip-path:none}}
+@media (prefers-reduced-motion:reduce){.koza-ulaz,.koza-glava,.koza-sjaj::after,.hero.s-kozom .mark-r,.koza-tekst b{animation:none}}
 
 /* ---------- pizze na naslovnici: izbor animacije ---------- */
 .trio.anim-ne img{animation:none!important}
@@ -1508,6 +1513,22 @@ body.svijetlo.gost-str .jelo{border:2px solid #E3D2B4;box-shadow:0 4px 0 rgba(0,
 .kola-video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 52%;background:#000;
  mix-blend-mode:lighten;pointer-events:none}
 .ur-mod .kola-video{pointer-events:auto}
+/* ---- Uređivač: pomicanje kao u Canvi — ružičaste vodilice za sredinu ekrana i poravnanje s drugim dijelovima ---- */
+.ur-mod [data-ur]{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.ur-mod.ur-vuce-sad,.ur-mod.ur-vuce-sad *{cursor:grabbing!important}
+#ur-vodice{position:fixed;inset:0;pointer-events:none;z-index:155}
+.ur-vuce-sad .ur-panel{opacity:.12;transition:opacity .15s}
+#ur-vodice i{position:absolute;display:block;background:#FF2EA6;box-shadow:0 0 0 .5px rgba(255,255,255,.55)}
+#ur-vodice i.v{width:2px;margin-left:-1px}
+#ur-vodice i.h{height:2px;margin-top:-1px}
+#ur-vodice i.sred{background:#FF2EA6;opacity:.28}
+#ur-vodice i.sred.on{opacity:1}
+#ur-vodice i.el{background:#8B5CFF}
+#ur-vodice em{position:absolute;font:700 11px/1 system-ui,sans-serif;font-style:normal;color:#fff;background:#FF2EA6;
+ padding:4px 7px;border-radius:99px;white-space:nowrap;transform:translate(-50%,-50%)}
+.ur-strelice{display:grid;grid-template-columns:repeat(3,46px);gap:6px;justify-content:start;margin:4px 0 10px}
+.ur-strelice .ur-cip{padding:8px 0;text-align:center;font-size:18px}
+.ur-tvor .btn{width:100%;margin-top:8px;text-align:left}
 </style>
 </head>
 <body>
@@ -1720,7 +1741,26 @@ const UR_DEF={
  "jelo-sl":{n:"Slike jela",t:"slikajela",r:"jelo"},
  pravno:{n:"Pravni tekst na dnu",t:"tekst"}};
 let urMod=false, urNacrt=null, urOdabran=null, urPovijest=[], urPregled=null, urIzmjena=false, urZadnjaSnimka=0;
-let kozaOdigrana=false, kozaTimer=null;
+let kozaOdigrana=false, kozaTimer=null, kozaT0=null;
+const KOZA_SINK=!!(window.document&&document.timeline&&Element.prototype.getAnimations);
+/* Sve animacije koze i slova R vežu se na isti početni trenutak (kozaT0). Kad se stranica
+   ponovno iscrta (a to se pri otvaranju dogodi više puta), nove animacije nastave točno
+   tamo gdje su stale — nema ponovnog ulaska ni trzanja. Dok se slika koze ne učita,
+   animacija čeka (da koza ne "proleti" nevidljiva). */
+function sinkKoza(){
+ if(!KOZA_SINK)return;
+ const m=document.querySelector(".hero .mark"); if(!m||!m.querySelector(".koza"))return;
+ const an=m.getAnimations({subtree:true}).filter(a=>/^(koza|rTres)/.test(a.animationName||""));
+ if(!an.length)return;
+ const img=m.querySelector(".koza-glava img");
+ if(kozaT0==null){
+  if(img&&!img.complete){
+   an.forEach(a=>{try{a.pause();a.currentTime=0;}catch(e){}});
+   img.addEventListener("load",sinkKoza,{once:true}); img.addEventListener("error",sinkKoza,{once:true});
+   return;}
+  kozaT0=document.timeline.currentTime;}
+ an.forEach(a=>{try{if(a.playState==="paused")a.play(); a.startTime=kozaT0;}catch(e){}});}
+function kozaIspocetka(){kozaOdigrana=false;clearTimeout(kozaTimer);kozaTimer=null;kozaT0=null;}
 function izgledAkt(){return urMod&&urNacrt?urNacrt:((lokal&&lokal.izgled)||{});}
 const izS=id=>((izgledAkt().s||{})[id])||{};
 function poRedu(sp,zad){const s=(Array.isArray(sp)?sp:[]).filter(x=>zad.includes(x));return s.concat(zad.filter(x=>!s.includes(x)));}
@@ -1798,17 +1838,17 @@ function prebaciTemu(){
 function kozaHTML(){
  const k=izgledAkt().koza||{}, strana=k.strana==="desno"?"desno":"lijevo";
  if(k.iskljuceno&&!urMod)return "";
- if(!kozaOdigrana&&!kozaTimer)kozaTimer=setTimeout(()=>{kozaOdigrana=true;},2600);
+ if(!KOZA_SINK&&!kozaOdigrana&&!kozaTimer)kozaTimer=setTimeout(()=>{kozaOdigrana=true;},4200);
  return `<div class="koza koza-${strana} ${k.iskljuceno?"koza-off":""}" data-ur="koza" style="${k.vel&&+k.vel!==1?`--kv:${+k.vel}`:""}" aria-hidden="true">
   <div class="koza-ulaz"><div class="koza-glava"><img src="${KOZA_SRC}" alt="" onerror="this.closest('.koza').style.display='none'">
    <i class="koza-sjaj l"></i><i class="koza-sjaj d"></i></div></div>
-  <div class="koza-tekst"><span>THE G.O.A.T</span></div></div>`;}
+  <div class="koza-tekst"><span>${[..."THE G.O.A.T"].map((c,i)=>`<b style="--i:${i}">${c}</b>`).join("")}</span></div></div>`;}
 
 /* ---- uređivač ---- */
 function urOtvori(){
  urNacrt=JSON.parse(JSON.stringify((lokal&&lokal.izgled)||{}));
  urMod=true; urOdabran=null; urPovijest=[]; urPregled=null; urIzmjena=false;
- kozaOdigrana=false; clearTimeout(kozaTimer); kozaTimer=null;
+ kozaIspocetka();
  document.body.classList.add("ur-mod"); scrollTo(0,0); crtaj(1);}
 function urIzadi(){
  if(urIzmjena&&!confirm(tj("Imaš nespremljene izmjene izgleda. Izaći bez spremanja?")))return;
@@ -1856,24 +1896,99 @@ function urSlika(id,input){
  smanjiSlikuIzgled(f,id==="pec"?1600:900,async d0=>{
   const d=await spremiUSpremiste(d0,"izgled");
   urPostavi(id,"slika",d,1);});}
-/* odabrani dio se povlači prstom/mišem bilo kamo; pomak se sprema u px (s.pomak) */
+/* Pomicanje dijelova (kao u Canvi):
+   - mišem: uhvati i povuci odmah;
+   - prstom: DRŽI prst na odabranom dijelu ~0,3 s (mobitel kratko zavibrira), pa povuci.
+     Obično povlačenje prstom i dalje samo pomiče stranicu gore-dolje — zato se dijelovi više
+     ne mogu slučajno "odvući" gore dok listaš (to je prije razbacalo sve elemente).
+   - ružičaste crte: sredina ekrana (vodoravno i okomito); ljubičaste: poravnanje s rubovima
+     ili sredinom drugih dijelova. Blizu crte dio se sam "zalijepi" (6 px).
+   - dio se ne može odvući izvan naslovnog dijela / izvan stranice. */
+const UR_NEPOMICNO=["stranica","pec","tvornicko"], UR_LIJEPI=6;
 let urVuca=null, urPoslijeVuce=0;
+function urVodiceEl(){let d=el("ur-vodice"); if(!d){d=document.createElement("div");d.id="ur-vodice";document.body.appendChild(d);} return d;}
+function urVodiceSkupi(v){
+ const W=document.documentElement.clientWidth, H=innerHeight, xs=[], ys=[];
+ document.querySelectorAll("[data-ur]").forEach(o=>{
+  const id=o.dataset.ur; if(UR_NEPOMICNO.includes(id)||v.el.some(x=>x===o||x.contains(o)||o.contains(x)))return;
+  const r=o.getBoundingClientRect(); if(r.width<4||r.height<4||r.bottom<-150||r.top>H+150)return;
+  xs.push({x:r.left,r},{x:r.left+r.width/2,r},{x:r.right,r}); ys.push({y:r.top,r},{y:r.top+r.height/2,r},{y:r.bottom,r});});
+ v.xs=xs; v.ys=ys; v.W=W; v.H=H;
+ const h=v.el[0].closest(".hero"), b=h?h.getBoundingClientRect():{left:0,right:W,top:-scrollY,bottom:1e9}, r=v.rect0;
+ v.gr={x1:Math.min(0,b.left-r.left),x2:Math.max(0,b.right-r.right),y1:Math.min(0,b.top-r.top),y2:Math.max(0,b.bottom-r.bottom)};}
+function urVucaKreni(v){
+ v.mic=true; clearTimeout(v.timer); urVodiceSkupi(v); document.body.classList.add("ur-vuce-sad");
+ try{if(v.dodir&&navigator.vibrate)navigator.vibrate(15);}catch(e){}}
+function urPoravnaj(v,dx,dy){
+ const r=v.rect0, L=r.left+dx, T=r.top+dy, w=r.width, h=r.height;
+ const mx=[L,L+w/2,L+w], my=[T,T+h/2,T+h];
+ let bx=null, by=null;
+ const cx=v.W/2, cy=v.H/2;
+ const probaX=(x,izvor)=>mx.forEach((m,k)=>{const d=x-m; if(Math.abs(d)<=UR_LIJEPI&&(!bx||Math.abs(d)<Math.abs(bx.d)-.01||(izvor==="sred"&&Math.abs(d)<=Math.abs(bx.d)+3)))bx={d,x,izvor,k};});
+ const probaY=(y,izvor)=>my.forEach((m,k)=>{const d=y-m; if(Math.abs(d)<=UR_LIJEPI&&(!by||Math.abs(d)<Math.abs(by.d)-.01||(izvor==="sred"&&Math.abs(d)<=Math.abs(by.d)+3)))by={d,y,izvor,k};});
+ v.xs.forEach(c=>probaX(c.x,c)); probaX(cx,"sred");
+ v.ys.forEach(c=>probaY(c.y,c)); probaY(cy,"sred");
+ if(bx)dx+=bx.d; if(by)dy+=by.d;
+ dx=Math.max(v.gr.x1,Math.min(v.gr.x2,dx)); dy=Math.max(v.gr.y1,Math.min(v.gr.y2,dy));
+ // crtanje crta
+ const nL=r.left+dx, nT=r.top+dy; let h2="";
+ h2+=`<i class="v sred ${bx&&bx.izvor==="sred"&&Math.abs(nL+[0,w/2,w][bx.k]-cx)<1?"on":""}" style="left:${cx}px;top:0;bottom:0"></i>`;
+ h2+=`<i class="h sred ${by&&by.izvor==="sred"&&Math.abs(nT+[0,h/2,h][by.k]-cy)<1?"on":""}" style="top:${cy}px;left:0;right:0"></i>`;
+ if(bx&&bx.izvor==="sred"&&bx.k===1)h2+=`<em style="left:${cx}px;top:${Math.max(24,nT-14)}px">sredina</em>`;
+ if(bx&&bx.izvor!=="sred"){const o=bx.izvor.r, t1=Math.min(o.top,nT), t2=Math.max(o.bottom,nT+h);
+  h2+=`<i class="v el" style="left:${bx.x}px;top:${t1}px;height:${t2-t1}px"></i>`;}
+ if(by&&by.izvor!=="sred"){const o=by.izvor.r, l1=Math.min(o.left,nL), l2=Math.max(o.right,nL+w);
+  h2+=`<i class="h el" style="top:${by.y}px;left:${l1}px;width:${l2-l1}px"></i>`;}
+ urVodiceEl().innerHTML=h2;
+ return {dx,dy};}
+function urVucaPrikazi(v){
+ const x=v.px+v.dx/v.z, y=v.py+v.dy/v.z;
+ // Coca-Cola video se miče preko left/top (translate bi pokvario prozirnost crne pozadine videa)
+ v.el.forEach(e=>{if(v.id==="kola"){e.style.position="relative";e.style.left=x+"px";e.style.top=y+"px";} else e.style.translate=`${x}px ${y}px`;});}
 document.addEventListener("pointerdown",e=>{
- if(!urMod||!urOdabran||e.target.closest(".ur-panel,.ur-traka,.ur-savjet"))return;
+ if(!urMod||!urOdabran||UR_NEPOMICNO.includes(urOdabran)||e.button>0||e.target.closest(".ur-panel,.ur-traka,.ur-savjet"))return;
  const t=e.target.closest("[data-ur]"); if(!t||t.dataset.ur!==urOdabran)return;
  const s=izS(urOdabran), p=s.pomak||{x:0,y:0};
- urVuca={id:urOdabran,x0:e.clientX,y0:e.clientY,px:+p.x||0,py:+p.y||0,z:+(s.vel||1)||1,
-  el:[...document.querySelectorAll(`[data-ur="${urOdabran}"]`)],mic:false};},true);
+ const v=urVuca={id:urOdabran,x0:e.clientX,y0:e.clientY,px:+p.x||0,py:+p.y||0,z:+(s.vel||1)||1,dx:0,dy:0,
+  el:[...document.querySelectorAll(`[data-ur="${urOdabran}"]`)],rect0:t.getBoundingClientRect(),
+  mic:false,dodir:e.pointerType!=="mouse",pid:e.pointerId};
+ if(v.dodir)v.timer=setTimeout(()=>{if(urVuca===v&&!v.mic)urVucaKreni(v);},300);},true);
 document.addEventListener("pointermove",e=>{
- if(!urVuca)return; const dx=(e.clientX-urVuca.x0)/urVuca.z, dy=(e.clientY-urVuca.y0)/urVuca.z;
- if(!urVuca.mic&&Math.hypot(dx,dy)<6)return; urVuca.mic=true; e.preventDefault();
- urVuca.el.forEach(x=>{x.style.translate=`${urVuca.px+dx}px ${urVuca.py+dy}px`;});},{passive:false});
+ const v=urVuca; if(!v||e.pointerId!==v.pid)return;
+ const dx=e.clientX-v.x0, dy=e.clientY-v.y0;
+ if(!v.mic){
+  if(v.dodir){if(Math.hypot(dx,dy)>8){clearTimeout(v.timer);urVuca=null;} return;}  // prst se pomaknuo prije 0,3 s = listanje
+  if(Math.hypot(dx,dy)<5)return; urVucaKreni(v);}
+ e.preventDefault();
+ const r=urPoravnaj(v,dx,dy); v.dx=r.dx; v.dy=r.dy; urVucaPrikazi(v);},{passive:false});
+// dok se dio vuče prstom, stranica se ne smije listati
+document.addEventListener("touchmove",e=>{if(urVuca&&urVuca.mic)e.preventDefault();},{passive:false});
+document.addEventListener("contextmenu",e=>{if(urMod&&e.target.closest("[data-ur]"))e.preventDefault();});
 function urPusti(e){
- if(!urVuca)return; const v=urVuca; urVuca=null; if(!v.mic)return;
- const dx=(e.clientX-v.x0)/v.z, dy=(e.clientY-v.y0)/v.z; urPoslijeVuce=Date.now();
- v.el.forEach(x=>{x.style.translate="";});
- urPostavi(v.id,"pomak",{x:Math.round(v.px+dx),y:Math.round(v.py+dy)},1);}
+ const v=urVuca; if(!v)return; if(e&&e.pointerId!==undefined&&e.pointerId!==v.pid)return;
+ urVuca=null; clearTimeout(v.timer); if(!v.mic)return;
+ urPoslijeVuce=Date.now(); document.body.classList.remove("ur-vuce-sad"); urVodiceEl().innerHTML="";
+ v.el.forEach(x=>{x.style.translate="";x.style.left="";x.style.top="";x.style.position="";});
+ if(e&&e.type==="pointercancel")return;  // prekinuto (npr. preglednik je preuzeo dodir) — ništa se ne mijenja
+ if(Math.abs(v.dx)<1&&Math.abs(v.dy)<1)return;
+ const x=Math.round(v.px+v.dx/v.z), y=Math.round(v.py+v.dy/v.z);
+ urPostavi(v.id,"pomak",x||y?{x,y}:null,1);}
 document.addEventListener("pointerup",urPusti); document.addEventListener("pointercancel",urPusti);
+/* precizno pomicanje strelicama i centriranje jednim dodirom */
+function urGurni(id,ddx,ddy){const p=izS(id).pomak||{x:0,y:0}, x=(+p.x||0)+ddx, y=(+p.y||0)+ddy; urPostavi(id,"pomak",x||y?{x,y}:null,1);}
+function urCentriraj(id){
+ const e=document.querySelector(`[data-ur="${id}"]`); if(!e)return;
+ const r=e.getBoundingClientRect(), z=+(izS(id).vel||1)||1, d=(document.documentElement.clientWidth/2-(r.left+r.width/2))/z;
+ const p=izS(id).pomak||{x:0,y:0}, x=Math.round((+p.x||0)+d), y=+p.y||0; urPostavi(id,"pomak",x||y?{x,y}:null,1);}
+/* tvorničke postavke naslovnice */
+function urTvornicko(sto){
+ urSnimi(); const iz=urNacrt;
+ if(sto==="pomaci"){if(iz.s)for(const k of Object.keys(iz.s)){delete iz.s[k].pomak; if(!Object.keys(iz.s[k]).length)delete iz.s[k];}}
+ else if(sto==="redoslijed"){delete iz.hero; delete iz.red;}
+ else if(sto==="sve"){if(!confirm(tj("Vratiti CIJELU naslovnicu na tvorničke postavke? (boje, fontovi, tekstovi, slike, položaji, koza) — pozadine kuhinje/vozača/pulta ostaju.")))return;
+  for(const k of Object.keys(iz))if(k!=="suc")delete iz[k];}
+ urIzmjena=true; primijeniIzgled(); crtaj(1);
+ gbPoruka(tj("Vraćeno — klikni Spremi da vide i gosti (↶ poništava)"));}
 document.addEventListener("click",e=>{
  if(!urMod)return;
  if(Date.now()-urPoslijeVuce<350&&!e.target.closest(".ur-panel,.ur-traka")){e.preventDefault();e.stopPropagation();return;}
@@ -1891,6 +2006,7 @@ function urTrakaHTML(){
    <button class="go" onclick="urSpremi()" ${urIzmjena?"":"disabled"}>Spremi</button>
    <button onclick="urIzadi()">Izađi</button>
    <button onclick="urPonisti()" ${urPovijest.length?"":"disabled"}>↶</button>
+   <button onclick="urOdabran='tvornicko';crtaj(1)">⟲ Tvorničko</button>
    <button onclick="urOdabran='stranica';crtaj(1)">🎨 Pozadina</button>
    <button onclick="prebaciTemu()">Pregled: ${temaStanje()==="obrnuta"?"obrnuta":"glavna"}</button></div></div>`;}
 function urBoje(id,k,cur,paleta,setter,naKraju){
@@ -1906,6 +2022,11 @@ function urKlizac(vr,min,max,korak,oninput,jed){
 function urPanelHTML(){
  document.body.classList.toggle("ur-panel-otv",!!urOdabran);
  if(!urOdabran)return `<div class="ur-savjet">👆 Dodirni dio stranice koji želiš urediti ili pomaknuti</div>`;
+ if(urOdabran==="tvornicko")return `<div class="ur-panel ur-tvor"><div class="ur-glava"><b>Tvorničke postavke</b><button onclick="urOdabran=null;crtaj(1)">✕</button></div>
+   <p class="savjet" style="margin-top:0">Ako si nešto razbacao, ovdje sve vraćaš na mjesto. Nakon toga klikni <b>Spremi</b>. Gumb ↶ gore poništava.</p>
+   <button class="btn ghost" onclick="urTvornicko('pomaci')">↺ Vrati sve dijelove na njihova mjesta<br><small>briše sva povlačenja — boje, tekstovi i slike ostaju</small></button>
+   <button class="btn ghost" onclick="urTvornicko('redoslijed')">⇅ Vrati izvorni redoslijed dijelova</button>
+   <button class="btn tiho" onclick="urTvornicko('sve')">⟲ Vrati cijelu naslovnicu na tvorničko</button></div>`;
  const id=urOdabran, d=UR_DEF[id]||{n:id,t:"tekst"}, s=izS(id), iz=urNacrt;
  const red=(naslov,html)=>`<div class="ur-red"><label>${naslov}</label>${html}</div>`;
  let h="";
@@ -1925,7 +2046,7 @@ function urPanelHTML(){
    <button class="ur-cip" aria-pressed="${k.strana==="desno"}" onclick="urPoseban('koza','strana','desno',1)">Desno od loga (udara „S”)</button></div>`);
   h+=red("Veličina",urKlizac(Math.round((k.vel||1)*100),60,170,5,`urPoseban('koza','vel',this.value/100,0);document.querySelectorAll('.koza').forEach(x=>x.style.setProperty('--kv',this.value/100))`,"%"));
   h+=`<p class="savjet">Koza uđe sa strane, zabije rogove u slovo loga (slovo se zatrese), kimne i naočale joj bljesnu — i tako u krug. Plutajući gumbi (srce „Like us”) sami idu na suprotnu stranu. Kozu možeš i povući prstom na drugo mjesto.</p>
-   <button class="btn sm ghost" onclick="kozaOdigrana=false;clearTimeout(kozaTimer);kozaTimer=null;crtaj(1)">▶ Ponovi animaciju</button>`;}
+   <button class="btn sm ghost" onclick="kozaIspocetka();crtaj(1)">▶ Ponovi animaciju</button>`;}
  if(["tekst","gumb","promo"].includes(d.t)){
   if(d.tx)h+=red("Tekst",`<textarea class="f" id="ur-tx-${id}" rows="2" placeholder="Ostavi prazno za izvorni tekst" oninput="urPostavi('${id}','tekst',this.value,1)">${esc(s.tekst||"")}</textarea>`);
   h+=red("Boja slova",urBoje(id,"boja",s.boja,PALETA_TEKST));
@@ -1944,7 +2065,10 @@ function urPanelHTML(){
    <div class="row2" style="margin-top:0"><button class="btn sm ghost" onclick="el('ur-f-${id}').click()">Zamijeni sliku</button>
    ${s.slika?`<button class="btn sm tiho" onclick="urPostavi('${id}','slika',null,1)">Vrati originalnu</button>`:""}</div>
    <p class="savjet">Za pizze najbolje izgleda slika bez pozadine (PNG).</p>`);
- if(id!=="stranica"&&id!=="pec")h+=red("Položaj",`<p class="savjet" style="margin:0 0 8px;color:var(--dim)">Povuci ovaj dio prstom bilo kamo na stranici — gdje ga pustiš, tu ostaje.</p>
+ if(id!=="stranica"&&id!=="pec")h+=red("Položaj",`<p class="savjet" style="margin:0 0 8px;color:var(--dim)"><b>Drži prst</b> na ovom dijelu pola sekunde (mobitel zavibrira), pa ga povuci. Mišem samo povuci. Ružičasta crta = sredina ekrana, ljubičasta = poravnato s drugim dijelom.</p>
+   <div class="ur-strelice"><span></span><button class="ur-cip" onclick="urGurni('${id}',0,-2)">↑</button><span></span>
+    <button class="ur-cip" onclick="urGurni('${id}',-2,0)">←</button><button class="ur-cip" onclick="urCentriraj('${id}')" title="Centriraj vodoravno">⇔</button><button class="ur-cip" onclick="urGurni('${id}',2,0)">→</button>
+    <span></span><button class="ur-cip" onclick="urGurni('${id}',0,2)">↓</button><span></span></div>
    ${s.pomak?`<button class="ur-cip" onclick="urPostavi('${id}','pomak',null,1)">↺ Vrati na izvorno mjesto</button>`:""}`);
  if(d.g)h+=red("Redoslijed i vidljivost",`<div class="ur-cipovi">
    <button class="ur-cip" onclick="urPomakni('${id}',-1)">▲ Gore</button><button class="ur-cip" onclick="urPomakni('${id}',1)">▼ Dolje</button>
@@ -3239,6 +3363,7 @@ function crtaj(prisilno){
  vrati();
  crtajZum();
  ugradiKolaVideo();
+ sinkKoza();
  const jm=el("jez-mjesto"); if(jm)jm.innerHTML=jezikSwitcher();
  prevediApp();
  azurirajTopbarGumbe();
@@ -3578,7 +3703,7 @@ function gostHTML(){
     if(!k.iskljuceno){
      if(desno){const m=t.match(/([^>;\s])$/); if(m)tx=t.slice(0,-1)+`<span class="mark-r">${m[1]}</span>`;}
      else{const m=t.match(/^([^<&\s])/); if(m)tx=`<span class="mark-r">${m[1]}</span>`+t.slice(1);}}
-    return `<div class="mark" data-ur="mark">${desno?"":kozaHTML()}${tx}${desno?kozaHTML():""}</div>`;})(),
+    return `<div class="mark${desno?" mark-desno":""}" data-ur="mark">${desno?"":kozaHTML()}${tx}${desno?kozaHTML():""}</div>`;})(),
   mark2:`<div class="mark2" data-ur="mark2">${T("mark2","Pizza")}</div>`,
   rule:`<div class="rule" data-ur="rule"><i></i><span>${T("rule",esc(lokal.adresa.split(",")[0]))}</span><i></i></div>`,
   radno:`<div class="radno" data-ur="radno">${T("radno","Uto–ned <b>10:00–23:00</b><i>·</i>pon <b>zatvoreno</b>")}</div>`,
@@ -3639,7 +3764,7 @@ function gostHTML(){
   <p>${tj("Kuhinja je trenutno puna narudžbi. Molimo vas za malo strpljenja — čim se gužva smiri, ponovno primamo narudžbe.")}</p>
   <div class="pv-do">${pauzaGostTekst()}</div>
   <p style="font-size:15px;margin-top:12px">${tj("Jelovnik možete i dalje pregledavati.")}</p></div>`:""}
- <div class="hero ${(izgledAkt().koza||{}).iskljuceno?"":"s-kozom"} ${kozaOdigrana?"koza-odigrano":""}" data-ur="pec" style="--kd:${kozaOdigrana?"0s":"1s"}"><div class="pec" style="background-image:url('${esc(izS("pec").slika||lokal.naslovna_url||SLIKE.PEC)}')"></div>
+ <div class="hero ${(izgledAkt().koza||{}).iskljuceno?"":"s-kozom"} ${kozaOdigrana&&!KOZA_SINK?"koza-odigrano":""}" data-ur="pec"><div class="pec" style="background-image:url('${esc(izS("pec").slika||lokal.naslovna_url||SLIKE.PEC)}')"></div>
   ${gbPlutajuce()}
   <div class="hero-in reveal" data-rk="hero">${poRedu(izgledAkt().hero,HERO_RED).map(k=>H[k]||"").join("")}</div></div>
  ${poRedu(izgledAkt().red,SEK_RED).map(k=>S[k]||"").join("")}
