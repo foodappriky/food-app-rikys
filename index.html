@@ -47,18 +47,12 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet"></noscript>
 <style>
-body.svijetlo{--bg:#F1E7D6;--bg2:#FAF3E6;--card:#FAF3E6;--line:#B29B6E;--line2:#8C734A;
- --cream:#1C1614;--dim:#4A4038;--dim2:#5E5044;--or:#C44E1C;--gold:#A9741F;
- --red:#B00218;--go:#2E7A45;--wait:#8A6410;--pice:#1F6C93;--des:#7D3C8C;--bw:2px}
 /* Naslovnica (hero) uvijek zadržava tamnu fotografiju s njoj namijenjenim svijetlim tekstom,
    bez obzira na temu stranice — inače se fotografija peći gubi na svijetloj pozadini. */
-.hero-in{--cream:#F6EFE8;--dim:#B0A099;--dim2:#7A6C66;--or:#E8622A;--gold:#E9A44C;color:var(--cream)}
-body.svijetlo .vjernost{background:var(--card)}
-body.svijetlo .m-kuh{background:rgba(196,78,28,.12)}
-body.svijetlo .onama{background:linear-gradient(180deg,rgba(46,122,69,.08),#fff 55%)}
+.hero-in{--cream:#F6EFE8;--dim:#D2C5BB;--dim2:#B8AAA0;--or:#E8622A;--gold:#E9A44C;color:var(--cream)}
 /* Podebljani rubovi/tekst VRIJEDE U OBJE TEME (korisnik je tražio "svega ali svega",
    ne samo svijetli mod) — pravila su editirana izravno na njihovim osnovnim definicijama
    niže u ovoj datoteci (.sec h3, .prazno, .zvuk-ok, .podtab button, .jelo-o) umjesto
@@ -66,36 +60,39 @@ body.svijetlo .onama{background:linear-gradient(180deg,rgba(46,122,69,.08),#fff 
    definirane osnovne klase iste specifičnosti. */
 .karta{width:100%;height:230px;border-radius:10px;border:var(--bw) solid var(--line);margin-bottom:11px;
  background:var(--bg2);overflow:hidden}
-.ruta-info{font-size:13px;color:var(--dim);margin:0 0 10px;padding:8px 11px;border-radius:9px;background:rgba(78,155,95,.08)}
+.ruta-info{font-size:15px;color:var(--dim);margin:0 0 10px;padding:8px 11px;border-radius:9px;background:rgba(78,155,95,.08);font-weight:600}
 .ruta-info b{color:var(--cream)}
-.karta-prazno{display:flex;align-items:center;justify-content:center;height:100%;color:var(--dim2);font-size:13px}
+.karta-prazno{display:flex;align-items:center;justify-content:center;height:100%;color:var(--dim2);font-size:15px;font-weight:600}
 .on-glava{display:block;width:100%;background:transparent;border:0;text-align:center;padding:4px 0;color:var(--cream)}
 .on-glava h3{color:var(--cream)}
-.on-strelica{display:block;color:var(--dim2);font-size:13px;margin-top:8px}
+.on-strelica{display:block;color:var(--dim2);font-size:15px;margin-top:8px;font-weight:600}
 .on-tekst{margin-top:18px;padding-top:18px;border-top:var(--bw) solid var(--line)}
 .on-tekst p{font-family:Georgia,"Times New Roman",serif;font-size:16.5px;line-height:1.85;
  color:var(--dim);max-width:600px;margin:0 auto 16px;text-align:center;font-style:italic}
 .on-tekst p.prvi::first-letter{font-size:26px;line-height:1;color:var(--gold);
  font-style:normal;font-weight:700}
-.on-tekst .on-ukras{color:var(--gold);font-size:15px;margin-bottom:14px}
+.on-tekst .on-ukras{color:var(--gold);font-size:16px;margin-bottom:14px;font-weight:600}
 
 .nav-izbor{display:flex;gap:7px;align-items:center;margin:12px 18px 0;flex-wrap:wrap}
-.nav-izbor>span{font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.09em;
- text-transform:uppercase;color:var(--dim2);flex:0 0 100%}
+.nav-izbor>span{font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.09em;
+ text-transform:uppercase;color:var(--dim2);flex:0 0 100%;font-weight:500}
 .nav-izbor button{flex:1;min-width:96px;padding:11px 8px;border:var(--bw) solid var(--line2);
  background:transparent;color:var(--dim);border-radius:8px;font-family:"Oswald",sans-serif;
- font-size:12.5px;text-transform:uppercase}
+ font-size:14.5px;text-transform:uppercase;font-weight:500}
 .natrag{display:block;width:calc(100% - 36px);margin:12px 18px 0;padding:12px;border-radius:9px;
  border:1px solid var(--gold);background:rgba(233,164,76,.12);color:var(--gold);
- font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em}
-.jelo-sl{width:60px;height:60px;object-fit:cover;border-radius:9px;border:var(--bw) solid var(--line2)}
+ font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:14.5px;letter-spacing:.06em;font-weight:500}
+/* Slika jela veća i DESNO (kao Wolt/Glovo): lijevo naziv, opis i ispod njih cijena,
+   pa tekst dobije punu širinu i jelovnik ostane pregledan. */
+.jelo-sl{width:100px;height:100px;object-fit:cover;border-radius:14px;border:0;display:block;
+ cursor:zoom-in}
 .jelo-ured{display:flex;gap:12px;align-items:flex-start}
 .jelo-polja{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
 .sl-okvir{flex:0 0 92px;text-align:center}
 .sl-okvir img{width:92px;height:92px;object-fit:cover;border-radius:9px;border:var(--bw) solid var(--line2);
  display:block;margin-bottom:6px}
 .sl-prazno{width:92px;height:92px;border:var(--bw) solid var(--line2);border-radius:9px;display:flex;
- align-items:center;justify-content:center;color:var(--dim2);font-size:11px;margin-bottom:6px}
+ align-items:center;justify-content:center;color:var(--dim2);font-size:13px;margin-bottom:6px;font-weight:600}
 .sl-okvir .btn{width:100%;margin-top:4px}
 .kat-glava{display:flex;gap:8px;align-items:center;padding:20px 18px 8px}
 .rucka{flex:none;width:20px;height:20px;color:var(--dim2);cursor:grab;display:flex;align-items:center;justify-content:center}
@@ -106,17 +103,17 @@ body.svijetlo .onama{background:linear-gradient(180deg,rgba(46,122,69,.08),#fff 
 .kat-ime{font-family:"Anton",sans-serif;font-size:19px;letter-spacing:.06em;text-transform:uppercase}
 .strelice{display:flex;gap:4px}
 .strelice button{width:38px;height:38px;border:var(--bw) solid var(--line2);background:transparent;
- color:var(--cream);border-radius:7px;font-size:13px;cursor:pointer}
+ color:var(--cream);border-radius:7px;font-size:15px;cursor:pointer;font-weight:600}
 .strelice button:disabled{opacity:.3}
 .obrisi{width:38px;height:38px;flex:none;border:var(--bw) solid var(--line2);background:transparent;
- color:var(--red);border-radius:7px;font-size:15px;cursor:pointer}
+ color:var(--red);border-radius:7px;font-size:16px;cursor:pointer;font-weight:600}
 .jed{font-size:12px;color:var(--dim2);min-width:28px}
 .jed-zadano{font-size:11.5px;color:var(--dim2);flex:1;padding-top:11px}
 .racunica{margin-top:14px;border:var(--bw) solid var(--line2);border-radius:10px;overflow:hidden}
 .racunica>div{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;
  border-bottom:var(--bw) solid var(--line)}
 .racunica>div:last-child{border-bottom:0}
-.racunica span{font-family:"Oswald",sans-serif;font-size:12px;letter-spacing:.06em;color:var(--dim2)}
+.racunica span{font-family:"Oswald",sans-serif;font-size:14px;letter-spacing:.06em;color:var(--dim2);font-weight:500}
 .racunica b{font-family:"IBM Plex Mono",monospace;font-size:17px}
 .racunica .crveno{color:var(--red)}.racunica .zeleno{color:var(--go)}
 .racunica .ist{background:rgba(232,98,42,.14)}.racunica .ist b{color:var(--or);font-size:19px}
@@ -127,16 +124,16 @@ body.svijetlo .onama{background:linear-gradient(180deg,rgba(46,122,69,.08),#fff 
  background:transparent;color:var(--go);font-size:19px;line-height:1;cursor:pointer}
 .kvaka.on{border-color:var(--go);background:rgba(78,155,95,.2)}
 .tr-b{flex:1;min-width:0}
-.tr-v{display:block;font-size:10.5px;color:var(--dim2);margin-top:3px;letter-spacing:.05em;
- font-family:"Oswald",sans-serif;text-transform:uppercase}
+.tr-v{display:block;font-size:12.5px;color:var(--dim2);margin-top:3px;letter-spacing:.05em;
+ font-family:"Oswald",sans-serif;text-transform:uppercase;font-weight:500}
 .tr-i{max-width:104px;text-align:right;font-family:"IBM Plex Mono",monospace}
 .zum-omot{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.94);flex-direction:column}
 body.zum-otvoren{overflow:hidden}
 .zum-vrh{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;
  padding-top:calc(14px + env(safe-area-inset-top))}
-.zum-vrh span{font-family:"Oswald",sans-serif;text-transform:uppercase;color:var(--cream);font-size:14px}
+.zum-vrh span{font-family:"Oswald",sans-serif;text-transform:uppercase;color:var(--cream);font-size:15.5px;font-weight:500}
 .zum-vrh button{padding:13px 22px;border:0;background:var(--or);color:#fff;
- border-radius:999px;font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:14.5px;
+ border-radius:999px;font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:16px;
  font-weight:600;letter-spacing:.06em;box-shadow:0 4px 16px rgba(232,98,42,.5);
  transition:transform .15s ease,box-shadow .15s ease}
 .zum-vrh button:active{transform:scale(.94);box-shadow:0 2px 8px rgba(232,98,42,.4)}
@@ -152,23 +149,23 @@ body.zum-otvoren{overflow:hidden}
  border:var(--bw) solid var(--line2);border-bottom:none;border-radius:16px 16px 0 0;
  padding:22px 20px calc(24px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.5)}
 .pwa-zatvori{position:absolute;top:12px;right:14px;width:32px;height:32px;border-radius:50%;
- border:var(--bw) solid var(--line2);background:transparent;color:var(--dim);font-size:15px;
- display:flex;align-items:center;justify-content:center}
+ border:var(--bw) solid var(--line2);background:transparent;color:var(--dim);font-size:16px;
+ display:flex;align-items:center;justify-content:center;font-weight:600}
 .pwa-kartica h3{font-family:"Oswald",sans-serif;text-transform:none;font-size:17px;
  padding-right:32px;margin-bottom:6px}
-.pwa-kartica>p{color:var(--dim2);font-size:13.5px;margin-bottom:16px}
+.pwa-kartica>p{color:var(--dim2);font-size:15.5px;margin-bottom:16px;font-weight:600}
 .pwa-korak{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:var(--bw) solid var(--line)}
 .pwa-korak:first-of-type{border-top:none;padding-top:0}
 .pwa-broj{flex:none;width:24px;height:24px;border-radius:50%;background:var(--or);color:#fff;
- font-family:"Oswald",sans-serif;font-weight:600;font-size:13px;display:flex;align-items:center;
+ font-family:"Oswald",sans-serif;font-weight:600;font-size:15px;display:flex;align-items:center;
  justify-content:center}
 .pwa-ikona{flex:none;width:32px;height:32px;display:flex;align-items:center;justify-content:center;
  color:var(--or)}
 .pwa-ikona svg{width:100%;height:100%}
-.pwa-korak>span:last-child{font-size:14.5px}
+.pwa-korak>span:last-child{font-size:16px;font-weight:600}
 .undo{display:block;width:calc(100% - 36px);margin:12px 18px 0;padding:12px;border-radius:9px;
  border:1px solid var(--wait);background:rgba(201,154,46,.12);color:var(--wait);
- font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+ font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:14.5px;letter-spacing:.05em;font-weight:500}
 .zap-red{padding:12px;border:var(--bw) solid var(--line);border-radius:9px;margin-bottom:10px;background:var(--bg2)}
 .konto b{font-family:"Oswald",sans-serif;font-size:16px;text-transform:uppercase}
 .kat-lista{min-height:8px}
@@ -179,64 +176,50 @@ body.zum-otvoren{overflow:hidden}
 .rb i{background:var(--gold)}
 .redak{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:var(--bw) solid var(--line)}
 .redak:last-child{border-bottom:0}
-.rn{flex:0 0 40%;font-size:14px;line-height:1.25}
+.rn{flex:0 0 40%;font-size:15.5px;line-height:1.25;font-weight:600}
 .rb{flex:1;height:9px;background:var(--bg2);border-radius:5px;overflow:hidden}
 .rb i{display:block;height:100%;border-radius:5px}
-.rk{flex:0 0 60px;text-align:right;font-size:13.5px}
-.re{flex:0 0 72px;text-align:right;font-size:13px;color:var(--dim2)}
+.rk{flex:0 0 60px;text-align:right;font-size:15.5px;font-weight:600}
+.re{flex:0 0 72px;text-align:right;font-size:15px;color:var(--dim2);font-weight:600}
 .uj-red{display:flex;gap:8px;align-items:center}
 .uj-red .f{flex:1}
-.nav-info{flex:0 0 100%;font-style:normal;font-size:12.5px;color:var(--dim2);margin-top:4px}
+.nav-info{flex:0 0 100%;font-style:normal;font-size:14.5px;color:var(--dim2);margin-top:4px;font-weight:600}
 .nav-info b{color:var(--or)}
 .nav-izbor button.tren{border-color:var(--or);color:var(--or);background:rgba(232,98,42,.1);font-weight:600}
-.rec-omot{margin-top:26px;padding:22px 0 6px;border-top:var(--bw) solid var(--line)}
-.rec-naslov{font-family:"Anton",sans-serif;font-size:22px;letter-spacing:.08em;text-transform:uppercase;
- text-align:center;margin-bottom:16px}
-.rec-traka{overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
- mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.rec-tok{display:flex;gap:12px;width:max-content;animation:klizi 90s linear infinite}
-.rec-traka:hover .rec-tok{animation-play-state:paused}
-@keyframes klizi{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.rec{flex:0 0 260px;background:var(--card);border:var(--bw) solid var(--line);border-radius:11px;padding:14px}
-.rec .zvj{color:var(--gold);font-size:13px;letter-spacing:.12em;margin-bottom:7px}
-.rec p{font-size:14px;color:var(--dim);line-height:1.5;min-height:63px}
-.rec b{display:block;margin-top:9px;font-family:"Oswald",sans-serif;font-size:12.5px;
- letter-spacing:.06em;text-transform:uppercase;color:var(--cream)}
-@media (prefers-reduced-motion:reduce){.rec-tok{animation:none;overflow-x:auto}}
 .uvjeti-dostave{display:flex;gap:9px;padding:14px 18px 0;flex-wrap:wrap}
 .uvjeti-dostave>div{flex:1;min-width:118px;border:var(--bw) solid var(--line2);border-radius:9px;
  padding:11px 12px;text-align:center;background:var(--card)}
-.uvjeti-dostave b{display:block;font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.07em;
- text-transform:uppercase;color:var(--dim2);margin-bottom:4px}
+.uvjeti-dostave b{display:block;font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.07em;
+ text-transform:uppercase;color:var(--dim2);margin-bottom:4px;font-weight:500}
 .uvjeti-dostave span{font-family:"Oswald",sans-serif;font-size:16px;font-weight:600;color:var(--gold)}
 .upoz-min{margin-top:12px;padding:13px;border:1.5px solid var(--wait);border-radius:9px;
- background:rgba(201,154,46,.12);color:var(--wait);font-size:14px;line-height:1.5}
+ background:rgba(201,154,46,.12);color:var(--wait);font-size:15.5px;line-height:1.5;font-weight:600}
 .bar .l i{font-style:normal;opacity:.85}
 .stanice-kratko{margin:4px 0 10px}
 .sk{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:var(--bw) solid var(--line)}
 .sk:last-child{border-bottom:0}
 .skb{width:24px;height:24px;flex:none;border-radius:50%;background:var(--or);color:#fff;
- font-family:"Oswald",sans-serif;font-weight:700;font-size:12px;display:flex;align-items:center;
+ font-family:"Oswald",sans-serif;font-weight:700;font-size:14px;display:flex;align-items:center;
  justify-content:center;margin-top:2px}
-.sk b{display:block;font-family:"Oswald",sans-serif;font-size:15.5px;font-weight:600;color:var(--gold)}
-.sk i{display:block;font-style:normal;font-size:12.5px;color:var(--dim2);margin-top:2px}
-.redoslijed{font-size:13px;color:var(--dim);margin:8px 0 4px;line-height:1.5}
+.sk b{display:block;font-family:"Oswald",sans-serif;font-size:16.5px;font-weight:600;color:var(--gold)}
+.sk i{display:block;font-style:normal;font-size:14.5px;color:var(--dim2);margin-top:2px;font-weight:600}
+.redoslijed{font-size:15px;color:var(--dim);margin:8px 0 4px;line-height:1.5;font-weight:600}
 .dodatne{margin-top:14px;padding-top:12px;border-top:var(--bw) solid var(--line)}
-.dodatne>b{display:block;font-family:"Oswald",sans-serif;font-size:11.5px;letter-spacing:.1em;
- color:var(--dim2);margin-bottom:9px}
+.dodatne>b{display:block;font-family:"Oswald",sans-serif;font-size:13.5px;letter-spacing:.1em;
+ color:var(--dim2);margin-bottom:9px;font-weight:500}
 .dod-red{display:flex;gap:10px;align-items:center;padding:9px 11px;border:var(--bw) solid var(--line);
  border-radius:9px;margin-bottom:7px}
 .dod-red.pase{border-color:var(--go);background:rgba(78,155,95,.08)}
 .dod-red .b{flex:1;min-width:0}
-.dod-red h4{font-family:"Oswald",sans-serif;font-size:14.5px;font-weight:500;text-transform:none}
-.dod-red p{font-size:12.5px;color:var(--dim2)}
+.dod-red h4{font-family:"Oswald",sans-serif;font-size:16px;font-weight:500;text-transform:none}
+.dod-red p{font-size:14.5px;color:var(--dim2);font-weight:600}
 .ns i.des{color:var(--des)}
 body.bljesak{animation:bl .35s steps(1) 4}
 @keyframes bl{0%,100%{background:var(--bg)}50%{background:#5A1A08}}
 .zv-greska{margin-top:8px;padding:9px 10px;border:1px solid var(--red);border-radius:8px;
  color:var(--red);font-size:11.5px;line-height:1.4;background:var(--bg2);width:216px;
  box-shadow:0 8px 20px rgba(0,0,0,.35)}
-.zv-savjet{margin-top:12px;padding-top:12px;border-top:var(--bw) solid var(--line);font-size:13px;color:var(--dim2)}
+.zv-savjet{margin-top:12px;padding-top:12px;border-top:var(--bw) solid var(--line);font-size:15px;color:var(--dim2);font-weight:600}
 .zv-savjet b{color:var(--wait)}
 .zv-savjet ul{margin:8px 0 0;padding-left:17px}
 .zv-savjet li{margin-bottom:6px;line-height:1.45}
@@ -244,8 +227,8 @@ body.bljesak{animation:bl .35s steps(1) 4}
 .zv-panel{margin-top:8px;padding:14px;border:var(--bw) solid var(--line2);border-radius:10px;
  background:var(--bg2);width:250px;box-shadow:0 10px 28px rgba(0,0,0,.4);max-height:70vh;overflow:auto}
 .zv-red{display:flex;gap:10px;align-items:center;padding:7px 0}
-.zv-red>span{flex:0 0 100px;font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.05em;
- text-transform:uppercase;color:var(--dim2)}
+.zv-red>span{flex:0 0 100px;font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.05em;
+ text-transform:uppercase;color:var(--dim2);font-weight:500}
 .zv-red select{flex:1;min-width:0}
 .zv-red input[type=range]{flex:1;accent-color:var(--or)}
 /* Zvučna obavijest je namjerno MALA i diskretna ikona sa strane, ne velika traka
@@ -271,7 +254,7 @@ body.bljesak{animation:bl .35s steps(1) 4}
 .tb-btn{width:40px;height:40px;flex:none;border-radius:50%;border:var(--bw) solid var(--line2);
  background:var(--card);color:var(--dim);font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,.18);
  display:flex;align-items:center;justify-content:center;line-height:1}
-.tb-btn.wide{width:auto;padding:0 13px;gap:7px;font-family:"Oswald",sans-serif;font-size:12px;
+.tb-btn.wide{width:auto;padding:0 13px;gap:7px;font-family:"Oswald",sans-serif;font-size:14px;
  text-transform:uppercase;letter-spacing:.04em;color:var(--cream);font-weight:600}
 .pwa-logo{width:20px;height:20px;border-radius:5px;display:block}
 .tema{color:var(--dim)}
@@ -284,12 +267,12 @@ body.bljesak{animation:bl .35s steps(1) 4}
  box-shadow:0 8px 24px rgba(0,0,0,.4)}
 .jez-switch.otvoren .jez-lista{display:block}
 .jez-lista button{display:flex;gap:8px;align-items:center;width:100%;padding:10px 12px;
- border:none;background:transparent;color:var(--cream);font-size:14px;text-align:left;
- font-family:"Barlow Semi Condensed",system-ui,sans-serif}
+ border:none;background:transparent;color:var(--cream);font-size:15.5px;text-align:left;
+ font-family:"Barlow Semi Condensed",system-ui,sans-serif;font-weight:600}
 .jez-lista button.on{background:rgba(232,98,42,.15);color:var(--or);font-weight:600}
 .jez-lista button:not(:last-child){border-bottom:var(--bw) solid var(--line)}
 :root{--bg:#0B0908;--bg2:#151110;--card:#1C1614;--line:#3D322D;--line2:#5A4A42;
- --cream:#F6EFE8;--dim:#B0A099;--dim2:#8C7D76;--or:#E8622A;--gold:#E9A44C;
+ --cream:#F6EFE8;--dim:#C4B6AC;--dim2:#A5968C;--or:#E8622A;--gold:#E9A44C;
  --red:#D0021B;--go:#4E9B5F;--wait:#C99A2E;--pice:#3E9CC9;--des:#B96BC7;--bw:2px;
  --safe-top:env(safe-area-inset-top,0px)} /* čita se u JS-u (glatkoNaEl) da skok na kategoriju zaobiđe i iPhone notch i sticky traku */
 /* Korisnik je tražio da su rubovi/tekst podebljani u SVIM temama i na SVA 4 sučelja,
@@ -297,7 +280,7 @@ body.bljesak{animation:bl .35s steps(1) 4}
    --line2/--dim2 su malo posvijetljeni i za tamnu temu radi boljeg kontrasta. */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:"Barlow Semi Condensed",system-ui,sans-serif;background:var(--bg);color:var(--cream);
- -webkit-font-smoothing:antialiased;line-height:1.45;font-size:16px}
+ -webkit-font-smoothing:antialiased;line-height:1.45;font-size:16px;font-weight:500}
 .wrap{max-width:620px;margin:0 auto;padding-bottom:112px}
 /* .sa-razmakom padding-top uklonjen — traka na vrhu (topbar) više nije fiksna/lebdeća
    preko sadržaja, nego zauzima svoj prostor na vrhu stranice, pa razmak više ne treba. */
@@ -318,13 +301,13 @@ a{color:var(--gold)}
  letter-spacing:.42em;color:var(--or);text-transform:uppercase;margin-top:6px;padding-left:.42em}
 .rule{display:flex;align-items:center;gap:10px;margin:12px auto 0;max-width:300px}
 .rule i{flex:1;height:1px;background:rgba(246,239,232,.28)}
-.rule span{font-family:"Oswald",sans-serif;font-size:12px;letter-spacing:.16em;color:var(--dim)}
-.radno{margin-top:8px;font-family:"Oswald",sans-serif;font-size:11.5px;letter-spacing:.09em;
- text-transform:uppercase;color:var(--dim2)}
+.rule span{font-family:"Oswald",sans-serif;font-size:16px;letter-spacing:.16em;color:var(--dim);font-weight:500}
+.radno{margin-top:9px;font-family:"Oswald",sans-serif;font-size:16px;letter-spacing:.05em;
+ text-transform:uppercase;color:var(--dim2);font-weight:500}
 .radno b{color:var(--cream);font-weight:600}
 .radno i{font-style:normal;opacity:.5;margin:0 6px}
-.slogan{margin-top:12px;font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.18em;
- text-transform:uppercase;color:var(--gold)}
+.slogan{margin-top:12px;font-family:"Oswald",sans-serif;font-size:16.5px;letter-spacing:.18em;
+ text-transform:uppercase;color:var(--gold);font-weight:500}
 .trio{display:flex;justify-content:center;align-items:center;margin:18px 0 6px;padding:0 4px}
 .trio img{display:block;width:38%;max-width:170px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.7))}
 .trio img:nth-child(1){margin-right:-10%;z-index:1}
@@ -340,7 +323,12 @@ a{color:var(--gold)}
 .kola{margin-top:18px}
 /* Coca-Cola blok je gotova slika koju je vlasnik sam složio (coca-cola+.png na GitHubu/Vercelu).
    Ako se slika ne učita, prikazuje se stari složeni blok (logo + tekst + limenka). */
-.kola-slika{display:block;width:min(94%,460px);height:auto;margin:0 auto;filter:drop-shadow(0 8px 20px rgba(0,0,0,.55))}
+/* Tekst na slici zauzima lijevih ~70 % širine (sredina mu je na ~35 %), limenka je desno.
+   Slika se pomiče ulijevo tako da je SREDINA TEKSTA na sredini ekrana; limenka smije izaći
+   desno preko ruba (hero ima overflow:hidden pa se samo odreže). */
+.kola{--kw:min(112vw,560px);position:relative}
+.kola-slika{display:block;width:var(--kw);max-width:none;height:auto;margin:0 0 0 calc(50% - var(--kw) * .35);
+ filter:drop-shadow(0 8px 20px rgba(0,0,0,.55))}
 .kola-scena{position:relative;max-width:380px;margin:0 auto;padding:4px 0 6px 5%;text-align:left;min-height:clamp(215px,62vw,285px)}
 .kola-lim{position:absolute;z-index:0;right:6%;top:13%;height:clamp(180px,52vw,245px);width:auto;
  transform:rotate(15deg);transform-origin:50% 60%;filter:drop-shadow(0 10px 18px rgba(0,0,0,.75))}
@@ -355,30 +343,30 @@ a{color:var(--gold)}
  letter-spacing:.24em;text-transform:uppercase;margin:4px 0 0 clamp(20px,8vw,40px);color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.8)}
 .promo{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;justify-content:center}
 .promo div{border:1.5px solid var(--or);border-radius:8px;padding:9px 13px;font-family:"Oswald",sans-serif;
- font-size:13px;text-transform:uppercase;line-height:1.25;background:rgba(11,9,8,.6)}
+ font-size:15px;text-transform:uppercase;line-height:1.25;background:rgba(11,9,8,.6);font-weight:500}
 .promo b{display:block;color:var(--or);font-size:17px;font-weight:700}
 .cta{display:block;width:100%;margin-top:20px;font-family:"Anton",sans-serif;font-size:27px;
  letter-spacing:.05em;text-transform:uppercase;padding:17px;border:0;border-radius:10px;
  background:var(--or);color:#fff;line-height:1.15}
-.cta i{display:block;font-family:"Oswald",sans-serif;font-style:normal;font-size:11.5px;
+.cta i{display:block;font-family:"Oswald",sans-serif;font-style:normal;font-size:13.5px;
  letter-spacing:.11em;font-weight:400;opacity:.86;margin-top:7px;text-transform:none}
 .tel{margin-top:18px}
-.tel small{display:block;font-size:14px;font-weight:600;letter-spacing:.1em;margin-bottom:8px}
+.tel small{display:block;font-size:17px;font-weight:700;letter-spacing:.1em;margin-bottom:8px}
 .tel a{display:block;font-family:"Anton",sans-serif;font-size:clamp(28px,9vw,38px);color:var(--cream);
  text-decoration:none;line-height:1.22}
 
 .prednosti{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:18px}
 .pr{border:var(--bw) solid var(--line2);border-radius:10px;padding:13px 12px;background:var(--card);text-align:center}
 .pr b{display:block;font-family:"Anton",sans-serif;font-size:24px;color:var(--or);line-height:1;margin-bottom:6px}
-.pr span{font-size:12.5px;color:var(--dim);line-height:1.35}
+.pr span{font-size:14.5px;color:var(--dim);line-height:1.35;font-weight:600}
 .pr-kartice-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px}
 .pr-kartice-row img{height:20px;width:auto}
 .onama{margin:6px 18px 0;padding:26px 20px;border-radius:14px;text-align:center;border:var(--bw) solid var(--line2);
  background:linear-gradient(180deg,rgba(78,155,95,.09),rgba(28,22,20,.98) 55%)}
-.on-oz{display:inline-block;font-family:"Oswald",sans-serif;font-size:10px;letter-spacing:.2em;
+.on-oz{display:inline-block;font-family:"Oswald",sans-serif;font-size:12px;letter-spacing:.2em;
  text-transform:uppercase;color:#15100D;background:var(--go);padding:6px 14px;border-radius:20px;font-weight:600}
 .onama h3{font-family:"Anton",sans-serif;font-size:28px;margin:14px 0 12px;letter-spacing:.1em}
-.onama p{font-size:15px;color:var(--dim);line-height:1.7;max-width:600px;margin:0 auto 12px}
+.onama p{font-size:16px;color:var(--dim);line-height:1.7;max-width:600px;margin:0 auto 12px;font-weight:600}
 .onama p:last-child{margin-bottom:0}
 
 .katblok{margin-bottom:4px;scroll-margin-top:calc(60px + var(--safe-top))}
@@ -390,7 +378,7 @@ a{color:var(--gold)}
  -webkit-overflow-scrolling:touch;scrollbar-width:none}
 .kat-nav::-webkit-scrollbar{display:none}
 .kat-pill{flex:0 0 auto;font-family:"Oswald",sans-serif;text-transform:uppercase;
- font-size:12.5px;font-weight:600;letter-spacing:.03em;padding:8px 15px;
+ font-size:14.5px;font-weight:600;letter-spacing:.03em;padding:8px 15px;
  border:var(--bw) solid var(--line2);border-radius:999px;background:var(--card);
  color:var(--cream);white-space:nowrap;cursor:pointer}
 .kat-pill:active{background:var(--or);border-color:var(--or);color:#fff}
@@ -401,109 +389,96 @@ a{color:var(--gold)}
 .kat h2::after{content:"";display:block;height:2px;background:var(--or);width:52px;margin-top:9px}
 .jelo{border-bottom:var(--bw) solid var(--line);padding:14px 18px}
 .jelo-top{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:start;cursor:pointer}
-.jelo-n{font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:16.5px;font-weight:600;color:var(--gold)}
+.jelo-n{font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:18px;font-weight:600;letter-spacing:.02em;color:var(--gold)}
 .jelo-c{font-family:"Oswald",sans-serif;font-size:16.5px;font-weight:600;white-space:nowrap;
  text-align:right;min-width:74px}
 .jelo-o{grid-column:1/2}
-.jelo-top.sa-slikom{grid-template-columns:auto 1fr auto}
+.jelo-top.sa-slikom{grid-template-columns:1fr 100px;grid-template-rows:auto 1fr;column-gap:14px;row-gap:8px}
+.jelo-top.sa-slikom .jelo-sl{grid-column:2;grid-row:1/3}
+.jelo-top.sa-slikom>div:not(.jelo-c){grid-column:1;grid-row:1}
+.jelo-top.sa-slikom .jelo-c{grid-column:1;grid-row:2;text-align:left;align-self:end;min-width:0;color:var(--or)}
+@media (min-width:900px){.jelo-sl{width:112px;height:112px}.jelo-top.sa-slikom{grid-template-columns:1fr 112px}}
 .jelo-top.sa-slikom .jelo-o{grid-column:2/3}
-.jelo-o{font-size:14.5px;font-weight:500;color:var(--dim);text-transform:uppercase;margin-top:3px}
-.znak{font-size:12px;margin-left:5px}
-.qty{color:var(--go);font-weight:600;font-size:13.5px;margin-left:6px}
+.jelo-o{font-size:15px;font-weight:500;color:var(--dim);text-transform:uppercase;margin-top:4px;line-height:1.4}
+.znak{font-size:14px;margin-left:5px;font-weight:600}
+.qty{color:var(--go);font-weight:600;font-size:15.5px;margin-left:6px}
 .dod{display:none;padding:14px 0 2px;border-top:var(--bw) solid var(--line);margin-top:12px}
 .dod.on{display:block}
-.dod h4{font-size:11.5px;letter-spacing:.12em;margin:0 0 10px;font-weight:500}
+.dod h4{font-size:13.5px;letter-spacing:.12em;margin:0 0 10px;font-weight:500}
 .h-dod{color:var(--or)}.h-pice{color:var(--pice)}.h-des{color:var(--des)}
 .dod-grid+h4{margin-top:16px}
 .dod-grid{display:grid;grid-template-columns:1fr;gap:7px}
 @media (min-width:520px){.dod-grid{grid-template-columns:1fr 1fr}}
 .dod-grid.jedan{grid-template-columns:1fr}
-.dod-grid label{display:flex;gap:11px;align-items:center;font-size:15.5px;color:var(--cream);
+.dod-grid label{display:flex;gap:11px;align-items:center;font-size:16.5px;color:var(--cream);
  text-transform:none;cursor:pointer;padding:9px 10px;min-height:48px;border:var(--bw) solid var(--line);
  border-radius:8px;background:var(--bg2);font-weight:500}
 .dod-grid label:active{border-color:var(--or)}
 .dod-grid input{width:24px;height:24px;accent-color:var(--or);flex:none}
 .dod-grid input:checked+*{color:var(--or)}
-.dod-grid span{margin-left:auto;color:var(--gold);font-size:14px;white-space:nowrap;padding-left:8px;
- font-family:"Oswald",sans-serif}
-.dod h4{font-size:13px;letter-spacing:.1em;font-weight:600}
+.dod-grid span{margin-left:auto;color:var(--gold);font-size:15.5px;white-space:nowrap;padding-left:8px;
+ font-family:"Oswald",sans-serif;font-weight:500}
+.dod h4{font-size:15px;letter-spacing:.1em;font-weight:600}
 
 .btn{width:100%;font-family:"Oswald",sans-serif;text-transform:uppercase;letter-spacing:.05em;
- font-size:15px;font-weight:600;padding:14px;border:0;border-radius:8px;background:var(--or);
+ font-size:16px;font-weight:600;padding:14px;border:0;border-radius:8px;background:var(--or);
  color:#fff;margin-top:12px;min-height:48px}
 .btn.go{background:var(--go)}.btn.crven{background:var(--red)}
 .btn.ghost{background:transparent;color:var(--cream);border:var(--bw) solid var(--line2)}
 .btn.tiho{background:transparent;color:var(--dim);border:var(--bw) solid var(--line)}
 .btn:disabled{background:var(--line);color:var(--dim2)}
-.btn.sm{padding:10px;font-size:13px;margin-top:0;min-height:42px}
-.btn.xs{width:auto;padding:8px 14px;font-size:12.5px;margin-top:8px;min-height:38px}
-/* soft-press: opipljiva povratna informacija na dodir/klik, posvuda gdje se nešto može stisnuti */
-.btn,.tb-btn,.jelo-top,.ord-h,.vise,.stop-zatvoren,.chip,.cta,.natrag,.tema,.jez-trenutni,
-.podtab button,.brzi button,.izbor button,.nav-izbor button,.oznaka-cetvrt,.kartica-vozila{
- transition:transform .12s cubic-bezier(.34,1.56,.64,1),filter .12s,box-shadow .12s}
-.btn:active,.tb-btn:active,.cta:active,.stop-zatvoren:active,.natrag:active,.tema:active,
-.jez-trenutni:active,.podtab button:active,.brzi button:active,.izbor button:active,
-.nav-izbor button:active,.vise:active,
-.btn.pritisnut,.tb-btn.pritisnut,.cta.pritisnut,.stop-zatvoren.pritisnut,.natrag.pritisnut,
-.tema.pritisnut,.vise.pritisnut,.nav-izbor button.pritisnut{transform:scale(.96);filter:brightness(.92)}
-.ord-h:active,.jelo-top:active,.ord-h.pritisnut,.jelo-top.pritisnut{transform:scale(.985)}
-@media (prefers-reduced-motion:reduce){
- .btn,.tb-btn,.jelo-top,.ord-h,.vise,.stop-zatvoren,.chip,.cta,.natrag,.tema,.jez-trenutni,
- .podtab button,.brzi button,.izbor button,.nav-izbor button{transition:none!important}
- .btn:active,.tb-btn:active,.cta:active,.stop-zatvoren:active,.natrag:active,.tema:active,
- .jez-trenutni:active,.podtab button:active,.brzi button:active,.izbor button:active,
- .nav-izbor button:active,.vise:active,.ord-h:active,.jelo-top:active,
- .pritisnut{transform:none!important;filter:none!important}}
+.btn.sm{padding:10px;font-size:15px;margin-top:0;min-height:42px;font-weight:600}
+.btn.xs{width:auto;padding:8px 14px;font-size:14.5px;margin-top:8px;min-height:38px;font-weight:600}
 .row2{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.row2 .btn{margin-top:0;flex:1;min-width:120px}
 
 .box{background:var(--card);border:var(--bw) solid var(--line);border-radius:10px;padding:16px;margin:0 18px 12px}
-label.f{display:block;font-family:"Oswald",sans-serif;font-size:11.5px;letter-spacing:.1em;
- text-transform:uppercase;color:var(--dim2);margin:15px 0 6px}
+label.f{display:block;font-family:"Oswald",sans-serif;font-size:13.5px;letter-spacing:.1em;
+ text-transform:uppercase;color:var(--dim2);margin:15px 0 6px;font-weight:500}
 input.f,select.f,textarea.f{width:100%;font-family:inherit;font-size:16px;padding:12px;
  border:var(--bw) solid var(--line2);border-radius:8px;background:var(--bg2);color:var(--cream)}
 textarea.f{min-height:74px}
 input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outline-offset:-1px}
-.err{color:var(--red);font-size:14px;margin-top:10px;display:none}.err.on{display:block}
+.err{color:var(--red);font-size:15.5px;margin-top:10px;display:none;font-weight:600}.err.on{display:block}
 .izbor{display:flex;gap:8px;margin-top:6px}
 .izbor button{flex:1;padding:14px 8px;border:1.5px solid var(--line2);background:transparent;
  color:var(--dim);border-radius:8px;font-family:"Oswald",sans-serif;text-transform:uppercase;
- font-size:13.5px;min-height:52px}
+ font-size:15.5px;min-height:52px;font-weight:500}
 .izbor button[aria-pressed="true"]{border-color:var(--or);background:rgba(232,98,42,.12);color:var(--or);font-weight:600}
 .pl-kartica{display:flex;align-items:center;justify-content:center;gap:6px}
 .pl-kartica img{height:18px;width:auto;display:block}
 .kuc{display:flex;gap:11px;align-items:flex-start;margin-top:14px;padding:12px;border:var(--bw) solid var(--line2);
  border-radius:8px;cursor:pointer;background:var(--bg2)}
 .kuc input{width:21px;height:21px;accent-color:var(--or);flex:none;margin-top:1px}
-.kuc span{font-size:14px;color:var(--dim);line-height:1.4}
-.gratis{border:1px solid var(--or);border-radius:8px;padding:12px 14px;margin:0 18px 12px;font-size:14px;color:var(--gold)}
-.gratis b{font-family:"Oswald",sans-serif;text-transform:uppercase;display:block;color:var(--or);font-size:13px}
-.savjet{font-size:13px;color:var(--gold);margin-top:8px}
+.kuc span{font-size:15.5px;color:var(--dim);line-height:1.4;font-weight:600}
+.gratis{border:1px solid var(--or);border-radius:8px;padding:12px 14px;margin:0 18px 12px;font-size:15.5px;color:var(--gold);font-weight:600}
+.gratis b{font-family:"Oswald",sans-serif;text-transform:uppercase;display:block;color:var(--or);font-size:15px;font-weight:500}
+.savjet{font-size:15px;color:var(--gold);margin-top:8px;font-weight:600}
 
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--or);color:#fff;
  padding:12px 16px calc(12px + env(safe-area-inset-bottom));display:none;align-items:center;gap:12px;
  max-width:620px;margin:0 auto}
 .bar.on{display:flex}
-.bar .l{flex:1;font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:14.5px;font-weight:600}
+.bar .l{flex:1;font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:16px;font-weight:600}
 .bar button{padding:11px 18px;border:0;border-radius:7px;background:#fff;color:var(--or);
- font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:13.5px;font-weight:600}
+ font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:15.5px;font-weight:600}
 
 .login{padding:56px 22px;text-align:center}
 .login h2{font-size:22px;margin-bottom:6px;letter-spacing:.05em}
-.login p{color:var(--dim2);font-size:14px;margin-bottom:20px}
+.login p{color:var(--dim2);font-size:15.5px;margin-bottom:20px;font-weight:600}
 .login .box{margin:0 auto;max-width:360px;text-align:left}
 .sec{padding:20px 18px 6px}
-.sec h3{font-size:14px;letter-spacing:.1em;color:var(--dim);font-weight:700}
+.sec h3{font-size:15.5px;letter-spacing:.1em;color:var(--dim);font-weight:700}
 .pauza-trak{margin:14px 18px 0;padding:12px 14px;border-radius:10px;background:var(--card);border:var(--bw) solid var(--line);
  display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between}
 .pauza-trak.pauza-aktivna{background:rgba(230,90,50,.12);border-color:var(--or)}
 .pauza-trak.pauza-aktivna div{display:flex;flex-direction:column;gap:2px}
 .pauza-trak.pauza-aktivna b{color:var(--or)}
-.pauza-trak.pauza-aktivna span{font-size:12.5px;color:var(--dim2)}
+.pauza-trak.pauza-aktivna span{font-size:14.5px;color:var(--dim2);font-weight:600}
 .pauza-izbor{display:flex;flex-wrap:wrap;gap:8px;width:100%;margin-top:2px}
 .pauza-banner{margin:0 18px 16px;padding:14px 16px;border-radius:12px;background:rgba(230,90,50,.14);
  border:2px solid var(--or);text-align:center}
 .pauza-banner b{display:block;font-size:16px;color:var(--or);margin-bottom:4px}
-.pauza-banner span{font-size:13.5px;color:var(--dim2)}
+.pauza-banner span{font-size:15.5px;color:var(--dim2);font-weight:600}
 .ord{background:var(--card);border:var(--bw) solid var(--line);border-radius:10px;padding:15px;margin:0 18px 10px}
 .ord.novo{border-color:var(--or);border-width:2px;animation:otkucaj 1.8s ease-in-out infinite}
 @keyframes otkucaj{0%,100%{box-shadow:0 0 0 0 rgba(232,98,42,.35)}50%{box-shadow:0 0 0 7px rgba(232,98,42,0)}}
@@ -511,8 +486,8 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .ord.osobno{border-color:var(--des);background:rgba(125,60,140,.08)}
 .ord-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .ord-br{font-family:"Anton",sans-serif;font-size:22px}
-.ord-t{font-size:12.5px;color:var(--dim2)}
-.tag{font-family:"Oswald",sans-serif;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+.ord-t{font-size:14.5px;color:var(--dim2);font-weight:600}
+.tag{font-family:"Oswald",sans-serif;font-size:12.5px;letter-spacing:.07em;text-transform:uppercase;
  padding:4px 9px;border-radius:4px;font-weight:600;white-space:nowrap}
 .t-novo{background:rgba(232,98,42,.2);color:var(--or)}
 .t-prip{background:rgba(201,154,46,.2);color:var(--wait)}
@@ -525,18 +500,18 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .glavno{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .ime{font-family:"Oswald",sans-serif;font-size:20px;font-weight:600;text-transform:uppercase;line-height:1.2}
 .ime.male{font-size:16px}
-.cij{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--dim);white-space:nowrap}
+.cij{font-family:"IBM Plex Mono",monospace;font-size:15.5px;color:var(--dim);white-space:nowrap;font-weight:600}
 .l-dod,.l-pice,.l-des{margin-top:7px;padding:7px 11px;border-radius:0 7px 7px 0}
-.l-dod b,.l-pice b,.l-des b{display:block;font-family:"Oswald",sans-serif;font-size:10px;letter-spacing:.11em}
-.l-dod span,.l-pice span,.l-des span{font-family:"Oswald",sans-serif;font-size:15px;font-weight:500;
+.l-dod b,.l-pice b,.l-des b{display:block;font-family:"Oswald",sans-serif;font-size:12px;letter-spacing:.11em;font-weight:500}
+.l-dod span,.l-pice span,.l-des span{font-family:"Oswald",sans-serif;font-size:16px;font-weight:500;
  text-transform:uppercase;color:var(--cream)}
 .l-dod{border-left:4px solid var(--or);background:rgba(232,98,42,.13)}.l-dod b{color:var(--or)}
 .l-pice{border-left:4px solid var(--pice);background:rgba(62,156,201,.13)}.l-pice b{color:var(--pice)}
 .l-des{border-left:4px solid var(--des);background:rgba(185,107,199,.13)}.l-des b{color:var(--des)}
 .tot{display:flex;justify-content:space-between;border-top:var(--bw) solid var(--line);margin-top:10px;
  padding-top:10px;font-family:"Oswald",sans-serif;font-size:16px;font-weight:600}
-.nacin{display:inline-block;margin-top:8px;font-family:"Oswald",sans-serif;font-size:14px;
- text-transform:uppercase;padding:6px 12px;border-radius:6px}
+.nacin{display:inline-block;margin-top:8px;font-family:"Oswald",sans-serif;font-size:15.5px;
+ text-transform:uppercase;padding:6px 12px;border-radius:6px;font-weight:500}
 .n-kes{background:rgba(78,155,95,.18);color:var(--go)}
 .n-kar{background:rgba(233,164,76,.18);color:var(--gold)}
 .n-onl{background:rgba(62,156,201,.18);color:var(--pice)}
@@ -546,8 +521,8 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
  border-radius:12px;background:transparent;color:var(--cream);text-align:left;transition:border-color .15s,background .15s}
 .pl-opcija[aria-pressed="true"]{border-color:var(--or);background:rgba(232,98,42,.1)}
 .pl-opcija .pl-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.pl-opcija .pl-t b{font-family:"Oswald",sans-serif;font-size:15px;letter-spacing:.03em;text-transform:uppercase;font-weight:600}
-.pl-opcija .pl-t small{font-size:12.5px;color:var(--dim);line-height:1.35}
+.pl-opcija .pl-t b{font-family:"Oswald",sans-serif;font-size:16px;letter-spacing:.03em;text-transform:uppercase;font-weight:600}
+.pl-opcija .pl-t small{font-size:14.5px;color:var(--dim);line-height:1.35;font-weight:600}
 .pl-opcija[aria-pressed="true"] .pl-t b{color:var(--or)}
 .pl-logo{display:flex;align-items:center;gap:5px;flex:none}
 .pl-logo img{height:26px;width:auto;display:block}
@@ -561,34 +536,34 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .pr-kartice-row img.pay-ik{height:34px}
 .pl-cekanje{margin-top:16px;padding:16px;border-radius:12px;border:var(--bw) solid var(--pice);background:rgba(62,156,201,.08);text-align:left}
 .pl-cekanje b{display:block;font-family:"Oswald",sans-serif;font-size:17px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px}
-.pl-cekanje p{font-size:14px;color:var(--dim);margin-bottom:12px}
+.pl-cekanje p{font-size:15.5px;color:var(--dim);margin-bottom:12px;font-weight:600}
 .dostava-box{margin-top:12px;border:1.5px solid var(--line2);border-radius:10px;padding:13px 15px;background:var(--bg2)}
-.dostava-box>b{display:block;font-family:"Oswald",sans-serif;font-size:10.5px;letter-spacing:.14em;
- color:var(--dim2);margin-bottom:8px}
+.dostava-box>b{display:block;font-family:"Oswald",sans-serif;font-size:12.5px;letter-spacing:.14em;
+ color:var(--dim2);margin-bottom:8px;font-weight:500}
 .dp-ime{font-family:"Oswald",sans-serif;font-size:19px;font-weight:600}
 .dp-adr{display:block;font-family:"Oswald",sans-serif;font-size:20px;font-weight:600;color:var(--gold);
  text-decoration:none;margin-top:5px;line-height:1.25}
 .dp-tel{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:19px;color:var(--cream);
  text-decoration:none;margin-top:7px}
 .napom{margin-top:9px;padding:9px 11px;border-left:3px solid var(--wait);background:rgba(201,154,46,.12);
- border-radius:0 6px 6px 0;color:var(--wait);font-size:14.5px}
+ border-radius:0 6px 6px 0;color:var(--wait);font-size:16px;font-weight:600}
 .zajedno{margin:11px 0;padding:12px 14px;border-radius:9px;border:2px solid var(--pice);background:rgba(62,156,201,.13)}
-.zajedno b{display:block;font-family:"Oswald",sans-serif;font-size:14px;letter-spacing:.06em;color:var(--pice);margin-bottom:5px}
-.zajedno span{font-size:13.5px;color:var(--dim)}
-.prazno{text-align:center;padding:38px 20px;color:var(--dim2);font-size:15px;font-weight:500;margin:0 18px}
+.zajedno b{display:block;font-family:"Oswald",sans-serif;font-size:15.5px;letter-spacing:.06em;color:var(--pice);margin-bottom:5px;font-weight:500}
+.zajedno span{font-size:15.5px;color:var(--dim);font-weight:600}
+.prazno{text-align:center;padding:38px 20px;color:var(--dim2);font-size:16px;font-weight:500;margin:0 18px}
 .prazno strong{display:block;font-family:"Oswald",sans-serif;text-transform:uppercase;color:var(--dim);
  font-size:17px;margin-bottom:5px;font-weight:600}
 .eta{border-top:var(--bw) solid var(--line);margin-top:12px;padding-top:12px}
-.eta h4{font-size:11.5px;letter-spacing:.1em;color:var(--dim2);margin-bottom:9px;font-weight:500}
+.eta h4{font-size:13.5px;letter-spacing:.1em;color:var(--dim2);margin-bottom:9px;font-weight:500}
 .brzi{display:flex;gap:6px;flex-wrap:wrap}
-.brzi button{flex:1;min-width:54px;font-family:"IBM Plex Mono",monospace;font-size:14.5px;padding:10px 4px;
- border:var(--bw) solid var(--line2);background:transparent;color:var(--dim);border-radius:6px}
+.brzi button{flex:1;min-width:54px;font-family:"IBM Plex Mono",monospace;font-size:16px;padding:10px 4px;
+ border:var(--bw) solid var(--line2);background:transparent;color:var(--dim);border-radius:6px;font-weight:600}
 .brzi button.stisnut{background:var(--or);border-color:var(--or);color:#fff;font-weight:600;
  box-shadow:inset 0 3px 7px rgba(0,0,0,.45)}
 .izracun{display:flex;margin:11px 0;border:var(--bw) solid var(--line);border-radius:8px;overflow:hidden}
 .izracun div{flex:1;padding:9px 5px;text-align:center;border-right:var(--bw) solid var(--line)}
 .izracun div:last-child{border-right:0}
-.izracun span{display:block;font-family:"Oswald",sans-serif;font-size:9.5px;letter-spacing:.07em;color:var(--dim2)}
+.izracun span{display:block;font-family:"Oswald",sans-serif;font-size:11.5px;letter-spacing:.07em;color:var(--dim2);font-weight:500}
 .izracun b{font-family:"IBM Plex Mono",monospace;font-size:16px}
 .izracun .ist{background:rgba(232,98,42,.16)}.izracun .ist b{color:var(--or)}
 .tura{background:var(--card);border:var(--bw) solid var(--line);border-radius:10px;padding:15px;margin:0 18px 10px}
@@ -598,45 +573,45 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .stat{display:flex;margin:11px 0;border:var(--bw) solid var(--line);border-radius:7px;overflow:hidden}
 .stat div{flex:1;padding:9px 6px;text-align:center;border-right:var(--bw) solid var(--line)}
 .stat div:last-child{border-right:0}
-.stat span{display:block;font-family:"Oswald",sans-serif;font-size:10px;letter-spacing:.07em;color:var(--dim2)}
+.stat span{display:block;font-family:"Oswald",sans-serif;font-size:12px;letter-spacing:.07em;color:var(--dim2);font-weight:500}
 .stat b{font-family:"IBM Plex Mono",monospace;font-size:16px}
 .stop{display:flex;gap:11px;padding:12px 0;border-bottom:var(--bw) solid var(--line)}
 .stop:last-child{border-bottom:0}.stop.gotovo{opacity:.42}
 .stop-zatvoren{cursor:pointer}
-.stanica-sazetak{display:flex;align-items:center;gap:10px;font-family:"Oswald",sans-serif;font-size:15px}
+.stanica-sazetak{display:flex;align-items:center;gap:10px;font-family:"Oswald",sans-serif;font-size:16px;font-weight:500}
 .pin{width:26px;height:26px;flex:none;border-radius:50%;background:var(--or);color:#fff;
- font-family:"Oswald",sans-serif;font-weight:700;font-size:12.5px;display:flex;align-items:center;
+ font-family:"Oswald",sans-serif;font-weight:700;font-size:14.5px;display:flex;align-items:center;
  justify-content:center;margin-top:2px}
 .stop .b{flex:1;min-width:0}
 .trk{padding:26px 18px}
 .trk .big{font-family:"Anton",sans-serif;font-size:30px;text-align:center;line-height:1.12}
 .trk .big em{font-style:normal;color:var(--or)}
-.trk .sub{text-align:center;color:var(--dim);font-size:14.5px;margin-top:7px}
+.trk .sub{text-align:center;color:var(--dim);font-size:16px;margin-top:7px;font-weight:600}
 .koraci{margin-top:22px}
 .korak{display:flex;gap:13px;align-items:flex-start;padding-bottom:18px;position:relative}
 .korak::before{content:"";position:absolute;left:12px;top:27px;bottom:0;width:1px;background:var(--line2)}
 .korak:last-child::before{display:none}
 .krug{width:26px;height:26px;flex:none;border-radius:50%;border:1.5px solid var(--line2);display:flex;
- align-items:center;justify-content:center;font-size:12px;color:var(--dim2);background:var(--bg);
+ align-items:center;justify-content:center;font-size:14px;color:var(--dim2);background:var(--bg);
  z-index:1;font-family:"Oswald",sans-serif;font-weight:600}
 .korak.ok .krug{background:var(--go);border-color:var(--go);color:#fff}
 .korak.sad .krug{background:var(--or);border-color:var(--or);color:#fff}
-.korak h4{font-size:15px;font-weight:600;text-transform:none;font-family:"Oswald",sans-serif}
+.korak h4{font-size:16px;font-weight:600;text-transform:none;font-family:"Oswald",sans-serif}
 .korak.cek h4{color:var(--dim2)}
-.korak p{font-size:13.5px;color:var(--dim2)}
+.korak p{font-size:15.5px;color:var(--dim2);font-weight:600}
 .zovi{display:block;text-align:center;border:1.5px solid var(--or);border-radius:9px;padding:14px;
  margin-top:12px;color:var(--or);text-decoration:none;font-family:"Oswald",sans-serif;
  text-transform:uppercase;font-size:16px;font-weight:600}
 .chat-tok{display:flex;flex-direction:column;gap:8px;margin:10px 0}
-.mjehur{padding:10px 13px;border-radius:12px;font-size:14.5px;max-width:88%}
-.mjehur b{display:block;font-family:"Oswald",sans-serif;font-size:10.5px;letter-spacing:.09em;
- text-transform:uppercase;margin-bottom:3px;opacity:.75}
-.mjehur i{display:block;font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:10.5px;opacity:.55;margin-top:4px}
+.mjehur{padding:10px 13px;border-radius:12px;font-size:16px;max-width:88%;font-weight:600}
+.mjehur b{display:block;font-family:"Oswald",sans-serif;font-size:12.5px;letter-spacing:.09em;
+ text-transform:uppercase;margin-bottom:3px;opacity:.75;font-weight:500}
+.mjehur i{display:block;font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:12.5px;opacity:.55;margin-top:4px;font-weight:600}
 .m-gost{align-self:flex-start;background:var(--bg2);border:var(--bw) solid var(--line2)}
 .m-kuh{align-self:flex-end;background:rgba(232,98,42,.18);border:1px solid var(--or)}
 .brzepor{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
-.brzepor button{flex:1;min-width:110px;font-family:"Oswald",sans-serif;font-size:12px;text-transform:uppercase;
- padding:10px 8px;border:var(--bw) solid var(--line2);background:transparent;color:var(--dim);border-radius:7px}
+.brzepor button{flex:1;min-width:110px;font-family:"Oswald",sans-serif;font-size:14px;text-transform:uppercase;
+ padding:10px 8px;border:var(--bw) solid var(--line2);background:transparent;color:var(--dim);border-radius:7px;font-weight:500}
 .chat-k{margin-top:12px;padding:12px;border:var(--bw) solid var(--line2);border-radius:9px;background:var(--bg2)}
 .chat-k.novo{border-color:var(--pice);background:rgba(62,156,201,.1)}
 .pravno{border-top:var(--bw) solid var(--line);margin-top:28px;padding:22px 18px 0}
@@ -648,105 +623,105 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .veza.lose{color:var(--red);border-color:var(--red)}
 .setup{max-width:560px;margin:0 auto;padding:40px 20px}
 .setup h2{font-size:20px;margin-bottom:10px}
-.setup p{color:var(--dim);font-size:14.5px;line-height:1.6;margin-bottom:12px}
-.setup code{font-family:"IBM Plex Mono",monospace;font-size:13px;background:var(--bg2);
- border:var(--bw) solid var(--line2);border-radius:6px;padding:2px 6px;color:var(--gold)}
+.setup p{color:var(--dim);font-size:16px;line-height:1.6;margin-bottom:12px;font-weight:600}
+.setup code{font-family:"IBM Plex Mono",monospace;font-size:15px;background:var(--bg2);
+ border:var(--bw) solid var(--line2);border-radius:6px;padding:2px 6px;color:var(--gold);font-weight:600}
 .povredak{margin-top:10px;border-top:var(--bw) solid var(--line);padding-top:10px}
-.povredak>div{display:flex;gap:10px;padding:4px 0;font-size:14px}
-.povredak span{flex:0 0 96px;font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.07em;
- text-transform:uppercase;color:var(--dim2);padding-top:2px}
+.povredak>div{display:flex;gap:10px;padding:4px 0;font-size:15.5px;font-weight:600}
+.povredak span{flex:0 0 96px;font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.07em;
+ text-transform:uppercase;color:var(--dim2);padding-top:2px;font-weight:500}
 .povredak b{flex:1;font-weight:500}
 .podtab{display:flex;flex-wrap:wrap;gap:6px;padding:12px 18px} /* vlasnik ima 11 kartica — prelamaju se u redove umjesto da guraju stranicu u širinu */
-.podtab button{flex:1 1 auto;font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:12px;font-weight:600;
+.podtab button{flex:1 1 auto;font-family:"Oswald",sans-serif;text-transform:uppercase;font-size:14px;font-weight:600;
  padding:11px 4px;border:var(--bw) solid var(--line2);background:transparent;color:var(--dim);border-radius:6px}
 .podtab button[aria-selected="true"]{background:var(--card);border-color:var(--or);color:var(--or);font-weight:600}
 .kratko{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
-.kvart-oz{font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.07em;text-transform:uppercase;
- padding:4px 9px;border-radius:5px;background:rgba(62,156,201,.16);color:var(--pice)}
-.adr-kratko{font-family:"Oswald",sans-serif;font-size:15px;color:var(--gold)}
+.kvart-oz{font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.07em;text-transform:uppercase;
+ padding:4px 9px;border-radius:5px;background:rgba(62,156,201,.16);color:var(--pice);font-weight:500}
+.adr-kratko{font-family:"Oswald",sans-serif;font-size:16px;color:var(--gold);font-weight:500}
 .vise{width:100%;margin-top:10px;padding:11px 9px;border:var(--bw) solid var(--line);background:var(--card);
- color:var(--cream);border-radius:8px;font-family:"Oswald",sans-serif;font-size:11.5px;letter-spacing:.08em;
+ color:var(--cream);border-radius:8px;font-family:"Oswald",sans-serif;font-size:13.5px;letter-spacing:.08em;
  text-transform:uppercase;box-shadow:0 1px 3px rgba(0,0,0,.22);
- transition:border-color .18s ease,box-shadow .18s ease,color .18s ease,transform .12s ease}
+ transition:border-color .18s ease,box-shadow .18s ease,color .18s ease,transform .12s ease;font-weight:500}
 .vise:active{border-color:var(--or);color:var(--or);transform:scale(.99)}
 .vise[aria-expanded="true"]{border-color:var(--or);color:var(--or);
  box-shadow:0 0 0 1px rgba(232,98,42,.28),0 1px 3px rgba(0,0,0,.22)}
 .nosim{border:1.5px solid var(--or);border-radius:9px;padding:11px 13px;background:rgba(232,98,42,.08)}
-.nosim>b{display:block;font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.11em;
- color:var(--or);margin-bottom:7px}
+.nosim>b{display:block;font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.11em;
+ color:var(--or);margin-bottom:7px;font-weight:500}
 .ns{font-family:"Oswald",sans-serif;font-size:16px;text-transform:uppercase;padding:3px 0;line-height:1.3}
-.ns i{display:block;font-style:normal;font-size:13.5px;color:var(--or);padding-left:12px}
+.ns i{display:block;font-style:normal;font-size:15.5px;color:var(--or);padding-left:12px;font-weight:600}
 .ns i.uz{color:var(--pice)}
-.ns.gratis{color:var(--or);font-size:14px}
-.zakljucano{margin-top:8px;font-size:12.5px;color:var(--dim2);border-left:3px solid var(--line2);
- padding-left:9px;line-height:1.4}
-.podnaslov{font-family:"Oswald",sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
- color:var(--dim2);margin:18px 0 10px;padding-top:14px;border-top:var(--bw) solid var(--line)}
+.ns.gratis{color:var(--or);font-size:15.5px;font-weight:600}
+.zakljucano{margin-top:8px;font-size:14.5px;color:var(--dim2);border-left:3px solid var(--line2);
+ padding-left:9px;line-height:1.4;font-weight:600}
+.podnaslov{font-family:"Oswald",sans-serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;
+ color:var(--dim2);margin:18px 0 10px;padding-top:14px;border-top:var(--bw) solid var(--line);font-weight:500}
 .podnaslov em{font-style:normal;color:var(--red)}
 .ostatak{display:flex;align-items:center;gap:12px;margin-top:12px;padding:15px;border-radius:11px;
  border:2px solid var(--line2);background:var(--bg2)}
-.ostatak span{font-family:"Oswald",sans-serif;font-size:11.5px;letter-spacing:.13em;color:var(--dim2)}
+.ostatak span{font-family:"Oswald",sans-serif;font-size:13.5px;letter-spacing:.13em;color:var(--dim2);font-weight:500}
 .ostatak b{margin-left:auto;font-family:"Anton",sans-serif;font-size:30px}
 .ostatak.plus{border-color:var(--go)}.ostatak.plus b{color:var(--go)}
 .ostatak.minus{border-color:var(--red)}.ostatak.minus b{color:var(--red)}
 .apoen{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:var(--bw) solid var(--line)}
-.apoen>span{flex:0 0 58px;font-family:"Oswald",sans-serif;font-size:14px}
+.apoen>span{flex:0 0 58px;font-family:"Oswald",sans-serif;font-size:15.5px;font-weight:500}
 .apoen button{width:38px;height:38px;flex:none;border:var(--bw) solid var(--line2);background:transparent;
  color:var(--cream);border-radius:8px;font-size:18px}
-.apoen>b{min-width:34px;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:15px}
-.apoen i{margin-left:auto;font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--dim2)}
+.apoen>b{min-width:34px;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:16px;font-weight:600}
+.apoen i{margin-left:auto;font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--dim2);font-weight:600}
 .stanje-izmjena{margin:18px 0 0;padding:15px;border-radius:10px;border:1.5px solid}
-.stanje-izmjena b{display:block;font-family:"Oswald",sans-serif;font-size:14px;letter-spacing:.04em;
- text-transform:uppercase;margin-bottom:6px}
-.stanje-izmjena span{display:block;font-size:14px;line-height:1.5;color:var(--dim)}
+.stanje-izmjena b{display:block;font-family:"Oswald",sans-serif;font-size:15.5px;letter-spacing:.04em;
+ text-transform:uppercase;margin-bottom:6px;font-weight:500}
+.stanje-izmjena span{display:block;font-size:15.5px;line-height:1.5;color:var(--dim);font-weight:600}
 .stanje-izmjena.moze{border-color:var(--go);background:rgba(78,155,95,.09)}
 .stanje-izmjena.moze b{color:var(--go)}
 .stanje-izmjena.nemoze{border-color:var(--wait);background:rgba(201,154,46,.1)}
 .stanje-izmjena.nemoze b{color:var(--wait)}
 .oznaka-gratis{display:inline-block;margin-left:8px;padding:3px 9px;border-radius:5px;
- background:rgba(78,155,95,.22);color:var(--go);font-family:"Oswald",sans-serif;font-size:11px;
- letter-spacing:.06em;vertical-align:middle}
+ background:rgba(78,155,95,.22);color:var(--go);font-family:"Oswald",sans-serif;font-size:13px;
+ letter-spacing:.06em;vertical-align:middle;font-weight:500}
 .stavka.besplatna .glavno{border-color:var(--go)}
-.bedz{display:block;font-family:"Oswald",sans-serif;font-size:12.5px;letter-spacing:.05em;
+.bedz{display:block;font-family:"Oswald",sans-serif;font-size:14.5px;letter-spacing:.05em;
  text-transform:uppercase;padding:9px 12px;border-radius:7px;margin-top:10px;font-weight:600}
 .b-novi{background:rgba(62,156,201,.18);color:var(--pice);border:1px solid var(--pice)}
-.b-stalni{background:rgba(233,164,76,.14);color:var(--gold);font-size:12px;padding:7px 11px}
+.b-stalni{background:rgba(233,164,76,.14);color:var(--gold);font-size:14px;padding:7px 11px;font-weight:600}
 .adr-lista{margin-top:6px;display:flex;flex-direction:column;gap:4px}
 .adr-red{text-align:left;padding:11px 12px;border:var(--bw) solid var(--line2);background:var(--bg2);
- color:var(--cream);border-radius:8px;font-family:inherit;font-size:14.5px;width:100%}
+ color:var(--cream);border-radius:8px;font-family:inherit;font-size:16px;width:100%;font-weight:600}
 .adr-red:active{border-color:var(--or);color:var(--or)}
-.adr-red.trazim{color:var(--dim2);font-size:13px;cursor:default}
+.adr-red.trazim{color:var(--dim2);font-size:15px;cursor:default;font-weight:600}
 .ord.zbijeno .sklop{display:none}
 .ord-h{cursor:pointer}
-.strelica{color:var(--dim2);font-size:12px}
+.strelica{color:var(--dim2);font-size:14px;font-weight:600}
 .glavno{border:var(--bw) solid var(--line2);border-radius:8px;padding:9px 12px;background:var(--bg2)}
 .stavka .l-dod,.stavka .l-pice,.stavka .l-des{margin-left:8px}
 .vj-okvir{margin:22px 14px 0;padding:3px;border-radius:20px;
  background:linear-gradient(135deg,var(--gold),#8C5A1E 32%,var(--or) 58%,var(--gold))}
 .vjernost{border-radius:17px;padding:26px 18px;text-align:center;
  background:radial-gradient(130% 110% at 50% 0%,rgba(233,164,76,.2),#150F0C 70%)}
-.vj-oz{display:inline-block;font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.22em;
+.vj-oz{display:inline-block;font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.22em;
  text-transform:uppercase;color:#15100D;background:var(--gold);padding:7px 16px;border-radius:20px;font-weight:600}
 .vjernost h2{font-family:"Anton",sans-serif;font-size:clamp(28px,8vw,42px);line-height:1.1;
  margin:14px 0 0;letter-spacing:.045em;text-transform:uppercase}
 .vjernost h2 em{font-style:normal;color:var(--gold)}
-.vjernost p{font-size:14.5px;color:var(--dim);margin-top:12px;line-height:1.55;max-width:540px;
- margin-left:auto;margin-right:auto}
+.vjernost p{font-size:16px;color:var(--dim);margin-top:12px;line-height:1.55;max-width:540px;
+ margin-left:auto;margin-right:auto;font-weight:600}
 .napredak{margin-top:12px}
 .traka{height:9px;background:var(--bg2);border:var(--bw) solid var(--line2);border-radius:5px;overflow:hidden}
 .traka i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--or))}
-.napredak span{display:block;font-size:13px;color:var(--dim);margin-top:7px}
+.napredak span{display:block;font-size:15px;color:var(--dim);margin-top:7px;font-weight:600}
 .nagrada{margin-top:12px;border:2px solid var(--go);background:rgba(78,155,95,.1);border-radius:9px;
- padding:14px;font-size:14px;color:var(--dim)}
+ padding:14px;font-size:15.5px;color:var(--dim);font-weight:600}
 .nagrada b{display:block;font-family:"Oswald",sans-serif;text-transform:uppercase;color:var(--go);
- font-size:15px;margin-bottom:5px;letter-spacing:.04em}
+ font-size:16px;margin-bottom:5px;letter-spacing:.04em;font-weight:500}
 .kuh-stupci{display:block}
 .kuh-stupac .ord,.kuh-stupac .prazno{margin-left:18px;margin-right:18px}
 @media (min-width:1000px){
  .kuh-stupci{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 16px;align-items:start;padding:0 16px}
  .kuh-stupac{min-width:0}
  .kuh-stupac .sec{padding:14px 0 6px;position:sticky;top:0;background:var(--bg);z-index:5}
- .kuh-stupac .sec h3{font-size:11.5px}
+ .kuh-stupac .sec h3{font-size:13.5px;font-weight:600}
  .kuh-stupac .ord,.kuh-stupac .prazno{margin-left:0;margin-right:0}
  .kuh-stupac.hitno .sec h3{color:var(--or)}
  .kuh-stupac .ime{font-size:18px}
@@ -772,44 +747,44 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 /* ===== Telefonska narudžba (kuhinjsko sučelje) ===== */
 .tel-omot{padding:0 0 40px}
 .tel-vrh{position:sticky;top:0;z-index:40;background:var(--bg);padding:10px 18px 8px;border-bottom:var(--bw) solid var(--line)}
-.tel-koraci{display:flex;gap:10px;margin-top:8px;font-family:"Oswald",sans-serif;font-size:12px;
- letter-spacing:.06em;text-transform:uppercase;color:var(--dim2);flex-wrap:wrap}
+.tel-koraci{display:flex;gap:10px;margin-top:8px;font-family:"Oswald",sans-serif;font-size:14px;
+ letter-spacing:.06em;text-transform:uppercase;color:var(--dim2);flex-wrap:wrap;font-weight:500}
 .tel-koraci .aktivan{color:var(--or);font-weight:600}
 .tel-red{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
 .tel-red>div{min-width:90px}
-.tel-nadjen{margin-top:10px;color:var(--go);font-size:14px;font-weight:600}
-.tel-novi{margin-top:10px;color:var(--dim2);font-size:14px}
+.tel-nadjen{margin-top:10px;color:var(--go);font-size:15.5px;font-weight:600}
+.tel-novi{margin-top:10px;color:var(--dim2);font-size:15.5px;font-weight:600}
 .tel-gost-traka{margin:12px 18px;padding:10px 12px;border:var(--bw) solid var(--line);
- background:var(--card);font-size:14px;font-weight:600}
+ background:var(--card);font-size:15.5px;font-weight:600}
 .tel-jelo{margin:0 18px 8px;border:var(--bw) solid var(--line);background:var(--card)}
 .tel-jelo-red{display:flex;gap:10px;align-items:center;padding:10px 12px;flex-wrap:wrap}
 .tel-jelo-ime{flex:1;min-width:150px;display:flex;flex-direction:column}
 .tel-jelo-ime b{font-size:16px}
-.tel-jelo-ime span{font-size:12px;color:var(--dim2);line-height:1.35}
+.tel-jelo-ime span{font-size:14px;color:var(--dim2);line-height:1.35;font-weight:600}
 .tel-jelo-cij{font-family:"IBM Plex Mono",monospace;font-weight:600;white-space:nowrap}
 .tel-dodaci{padding:2px 12px 12px;border-top:1px solid var(--line);background:rgba(0,0,0,.05)}
-.tel-dodaci h4{font-family:"Oswald",sans-serif;font-size:12px;letter-spacing:.07em;margin:12px 0 6px;color:var(--dim2)}
+.tel-dodaci h4{font-family:"Oswald",sans-serif;font-size:14px;letter-spacing:.07em;margin:12px 0 6px;color:var(--dim2);font-weight:500}
 .tel-kvadratici{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
-.tel-kvadratici label{display:flex;align-items:center;gap:8px;font-size:14px;padding:8px;
- border:1px solid var(--line);cursor:pointer;min-height:42px}
+.tel-kvadratici label{display:flex;align-items:center;gap:8px;font-size:15.5px;padding:8px;
+ border:1px solid var(--line);cursor:pointer;min-height:42px;font-weight:600}
 .tel-kvadratici input{width:20px;height:20px;flex:none}
-.tel-kvadratici i{margin-left:auto;font-style:normal;color:var(--dim2);font-size:12px}
+.tel-kvadratici i{margin-left:auto;font-style:normal;color:var(--dim2);font-size:14px;font-weight:600}
 .tel-kosarica{margin:20px 0}
 .tel-stavka{display:flex;gap:10px;align-items:flex-start;padding:10px 18px;border-bottom:1px solid var(--line)}
 .tel-stavka>div:first-child{flex:1;display:flex;flex-direction:column}
-.tel-stavka span{font-size:12px;color:var(--dim2)}
+.tel-stavka span{font-size:14px;color:var(--dim2);font-weight:600}
 .tel-stavka-cij{font-family:"IBM Plex Mono",monospace;font-weight:600}
 .tel-zbroj{padding:12px 18px}
-.tel-zbroj>div{display:flex;justify-content:space-between;font-size:14px;color:var(--dim2)}
+.tel-zbroj>div{display:flex;justify-content:space-between;font-size:15.5px;color:var(--dim2);font-weight:600}
 .tel-ukupno{margin-top:6px;font-family:"Oswald",sans-serif;font-size:20px;color:var(--cream)}
 .tel-ukupno b{color:var(--or)}
 .tel-pregled-red{display:flex;justify-content:space-between;gap:12px;padding:6px 0;
- border-bottom:1px solid var(--line);font-size:14px}
+ border-bottom:1px solid var(--line);font-size:15.5px;font-weight:600}
 .tel-pregled-red span{color:var(--dim2)}
 .tel-pregled-red b{text-align:right}
 .tel-ok{text-align:center;padding:20px}
 .tel-ok-broj{font-family:"Anton",sans-serif;font-size:44px;color:var(--go)}
-.tel-ok-tekst{color:var(--dim2);font-size:14px;line-height:1.5}
+.tel-ok-tekst{color:var(--dim2);font-size:15.5px;line-height:1.5;font-weight:600}
 /* slip kakav ide na papir */
 .slip{font-family:"IBM Plex Mono",monospace;font-size:13px;line-height:1.5;max-width:340px;margin:0 auto}
 .slip-nas{text-align:center;font-family:"Anton",sans-serif;font-size:20px;letter-spacing:.05em}
@@ -832,12 +807,12 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .pult-vrh h1{font-family:"Anton",sans-serif;font-size:28px;letter-spacing:.04em;margin:0}
 .pult-brojke{display:flex;gap:10px}
 .pult-brojke span{display:flex;align-items:baseline;gap:8px;padding:8px 14px;border-radius:999px;
- background:var(--card);font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.06em;
- text-transform:uppercase;color:var(--dim2)}
+ background:var(--card);font-family:"Oswald",sans-serif;font-size:15px;letter-spacing:.06em;
+ text-transform:uppercase;color:var(--dim2);font-weight:500}
 .pult-brojke b{color:var(--or);font-size:20px}
 .pult-grupa{margin:0 14px 10px}
 .pult-grupa-vrh{display:flex;align-items:center;gap:10px;padding:14px 4px 10px;
- font-family:"Oswald",sans-serif;font-size:15px;font-weight:600;letter-spacing:.08em;
+ font-family:"Oswald",sans-serif;font-size:16px;font-weight:600;letter-spacing:.08em;
  color:var(--gold);text-transform:uppercase}
 .pult-grupa-vrh::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--gold);flex:none}
 .pult-kartica{position:relative;background:var(--card);border-radius:18px;padding:18px 20px 18px 24px;
@@ -847,12 +822,12 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .pult-kartica-vrh{display:flex;justify-content:space-between;align-items:center;gap:12px;
  margin-bottom:14px}
 .pult-broj{font-family:"Anton",sans-serif;font-size:32px;line-height:1;letter-spacing:.02em}
-.pult-vrijeme{font-family:"Oswald",sans-serif;font-size:14px;letter-spacing:.05em;
- text-transform:uppercase;color:var(--dim2);padding:5px 12px;border-radius:999px;background:var(--bg2)}
+.pult-vrijeme{font-family:"Oswald",sans-serif;font-size:15.5px;letter-spacing:.05em;
+ text-transform:uppercase;color:var(--dim2);padding:5px 12px;border-radius:999px;background:var(--bg2);font-weight:500}
 .pult-stavka{padding:12px 0}
 .pult-stavka + .pult-stavka{border-top:1px solid var(--line)}
 .pult-jelo{font-family:"Oswald",sans-serif;font-size:26px;font-weight:700;line-height:1.15}
-.pult-sastav{font-size:15px;color:var(--dim2);line-height:1.4;margin-top:3px}
+.pult-sastav{font-size:16px;color:var(--dim2);line-height:1.4;margin-top:3px;font-weight:600}
 .pult-dodatak,.pult-uz{display:inline-block;margin:8px 8px 0 0;padding:6px 14px;border-radius:999px;
  font-family:"Oswald",sans-serif;font-size:19px;font-weight:600;letter-spacing:.02em}
 .pult-dodatak{background:rgba(46,122,69,.16);color:var(--go)}
@@ -868,8 +843,8 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
  background:var(--card);font-family:"Oswald",sans-serif;font-size:20px;letter-spacing:.06em;
  color:var(--dim2)}
 .pult-spremne{margin:22px 14px 0;padding:16px 18px;border-radius:16px;background:var(--bg2)}
-.pult-spremne h2{font-family:"Oswald",sans-serif;font-size:14px;letter-spacing:.09em;
- color:var(--dim2);margin:0 0 10px;text-transform:uppercase}
+.pult-spremne h2{font-family:"Oswald",sans-serif;font-size:15.5px;letter-spacing:.09em;
+ color:var(--dim2);margin:0 0 10px;text-transform:uppercase;font-weight:500}
 .pult-spr-red{display:inline-block;margin:0 8px 8px 0;padding:8px 14px;border-radius:999px;
  background:var(--card);font-family:"Oswald",sans-serif;font-size:17px;color:var(--dim)}
 @media (min-width:900px){
@@ -884,8 +859,8 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .gb-red{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:14px 18px;margin:18px auto 4px;padding:0 14px}
 .gb-z-ispod,.gb-z-dno{margin:24px auto 10px}
 .gb-ik{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--dim);
- font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase;min-width:58px;
- transition:transform .15s ease}
+ font-family:"Oswald",sans-serif;font-size:13px;letter-spacing:.06em;text-transform:uppercase;min-width:58px;
+ transition:transform .15s ease;font-weight:500}
 .hero .gb-ik{color:rgba(246,239,232,.82)}
 .gb-ik:active{transform:scale(.92)}
 .gb-ik-sl{width:46px;height:46px;border-radius:13px;object-fit:contain;display:block;box-shadow:0 4px 14px rgba(0,0,0,.35)}
@@ -901,7 +876,7 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .gb-srce{width:44px;height:44px;flex:none;display:block;overflow:visible;filter:drop-shadow(0 3px 8px rgba(232,67,79,.45))}
 .gb-like-t{display:flex;flex-direction:column;line-height:1.1}
 .gb-like-t b{font-family:"Anton",sans-serif;font-weight:400;font-size:22px;letter-spacing:.03em;text-transform:uppercase}
-.gb-like-t small{font-size:13px;color:var(--dim);margin-top:4px}
+.gb-like-t small{font-size:15px;color:var(--dim);margin-top:4px;font-weight:600}
 .gb-broj{font-family:"Anton",sans-serif;font-size:16px;color:#E8434F;letter-spacing:.02em;margin-right:4px}
 .gb-pop .gb-like-sl,.gb-pop .gb-srce{animation:gbPop .6s cubic-bezier(.3,1.6,.5,1)}
 @keyframes gbPop{0%{transform:scale(1)}35%{transform:scale(1.4)}100%{transform:scale(1)}}
@@ -923,8 +898,8 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
 .gb-plut .gb-like-t small{font-size:9.5px;line-height:1.2;margin-top:2px;text-transform:uppercase;letter-spacing:.03em;color:rgba(246,239,232,.75)}
 .gb-plut .gb-broj{display:block;font-size:22px;margin:0}
 .gb-toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:220;background:var(--card);color:var(--cream);
- border:var(--bw) solid var(--line2);border-radius:999px;padding:10px 18px;font-size:14px;white-space:nowrap;
- box-shadow:0 10px 26px rgba(0,0,0,.4);animation:gbT .25s ease}
+ border:var(--bw) solid var(--line2);border-radius:999px;padding:10px 18px;font-size:15.5px;white-space:nowrap;
+ box-shadow:0 10px 26px rgba(0,0,0,.4);animation:gbT .25s ease;font-weight:600}
 @keyframes gbT{from{opacity:0;transform:translate(-50%,8px)}}
 /* uređivač rasporeda u vlasničkom sučelju */
 .gb-mock{display:flex;flex-direction:column;gap:6px;background:var(--bg);border:var(--bw) solid var(--line2);
@@ -957,10 +932,117 @@ input.f:focus,select.f:focus,textarea.f:focus{outline:2px solid var(--or);outlin
  box-shadow:0 14px 32px rgba(0,0,0,.55);border-color:var(--or)}
 .gb-mjesto{width:4px;min-height:30px;border-radius:2px;background:var(--or)}
 .gb-dz.strana .gb-mjesto{width:100%;min-height:4px;height:4px}
-.gb-stanje{font-size:12.5px;color:var(--go);text-align:center;min-height:18px;margin-top:8px}
+.gb-stanje{font-size:14.5px;color:var(--go);text-align:center;min-height:18px;margin-top:8px;font-weight:600}
 .gb-uredi-vrh{display:flex;align-items:center;gap:12px;margin-bottom:4px}
 .gb-uredi-vrh b{font-family:"Oswald",sans-serif;font-size:16px;letter-spacing:.04em;text-transform:uppercase}
 .gb-uredi-vrh .gb-ik-sl,.gb-uredi-vrh .gb-like-sl{width:40px;height:40px}
+
+/* ===================== 3D GUMBI (obje teme, sva sučelja) =====================
+   Gumb ima "rub" ispod sebe (tamniju nijansu vlastite boje) pa izgleda kao da malo viri.
+   Kad se stisne, spusti se za taj rub i dobije unutarnju sjenu — kao da je utonuo.
+   Klasa .pritisnut dolazi iz JS-a (pointerdown), jer :active na nekim mobitelima ne okida. */
+.btn,.cta,.bar button,.pult-gumb,.zum-vrh button{--rub:rgba(0,0,0,.34)}
+.btn.ghost,.btn.tiho,.btn:disabled{--rub:var(--line2)}
+@supports (color:color-mix(in srgb,red,blue)){
+ .btn,.cta,.zum-vrh button{--rub:color-mix(in srgb,var(--or) 58%,#000)}
+ .btn.go,.pult-gumb{--rub:color-mix(in srgb,var(--go) 58%,#000)}
+ .btn.crven{--rub:color-mix(in srgb,var(--red) 58%,#000)}
+ .btn.ghost,.btn.tiho,.btn:disabled{--rub:var(--line2)}
+ .bar button{--rub:color-mix(in srgb,var(--or) 45%,#fff)}}
+.btn,.cta,.bar button,.pult-gumb,.zum-vrh button{position:relative;
+ background-image:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 55%,rgba(0,0,0,.06));
+ box-shadow:0 4px 0 var(--rub),0 7px 14px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.28);
+ transition:transform .08s ease,box-shadow .08s ease,filter .08s ease}
+.cta{box-shadow:0 6px 0 var(--rub),0 12px 22px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.3)}
+.btn.ghost,.btn.tiho{background-color:var(--card);background-image:linear-gradient(180deg,rgba(255,255,255,.06),rgba(0,0,0,.04));
+ box-shadow:0 3px 0 var(--rub),0 5px 10px rgba(0,0,0,.16)}
+.btn:disabled{box-shadow:0 2px 0 var(--rub);background-image:none;cursor:not-allowed}
+.btn:not(:disabled):active,.btn.pritisnut:not(:disabled),.bar button:active,.bar button.pritisnut,
+.pult-gumb:active,.pult-gumb.pritisnut,.zum-vrh button:active,.zum-vrh button.pritisnut{
+ transform:translateY(4px);filter:brightness(.95);
+ box-shadow:0 0 0 var(--rub),0 2px 4px rgba(0,0,0,.2),inset 0 3px 7px rgba(0,0,0,.3)}
+.cta:active,.cta.pritisnut{transform:translateY(6px);filter:brightness(.95);
+ box-shadow:0 0 0 var(--rub),0 2px 5px rgba(0,0,0,.25),inset 0 4px 9px rgba(0,0,0,.3)}
+/* sporedni gumbi (obrubljeni): manji rub, ista logika */
+.izbor button,.podtab button,.brzi button,.nav-izbor button,.kat-pill,.tb-btn,.jez-trenutni,.natrag,.undo,
+.vise,.strelice button,.apoen button,.kvaka,.obrisi,.brzepor button,.adr-red,.pl-opcija,.gb-like,.zvuk-ikona{
+ box-shadow:0 3px 0 var(--line2),0 5px 10px rgba(0,0,0,.14);
+ transition:transform .08s ease,box-shadow .08s ease,border-color .15s ease,background .15s ease,color .15s ease}
+.izbor button:active,.podtab button:active,.brzi button:active,.nav-izbor button:active,.kat-pill:active,
+.tb-btn:active,.jez-trenutni:active,.natrag:active,.undo:active,.vise:active,.strelice button:active,
+.apoen button:active,.kvaka:active,.obrisi:active,.brzepor button:active,.adr-red:active,.pl-opcija:active,
+.gb-like:active,.zvuk-ikona:active,
+.izbor button.pritisnut,.podtab button.pritisnut,.brzi button.pritisnut,.nav-izbor button.pritisnut,
+.kat-pill.pritisnut,.tb-btn.pritisnut,.jez-trenutni.pritisnut,.natrag.pritisnut,.undo.pritisnut,.vise.pritisnut,
+.strelice button.pritisnut,.apoen button.pritisnut,.kvaka.pritisnut,.obrisi.pritisnut,.brzepor button.pritisnut,
+.adr-red.pritisnut,.pl-opcija.pritisnut,.gb-like.pritisnut,.zvuk-ikona.pritisnut,
+/* odabrana opcija ostaje "utisnuta" — odmah se vidi što je uključeno */
+.izbor button[aria-pressed="true"],.podtab button[aria-selected="true"],.nav-izbor button.tren,
+.pl-opcija[aria-pressed="true"],.brzi button.stisnut,.kvaka.on{
+ transform:translateY(3px);box-shadow:0 0 0 var(--line2),inset 0 3px 7px rgba(0,0,0,.22)}
+.jelo-top.pritisnut,.ord-h.pritisnut,.stop-zatvoren.pritisnut{transform:scale(.99)}
+.jelo-top,.ord-h,.stop-zatvoren{transition:transform .1s ease}
+@media (prefers-reduced-motion:reduce){.btn,.cta,.izbor button,.podtab button,.kat-pill,.tb-btn,.vise,.pl-opcija{transition:none}}
+.neob{font-style:normal;text-transform:none;letter-spacing:0;opacity:.8}
+
+/* ===================== SVIJETLA TEMA — krem stranica =====================
+   Nije obrnuta tamna tema nego vlastita paleta: krem pozadina, tople bijele kartice,
+   gotovo crna i deblja slova, tamnija narančasta koja se dobro čita na svijetlom.
+   Naslovnica (fotografija peći + Coca-Cola slika s BIJELIM tekstom) ostaje tamna, ali kao
+   zaobljena "vitrina" na vrhu krem stranice — na krem pozadini bijeli tekst se ne bi vidio. */
+body.svijetlo{--bg:#F6EDDC;--bg2:#FFF8EC;--card:#FFFCF5;--line:#E6D5B8;--line2:#CFB78F;
+ --cream:#15100C;--dim:#32261E;--dim2:#554539;--or:#C4431A;--gold:#8A560C;
+ --red:#AE0019;--go:#1D6A37;--wait:#7A5404;--pice:#135C82;--des:#6C2B80;--bw:2px;
+ background:var(--bg);color:var(--cream)}
+body.svijetlo .topbar{background:rgba(255,248,236,.96);border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(90,60,25,.08)}
+body.svijetlo .hero{border-bottom:0;border-radius:0 0 28px 28px;box-shadow:0 14px 34px rgba(70,40,15,.28)}
+body.svijetlo h1,body.svijetlo h2,body.svijetlo h3{color:#120C08}
+body.svijetlo .hero-in h1,body.svijetlo .hero-in h2,body.svijetlo .hero-in h3{color:inherit}
+body.svijetlo .kat-nav{background:rgba(246,237,220,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+body.svijetlo .kat-pill{background:#fff;border-color:var(--line2);color:#1B130E;font-weight:600}
+body.svijetlo .kat h2{color:#120C08}
+/* jelovnik: svako jelo na svojoj bijeloj kartici */
+body.svijetlo .jelo{background:var(--card);margin:0 14px 12px;border:1px solid var(--line);border-radius:16px;
+ box-shadow:0 2px 0 var(--line),0 8px 20px rgba(90,60,25,.07)}
+body.svijetlo #meni .jelo:last-child{border-bottom:1px solid var(--line)}
+body.svijetlo .jelo-n{color:#15100C;font-weight:700}
+body.svijetlo .jelo-o{color:#4A3B30;font-weight:500}
+body.svijetlo .jelo-c{color:var(--or);font-weight:700}
+body.svijetlo .dod-grid label{background:#fff;border-color:var(--line)}
+body.svijetlo .pr{background:var(--card);border:1px solid var(--line);box-shadow:0 2px 0 var(--line),0 8px 18px rgba(90,60,25,.07)}
+body.svijetlo .pr span{color:#3A2D24}
+body.svijetlo .onama{background:linear-gradient(180deg,rgba(29,106,55,.09),var(--card) 55%);border:1px solid var(--line);
+ box-shadow:0 8px 20px rgba(90,60,25,.07)}
+body.svijetlo .on-oz{color:#fff}
+body.svijetlo .vjernost{background:radial-gradient(130% 110% at 50% 0%,rgba(196,120,30,.16),var(--card) 70%)}
+body.svijetlo .vj-oz{color:#fff}
+body.svijetlo .box,body.svijetlo .ord,body.svijetlo .tura,body.svijetlo .trosak,body.svijetlo .pauza-trak,
+body.svijetlo .uvjeti-dostave>div,body.svijetlo .pult-kartica,body.svijetlo .pult-prazno{
+ background:var(--card);border-color:var(--line);box-shadow:0 2px 0 var(--line),0 8px 20px rgba(90,60,25,.07)}
+body.svijetlo .ord.novo{border-color:var(--or)}
+body.svijetlo .glavno,body.svijetlo .dostava-box,body.svijetlo .zap-red,body.svijetlo .chat-k,body.svijetlo .ostatak{background:#FFF8EC}
+body.svijetlo input.f,body.svijetlo select.f,body.svijetlo textarea.f{background:#fff;border-color:var(--line2);color:#15100C;font-weight:500}
+body.svijetlo input.f::placeholder,body.svijetlo textarea.f::placeholder{color:#8C7B6C}
+body.svijetlo label.f{color:#3A2D24;font-weight:600}
+body.svijetlo .btn.ghost,body.svijetlo .btn.tiho{background-color:#fff;color:#1B130E}
+body.svijetlo .btn:disabled{background:#E3D6C2;color:#7A6A5C}
+body.svijetlo .izbor button,body.svijetlo .podtab button,body.svijetlo .brzi button,body.svijetlo .nav-izbor button,
+body.svijetlo .vise,body.svijetlo .pl-opcija,body.svijetlo .brzepor button,body.svijetlo .strelice button,
+body.svijetlo .apoen button,body.svijetlo .adr-red,body.svijetlo .natrag,body.svijetlo .undo{background-color:#fff;color:#2A1F18}
+body.svijetlo .izbor button[aria-pressed="true"],body.svijetlo .pl-opcija[aria-pressed="true"],
+body.svijetlo .podtab button[aria-selected="true"],body.svijetlo .nav-izbor button.tren{background:#FBE3D6;color:var(--or)}
+body.svijetlo .natrag{border-color:var(--gold);color:var(--gold)}
+body.svijetlo .tb-btn,body.svijetlo .jez-trenutni{background:#fff}
+body.svijetlo .m-gost{background:#fff}
+body.svijetlo .m-kuh{background:rgba(196,67,26,.1)}
+body.svijetlo .veza{background:rgba(255,248,236,.96)}
+body.svijetlo .pult-vrijeme,body.svijetlo .pult-brojke span,body.svijetlo .pult-spr-red{background:#F1E4CC}
+body.svijetlo .pult-spremne{background:#EFE2CA}
+body.svijetlo .gb-like{background:#fff}
+body.svijetlo .gb-toast{background:#fff}
+body.svijetlo .traka{background:#EFE2CA}
+body.svijetlo .tag,body.svijetlo .nacin,body.svijetlo .bedz{font-weight:700}
+body.svijetlo .pravno{border-top-color:var(--line)}
 </style>
 </head>
 <body>
@@ -1818,7 +1900,9 @@ document.addEventListener("touchstart",otkljucaj);
    :active se na nekim mobitelima (posebno u kuhinjskom i vozačevom sučelju,
    gdje se puno tapka) ne pokreće pouzdano pri dodiru, pa se pritisak vizualno
    "ne osjeti" iako klik radi. Ovo radi identično na mišu i na dodir. */
-const RUKOM_GUMBI=".btn,.tb-btn,.cta,.stop-zatvoren,.natrag,.tema,.vise,.ord-h,.jelo-top,.nav-izbor button";
+const RUKOM_GUMBI=".btn,.tb-btn,.cta,.stop-zatvoren,.natrag,.tema,.vise,.ord-h,.jelo-top,.nav-izbor button,"+
+ ".kat-pill,.izbor button,.podtab button,.brzi button,.pl-opcija,.pult-gumb,.bar button,.strelice button,"+
+ ".apoen button,.brzepor button,.zum-vrh button,.undo,.gb-like,.kvaka,.obrisi,.adr-red,.jez-trenutni,.zvuk-ikona";
 function oznaciPritisak(e){
  const b=e.target.closest(RUKOM_GUMBI);
  if(b)b.classList.add("pritisnut");}
@@ -2124,9 +2208,9 @@ async function start(){
   if(gost) ostatak.catch(e=>{console.error("pozadinsko učitavanje:",e);});
   else { await ostatak; crtaj(); }
  }catch(e){veza("lose","greška");
-  el("app").innerHTML=`<div class="setup"><h2>Ne mogu se spojiti na bazu</h2>
-   <p>Poruka: <code>${esc(e.message||e)}</code></p>
-   <p>Provjeri jesu li pokrenute obje SQL datoteke, <code>1-baza.sql</code> i <code>3-baza-dopuna.sql</code>.</p></div>`;}}
+  el("app").innerHTML=`<div class="setup"><h2>Stranica se trenutno ne može učitati</h2>
+   <p>Provjerite internetsku vezu i osvježite stranicu. Ako i dalje ne radi, naručite telefonom.</p>
+   <button class="btn" onclick="location.reload()">Osvježi stranicu</button></div>`;}}
 
 /* ---- Realtime veza: praćenje statusa + automatski oporavak ----
    Prije je kanal bio samo jednom pretplaćen bez provjere je li spajanje uspjelo.
@@ -2627,38 +2711,7 @@ function gostHTML(){
   ${r.gratisPice?`${r.gratisPice}× Coca-Cola 0,33 L uz naručene pizze`:""}
   ${r.gratisPizza?`<br>${r.gratisPizza}× pizza gratis po akciji 4+1 — ušteda ${eur(r.popust)}`:""}</div>`:""}
  ${gbZona("dno")}
- ${recenzijeTraka()}
  ${pravno()}`;}
-
-const RECENZIJE=[
- ["Ana M.","Najbolje tijesto u kvartu. Lagana je i nakon dvije kriške nisi težak."],
- ["Damir K.","Naručio u 19:40, stigla u 20:05. Topla, uredno pakirana, vozač ljubazan."],
- ["Petra V.","Vatrena je stvarno vatrena. Konačno netko tko ne štedi na kulenu."],
- ["Marko B.","Prešao s aplikacija na njihovu stranicu. Iste pizze, jeftinije, a novac ostaje u kvartu."],
- ["Ivana S.","Tražila sam bez luka i dobila baš tako. Malo, a puno znači."],
- ["Tomislav R.","Capricciosa kao nekad. Šunka prava, ne ona vodenasta."],
- ["Lucija P.","Gratis kola uz svaku pizzu, a cijena i dalje niža nego drugdje."],
- ["Josip H.","4+1 se sam odbio na računu, nisam morao ništa tražiti."],
- ["Marina T.","Pršut i rukola na Italiani su svježi, ne suhi ostaci."],
- ["Filip N.","Naručio za sedmero ljudi, sve stiglo odjednom i toplo."],
- ["Sanja D.","Tijesto je stvarno drugačije otkad su promijenili recepturu."],
- ["Robert Ž.","Zvao da promijenim adresu usred narudžbe, riješili bez pitanja."],
- ["Katarina L.","Quattro Formaggio je ozbiljna. Gorgonzola se osjeti kako treba."],
- ["Nikola G.","Dostava u Trešnjevku za dvadesetak minuta. Nikad hladno."],
- ["Martina J.","Palačinke s Nutellom su bonus zbog kojeg naručujem opet."],
- ["Krešimir A.","Cijena, kvaliteta i brzina — rijetko sve troje na istom mjestu."],
- ["Dora F.","Vegetarijana ima pravo povrće, ne tri komadića za ukras."],
- ["Igor M.","Rekli 35 minuta, stigli za 31. Prvi put da netko podcijeni svoje vrijeme."],
- ["Helena B.","Naručujem svaki petak. Nijedanput problem u pola godine."],
- ["Zoran K.","Slavonska s kulenom je najbolja koju sam jeo u Zagrebu."]
-];
-function recenzijeTraka(){
- const dvaput=RECENZIJE.concat(RECENZIJE);
- return `<div class="rec-omot reveal" data-rk="rec"><div class="rec-naslov">Što kažu gosti</div>
-  <div class="rec-traka"><div class="rec-tok">
-  ${dvaput.map(([i,t])=>`<div class="rec"><div class="zvj">★★★★★</div>
-    <p>${esc(t)}</p><b>${esc(i)}</b></div>`).join("")}
-  </div></div></div>`;}
 
 function vjernostHTML(){
  if(kupac){
@@ -2670,7 +2723,7 @@ function vjernostHTML(){
    <div class="box" style="margin:16px 0 0;text-align:left">
     <div style="display:flex;gap:12px;align-items:center">
      <div style="flex:1"><b style="font-family:Oswald;font-size:16px;text-transform:uppercase">${esc(kupac.ime||kupac.tel)}</b>
-      <p style="font-size:13.5px;color:var(--dim2)">${esc(kupac.tel)} · ${kupac.dostavljenih} dostavljenih ${
+      <p style="font-size:15.5px;color:var(--dim2)">${esc(kupac.tel)} · ${kupac.dostavljenih} dostavljenih ${
        kupac.novi?"— još nemate narudžbi kod nas":"narudžbi"}</p></div>
      <button class="btn sm tiho" style="width:auto;padding:8px 12px" onclick="kupac=null;crtaj(1)">Odjava</button></div>
     ${pravo?`<div class="nagrada"><b>★ Osvojili ste besplatnu pizzu</b>
@@ -2684,7 +2737,7 @@ function vjernostHTML(){
   <p>Ne treba vam račun ni lozinka. Sustav broji vaše dostavljene narudžbe prema <b>broju mobitela koji upišete pri dostavi</b>. Nakon deset birate bilo koju pizzu bez naplate, kad god želite.</p>
   <div class="box" style="margin:16px 0 0;text-align:left">
    <label class="f" for="k-tel">Provjerite koliko ste skupili</label>
-   <input class="f" id="k-tel" inputmode="tel" placeholder="091 234 5678" value="${esc(kupacUnos)}"
+   <input class="f" id="k-tel" inputmode="tel" autocomplete="tel" placeholder="" value="${esc(kupacUnos)}"
     oninput="kupacUnos=this.value">
    <p class="err" id="k-err"></p>
    <button class="btn ghost" onclick="prijaviKupca()">Provjeri moje stanje</button>
@@ -2830,21 +2883,21 @@ function podaciHTML(){
    <button aria-pressed="${osobno}" onclick="postaviNacin('osobno')">Osobno preuzimanje</button></div>
   <div class="tot" style="margin-top:10px"><span>Ukupno za platiti</span><span>${eur(r.ukupno)}</span></div>
   <label class="f" for="f-ime">Ime i prezime</label>
-  <input class="f" id="f-ime" placeholder="Ivan Horvat" value="${esc(forma.ime)}" oninput="forma.ime=this.value">
+  <input class="f" id="f-ime" autocomplete="name" placeholder="" value="${esc(forma.ime)}" oninput="forma.ime=this.value">
   <label class="f" for="f-tel">Broj mobitela</label>
-  <input class="f" id="f-tel" inputmode="tel" placeholder="091 234 5678" value="${esc(forma.tel)}" oninput="forma.tel=this.value">
+  <input class="f" id="f-tel" inputmode="tel" autocomplete="tel" placeholder="" value="${esc(forma.tel)}" oninput="forma.tel=this.value">
   ${osobno?`<label class="f">Kada dolazite po narudžbu?</label>
   <div class="izbor" style="flex-wrap:wrap">
    ${PREUZ_OPCIJE.map(([m,n])=>`<button aria-pressed="${forma.preuzMin===m}" onclick="forma.preuzMin=${m};crtaj(1)">${n}</button>`).join("")}</div>
   <p class="savjet">Naručit ćemo pripremu tako da je pizza svježa točno kad dođete — ${esc(lokal.adresa)}.</p>`
   :`<label class="f" for="f-adr">Adresa dostave</label>
-  <input class="f" id="f-adr" placeholder="Zabočka ulica 9" value="${esc(forma.adr)}"
+  <input class="f" id="f-adr" placeholder="" value="${esc(forma.adr)}"
    autocomplete="off" oninput="forma.adr=this.value;forma.lat=null;provjeriAdresu(this.value)">
   <p class="savjet" id="adr-stanje">Upišite ulicu i kućni broj. Ne morate paziti na kvačice — adresu pronalazimo sami.</p>`}
-  <label class="f" for="f-nap">Poruka kuhinji (nije obavezno)</label>
-  <textarea class="f" id="f-nap" rows="2" placeholder="npr. alergičan sam na kukuruz, nemojte ga stavljati" oninput="forma.nap=this.value">${esc(forma.nap)}</textarea>
-  ${osobno?"":`<label class="f" for="f-napd">Poruka vozaču za dostavu (nije obavezno)</label>
-  <textarea class="f" id="f-napd" rows="2" placeholder="npr. nazovite me kad dođete, dijete mi spava — ne zvonite" oninput="forma.napD=this.value">${esc(forma.napD)}</textarea>`}
+  <label class="f" for="f-nap">Napomena za restoran <i class="neob">(nije obavezno)</i></label>
+  <textarea class="f" id="f-nap" rows="2" placeholder="Napišite napomenu kuhinji, npr. alergije, bez luka, dobro pečeno…" oninput="forma.nap=this.value">${esc(forma.nap)}</textarea>
+  ${osobno?"":`<label class="f" for="f-napd">Napomena za dostavljača <i class="neob">(nije obavezno)</i></label>
+  <textarea class="f" id="f-napd" rows="2" placeholder="Npr. kat i stan, ulaz iz dvorišta, nazovite kad stignete…" oninput="forma.napD=this.value">${esc(forma.napD)}</textarea>`}
   <label class="f">Način plaćanja — obavezno</label>
   <div class="pl-izbor">
    <button class="pl-opcija" id="pl-o" aria-pressed="${placanje==="online"}" onclick="odaberiPlacanje('online')">
@@ -3198,7 +3251,7 @@ function pracenje(o){
     <span>Otkazivanje putem stranice više nije moguće. Za svaku izmjenu — adresu, sastojke ili broj telefona — pošaljite poruku kuhinji ili nazovite. Potrudit ćemo se izaći u susret ako priprema još nije gotova.</span>
     <a class="zovi" style="margin-top:10px" href="${telH(lokal.tel1)}">Nazovi ${esc(lokal.tel1)}</a></div>`:""}
   <div class="box" style="margin:18px 0 0">
-   <div style="font-family:Oswald;font-size:12px;letter-spacing:.09em;color:var(--dim2);margin-bottom:8px">PORUKA PIZZERIJI</div>
+   <div style="font-family:Oswald;font-size:14px;letter-spacing:.09em;color:var(--dim2);margin-bottom:8px">PORUKA PIZZERIJI</div>
    <div style="margin-bottom:10px">${zvukGumb(true)}</div>
    ${mp.length?`<div class="chat-tok">${mp.map(p=>`<div class="mjehur ${p.od==="gost"?"m-gost":"m-kuh"}">
      <b>${p.od==="gost"?esc(o.ime):"Pizzeria"}</b>${esc(p.tekst)}<i>${sat(p.stvoreno)}</i></div>`).join("")}</div>`:""}
@@ -3329,7 +3382,7 @@ async function ucitajVlasnika(){
  normativi=nr.error?[]:nr.data; fiksni=f.error?[]:f.data; troskovi=t.error?[]:t.data;
  zaposlenici=zp.error?[]:zp.data; vozila=vo.error?[]:vo.data;
  if(!dd.error)dodaci=dd.data;
- if(v.error)alert("Pokreni VLASNIK.sql (i ZAPOSLENICI.sql) u Supabaseu — nedostaju tablice.\n"+v.error.message);
+ if(v.error)alert("Greška pri učitavanju podataka: "+v.error.message);
  await ucitajVl();}
 
 async function ucitajVl(){
@@ -3940,8 +3993,7 @@ function vlVozniPark(){
  const cijenaGoriva=v=>v.gorivo==="dizel"?(+lokal.cijena_dizel||1.40):(+lokal.cijena_benzin||1.45);
  return `<p class="note">Vozač bira vozilo pri prijavi. Kad završi turu, prijeđeni kilometri (procjena iz rute) sami se
   zbroje na vozilo — tako se km i trošak goriva vode automatski, bez ručnog upisivanja.</p>
- ${!vozila.length?`<p class="savjet">Nema unesenih vozila. Ako si upravo pokrenuo/la <b>VOZNI_PARK.sql</b> u Supabaseu,
-   osvježi stranicu; inače dodaj prvo vozilo ispod.</p>`:""}
+ ${!vozila.length?`<p class="savjet">Nema unesenih vozila. Dodajte prvo vozilo ispod.</p>`:""}
  ${vozila.map(v=>{
    const odServisa=Math.max(0,(+v.km||0)-(+v.zadnji_servis_km||0));
    const trebaServis=odServisa>=(+v.servis_prag||10000);
@@ -3989,7 +4041,7 @@ async function novoVozilo(){
  const naziv=prompt(tj("Naziv vozila (npr. Opel Corsa 1.2):")); if(!naziv)return;
  const r=await sb.from("vozila").insert({lokal_id:lokal.id,naziv,gorivo:"benzin",
    potrosnja:6.0,km:0,zadnji_servis_km:0,servis_prag:10000,aktivno:true}).select().single();
- if(r.error){alert(tj("Greška: ")+r.error.message+tj("\n\nJesi li pokrenuo/la VOZNI_PARK.sql u Supabaseu?"));return;}
+ if(r.error){alert(tj("Greška: ")+r.error.message);return;}
  vozila.push(r.data); crtaj(1);}
 async function obrisiVozilo(id,naziv){
  if(!confirm(tj("Obrisati vozilo „"+naziv+"”?")))return;
@@ -4367,7 +4419,7 @@ function kartica(o,gumbi){
    ${o.napomena?`<div class="napom"><b>Kuhinji:</b> ${esc(o.napomena)}</div>`:""}
    ${o.napomena_dostava?`<div class="napom"><b>Za dostavu:</b> ${esc(o.napomena_dostava)}</div>`:""}</div>
   <div class="chat-k ${novaP?"novo":""}">
-   <div style="font-family:Oswald;font-size:12px;letter-spacing:.08em;color:${novaP?"var(--pice)":"var(--dim)"};margin-bottom:8px">
+   <div style="font-family:Oswald;font-size:14px;letter-spacing:.08em;color:${novaP?"var(--pice)":"var(--dim)"};margin-bottom:8px">
     ${novaP?"NOVA PORUKA GOSTA":"Poruke s gostom"}</div>
    ${mp.length?`<div class="chat-tok">${mp.map(p=>`<div class="mjehur ${p.od==="gost"?"m-gost":"m-kuh"}">
      <b>${p.od==="gost"?esc(o.ime):"Pizzeria"}</b>${esc(p.tekst)}<i>${sat(p.stvoreno)}</i></div>`).join("")}</div>`:""}
@@ -4502,7 +4554,7 @@ function vozacHTML(){
       <div class="dp-ime">${esc(o.ime)}</div>
       <a class="dp-adr" target="_blank" rel="noopener"
        href="${jednaRuta(o)}">${esc(o.adresa)}</a>
-      ${o.naselje?`<div style="font-size:13px;color:var(--dim2);margin-top:3px">${esc(o.naselje)}</div>`:""}
+      ${o.naselje?`<div style="font-size:15px;color:var(--dim2);margin-top:3px">${esc(o.naselje)}</div>`:""}
       <a class="dp-tel" href="${telH(o.telefon)}">${esc(o.telefon)}</a>
       ${o.napomena_dostava?`<div class="napom">${esc(o.napomena_dostava)}</div>`:""}</div>
      <div class="nacin ${plKlasa(o)}">${o.placeno?`✓ PLAĆENO ONLINE (${eur(o.iznos)}) — NE naplaćuj`:`Naplati ${eur(o.iznos)} — <span>${esc(plNaziv(o))}</span>`}</div>
@@ -4522,7 +4574,7 @@ function vozacHTML(){
   h+=`<div class="sec"><h3>SPREMNO, BEZ TURE</h3></div>`+bezTure.map(o=>`
    <div class="tura"><div class="tura-h"><div class="kv">${esc(o.adresa.split(",")[0])}</div>
     <span class="tag t-spr">#${o.broj}</span></div>
-    <div style="font-size:13.5px;color:var(--dim)">${esc(o.ime)} · ${eur(o.iznos)} · ${esc(plNaziv(o))}</div>
+    <div style="font-size:15.5px;color:var(--dim)">${esc(o.ime)} · ${eur(o.iznos)} · ${esc(plNaziv(o))}</div>
     <button class="btn" onclick="uzmiSamu('${o.id}')">Preuzimam ovu</button></div>`).join("");}
  h+=`<div class="sec"><h3>PONUĐENE TURE</h3></div>`;
  h+=slob.length?slob.map(t=>{const st=nar(t);
@@ -4594,8 +4646,8 @@ function blagajnaHTML(){
    <i>${((polog[a]||0)*a).toFixed(2)} €</i></div>`).join("")}
   <div class="tot"><span>Ukupno kod mene</span><span>${uk.toFixed(2)} €</span></div>
   <div class="tot" style="border:0;padding-top:2px">
-   <span style="font-size:13px;color:var(--dim2)">od toga sitno (5 € i manje)</span>
-   <span style="font-size:14px;color:${sit<15?"var(--red)":"var(--dim)"}">${sit.toFixed(2)} €</span></div>
+   <span style="font-size:15px;color:var(--dim2)">od toga sitno (5 € i manje)</span>
+   <span style="font-size:15.5px;color:${sit<15?"var(--red)":"var(--dim)"}">${sit.toFixed(2)} €</span></div>
  </div>`:""}`;}
 function racunajOstatak(){
  const i=parseFloat((el("k-iznos")||{}).value)||0, d=parseFloat((el("k-dao")||{}).value)||0;
