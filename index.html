@@ -1236,7 +1236,6 @@ body.svijetlo .jelo-o{font-weight:600;color:#241910}
 /* pozadinska fotografija peći: svjetlija, manje prozirna, dobro stoji na mobitelu */
 .pec{opacity:.58;background-position:center 35%}
 .pec::after{background:linear-gradient(180deg,rgba(11,9,8,.55),rgba(11,9,8,.28) 40%,rgba(11,9,8,.82))}
-.hero-in{z-index:2}
 
 /* ---------- gornja traka: centrirana, ikone s natpisom ---------- */
 .topbar{justify-content:center;padding:6px 10px;padding-top:calc(6px + env(safe-area-inset-top))}
@@ -1502,6 +1501,13 @@ body.svijetlo.gost-str .jelo{border:2px solid #E3D2B4;box-shadow:0 4px 0 rgba(0,
  50%{opacity:0;transform:scale(1.6) translateY(-40%)}100%{opacity:0}}
 .cc-scena.cc-nema{display:none}
 @media (prefers-reduced-motion:reduce){.cc-lim,.cc-decko,.cc-kap,.cc-prah i{animation:none}}
+/* Video ima crnu pozadinu; mix-blend-mode:lighten crnu "propušta" pa se vidi fotografija peći iza,
+   a limenka, tekst i dečko ostaju. Zato preci videa ne smiju stvarati vlastiti stacking context
+   (bez z-index/mask/filter/transform na .hero-in, .kola, .kola-vid). */
+.kola-vid{width:min(100%,540px);aspect-ratio:592/348;margin:0 auto}
+.kola-video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 52%;background:#000;
+ mix-blend-mode:lighten;pointer-events:none}
+.ur-mod .kola-video{pointer-events:auto}
 </style>
 </head>
 <body>
@@ -1762,7 +1768,7 @@ function izgledCSS(iz,bg,sv){
   if(r)c+=`${sel}{${r}}`;
   if(s.font||s.deb)c+=`${sel} *:not(svg):not(path):not(.koza):not(.koza *){font-family:inherit!important;font-weight:inherit!important}`;
   if(s.boja)c+=`${sel},${sel} *:not(img):not(svg):not(path):not(.koza):not(.koza *){color:${s.boja}!important}`;
-  if(s.pomak&&(s.pomak.x||s.pomak.y))c+=`${sel}{translate:${+s.pomak.x||0}px ${+s.pomak.y||0}px}`;
+  if(s.pomak&&(s.pomak.x||s.pomak.y))c+=id==="kola"?`${sel}{position:relative;left:${+s.pomak.x||0}px;top:${+s.pomak.y||0}px}`:`${sel}{translate:${+s.pomak.x||0}px ${+s.pomak.y||0}px}`;
   if(s.skriveno)c+=`body:not(.ur-mod) ${sel}{display:none!important}.ur-mod ${sel}{opacity:.3}`;
  });
  const js=(iz.s||{})["jelo-sl"];
@@ -3232,6 +3238,7 @@ function crtaj(prisilno){
  document.body.classList.toggle("gost-str",uloga==="gost"||urMod);
  vrati();
  crtajZum();
+ ugradiKolaVideo();
  const jm=el("jez-mjesto"); if(jm)jm.innerHTML=jezikSwitcher();
  prevediApp();
  azurirajTopbarGumbe();
@@ -3578,13 +3585,8 @@ function gostHTML(){
   slogan:`<div class="slogan" data-ur="slogan">${T("slogan","Real food. Real pizza.")}</div>`,
   gb:gbH||urMod?`<div data-ur="gb">${gbH||(urMod?`<p class="savjet" style="text-align:center">(društvene mreže — uključuju se u kartici Početna)</p>`:"")}</div>`:"",
   trio:`<div class="trio anim-${izS("trio").anim||"vrti"}" data-ur="trio">${[1,2,3].map(i=>`<img src="${esc(SL("p"+i,SLIKE["P"+i]))}" alt="" data-ur="p${i}">`).join("")}</div>`,
-  kola:`<div class="kola" data-ur="kola">${izS("kola").slika?"":`<div class="cc-scena" role="img" aria-label="Coca-Cola 0,33 L gratis uz svaku pizzu">
-    <img class="cc-lim" src="cc-limenka.webp" alt="" onerror="ccNema(this)">
-    <img class="cc-decko" src="cc-decko.webp" alt="" onerror="ccNema(this)">
-    <img class="cc-tekst" src="cc-tekst.webp" alt="" onerror="ccNema(this)">
-    <i class="cc-kap k1"></i><i class="cc-kap k2"></i><i class="cc-kap k3"></i>
-    <div class="cc-prah"><i></i><i></i><i></i></div></div>`}
-    ${kolaSrc?`<img class="kola-slika" src="${esc(kolaSrc)}" alt="Coca-Cola 0,33 L gratis uz svaku pizzu" ${izS("kola").slika?"":`style="display:none" onerror="kolaSlikaDalje(this)"`}>`:""}
+  kola:`<div class="kola" data-ur="kola">${izS("kola").slika||kolaVidNema?"":`<div class="kola-vid" id="kola-vid-mjesto"></div>`}
+    ${kolaSrc?`<img class="kola-slika" src="${esc(kolaSrc)}" alt="Coca-Cola 0,33 L gratis uz svaku pizzu" ${izS("kola").slika?"":`${kolaVidNema?"":`style="display:none"`} onerror="kolaSlikaDalje(this)"`}>`:""}
     <div class="kola-scena" style="display:none">
     <img class="kola-lim" src="${SLIKE.LIMENKA}" alt="">
     <img class="kola-logo" src="${SLIKE.LOGO}" alt="Coca-Cola">
@@ -4153,6 +4155,29 @@ const plKlasa=o=>o.placanje==="online"?"n-onl":o.placanje==="gotovina"?"n-kes":"
 
 // redom se probaju mogući nazivi datoteke; koji ne postoji izbacuje se s popisa (pamti se dok je stranica otvorena)
 const KOLA_SRC=["coca-cola-gratis.webp","coca-cola-gratis.png","coca-cola%2B.png","coca-cola%2B.PNG","coca-cola%2B.webp","coca-cola%2B.jpg","coca-cola%2B.jpeg"];
+/* Coca-Cola animacija je vlasnikov video "animacija.mp4" (u korijenu repozitorija).
+   Jedan te isti <video> element se čuva između crtanja stranice i samo se premješta u novo
+   mjesto — tako se ne vraća na početak svaki put kad gost nešto doda u košaricu.
+   Ako videa nema, prikazuje se statična Coca-Cola slika. */
+const KOLA_VIDEO=["animacija.mp4","animacija.MP4","animacija.mov","animacija.webm"];
+let kolaVid=null, kolaVidIdx=0, kolaVidNema=false;
+function ugradiKolaVideo(){
+ const m=el("kola-vid-mjesto"); if(!m)return;
+ if(!kolaVid){
+  kolaVid=document.createElement("video");
+  kolaVid.muted=true; kolaVid.loop=true; kolaVid.autoplay=true; kolaVid.playsInline=true; kolaVid.preload="auto";
+  ["muted","playsinline","webkit-playsinline","autoplay","loop"].forEach(a=>kolaVid.setAttribute(a,""));
+  kolaVid.setAttribute("aria-label","Coca-Cola 0,33 L gratis uz svaku pizzu");
+  kolaVid.className="kola-video";
+  kolaVid.addEventListener("error",kolaVidGreska);
+  kolaVid.src=KOLA_VIDEO[0];}
+ if(kolaVid.parentNode!==m){m.appendChild(kolaVid);}
+ const p=kolaVid.play(); if(p&&p.catch)p.catch(()=>{});}
+function kolaVidGreska(){
+ kolaVidIdx++;
+ if(kolaVidIdx<KOLA_VIDEO.length){kolaVid.src=KOLA_VIDEO[kolaVidIdx]; const p=kolaVid.play(); if(p&&p.catch)p.catch(()=>{}); return;}
+ kolaVidNema=true; const m=el("kola-vid-mjesto");
+ if(m){const f=m.parentElement&&m.parentElement.querySelector(".kola-slika"); m.remove(); if(f)f.style.display="";}}
 function ccNema(im){
  const sc=im.closest(".cc-scena"); if(!sc||sc.classList.contains("cc-nema"))return;
  sc.classList.add("cc-nema"); const f=sc.parentElement&&sc.parentElement.querySelector(".kola-slika");
