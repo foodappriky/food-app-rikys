@@ -27,14 +27,17 @@
      4) fontovi više ne blokiraju pokretanje stranice. -->
 <link rel="preconnect" href="https://ajhgvczgjbkhzdzuzyby.supabase.co" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="preload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" as="script">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" as="script" fetchpriority="low">
 <script>
 (function(){try{
  var h=(location.hash||"").replace("#","");
  if(h&&h!=="meni")return;               // samo gost; kuhinja/vozač/vlasnik/pult idu starim putem
- ["pec-pozadina.jpg","pizza-1.png","pizza-2.png","pizza-3.png","cola-logo.png","cola-limenka.png"].forEach(function(f,i){
+ // gost: stranica ostaje skrivena dok se ne učitaju podaci, fontovi i slike naslovnice — onda se
+ // pokaže SVE ODJEDNOM (nema više pojavljivanja dio po dio). Najduže čeka 3 s.
+ document.documentElement.className+=" ucitava";
+ ["pec-pozadina.webp","pizza-1.webp","pizza-2.webp","pizza-3.webp","koza.webp","animacija-poster.webp"].forEach(function(f){
   var l=document.createElement("link");l.rel="preload";l.as="image";l.href=f;
-  if(i<4)l.setAttribute("fetchpriority","high");document.head.appendChild(l);});
+  l.setAttribute("fetchpriority","high");document.head.appendChild(l);});
  // isti upit kao start(): lokal + dostupna jela + dostupni dodaci, ali JEDNIM odlaskom do baze
  var U="https://ajhgvczgjbkhzdzuzyby.supabase.co/rest/v1/lokali?select=*,jela(*),dodaci(*)"
   +"&domena=eq.rikys.hr&jela.dostupno=eq.true&dodaci.dostupno=eq.true"
@@ -47,7 +50,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" onerror="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet"></noscript>
 <style>
 /* Naslovnica (hero) uvijek zadržava tamnu fotografiju s njoj namijenjenim svijetlim tekstom,
@@ -1529,6 +1532,15 @@ body.svijetlo.gost-str .jelo{border:2px solid #E3D2B4;box-shadow:0 4px 0 rgba(0,
 .ur-strelice{display:grid;grid-template-columns:repeat(3,46px);gap:6px;justify-content:start;margin:4px 0 10px}
 .ur-strelice .ur-cip{padding:8px 0;text-align:center;font-size:18px}
 .ur-tvor .btn{width:100%;margin-top:8px;text-align:left}
+/* ---- Učitavanje gosta: sve se pokaže odjednom (vidi otkrijKadSpremno) ---- */
+html.ucitava #app,html.ucitava #topbar{opacity:0;animation:uvodSigurno .01s 4.5s forwards}
+@keyframes uvodSigurno{to{opacity:1}}
+#app,#topbar{transition:opacity .4s ease}
+html.ucitava body::after{content:"";position:fixed;left:50%;top:46%;width:46px;height:46px;margin:-23px 0 0 -23px;
+ border-radius:50%;border:4px solid rgba(232,98,42,.22);border-top-color:#E8622A;opacity:0;pointer-events:none;
+ animation:uvodPokazi .25s .35s forwards,uvodVrti .8s linear infinite,uvodSkrij .01s 4.5s forwards}
+@keyframes uvodPokazi{to{opacity:1}} @keyframes uvodSkrij{to{opacity:0;visibility:hidden}}
+@keyframes uvodVrti{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -1555,7 +1567,8 @@ const DOMENA = "rikys.hr";
 const GEOAPIFY_KEY = "5d6413d954924b2f852f270720776437";
 /* Adresa koja ide u navigaciju — bez poštanskog broja, Google je tako točnije nađe. */
 const ADRESA_NAV = "Zagorska ulica 18, Zagreb, Hrvatska";
-const SLIKE = {PEC:"pec-pozadina.jpg",P1:"pizza-1.png",P2:"pizza-2.png",P3:"pizza-3.png",LOGO:"cola-logo.png",APPLEPAY:"apple-pay.png",GOOGLEPAY:"google-pay.png",LIMENKA:"cola-limenka.png",VISA:"visa.png",MASTERCARD:"mastercard.png"};
+const SLIKE_STARO={PEC:"pec-pozadina.jpg",P1:"pizza-1.png",P2:"pizza-2.png",P3:"pizza-3.png"};
+const SLIKE = {PEC:"pec-pozadina.webp",P1:"pizza-1.webp",P2:"pizza-2.webp",P3:"pizza-3.webp",LOGO:"cola-logo.png",APPLEPAY:"apple-pay.png",GOOGLEPAY:"google-pay.png",LIMENKA:"cola-limenka.png",VISA:"visa.png",MASTERCARD:"mastercard.png"};
 /* SIGURNOST: lozinke i PIN-ovi više se NIKAD ne šalju u preglednik. Provjerava ih server
    (Supabase funkcija "prijava"), koja nakon ispravne lozinke vraća prijavu (sesiju) za tu
    ulogu. Baza narudžbe, kupce i troškove daje SAMO prijavljenom osoblju; gost preko
@@ -1697,7 +1710,7 @@ let oNamaOtvoreno=false;
    Svaki dio stranice koji se može uređivati ima atribut data-ur="<id>". */
 const IZ_ZADANO={glavna:"#0B0908",obrnuta:"#F6BE2C"};
 const HERO_RED=["deco","mark","mark2","rule","radno","slogan","gb","trio","kola","promo","pay","cta","tel","savjet"];
-const SEK_RED=["prednosti","ispod","vjernost","onama","uvjeti","meni","dno","recenzije"];
+const SEK_RED=["ispod","vjernost","onama","uvjeti","meni","dno","recenzije"];
 const KOZA_SRC="koza.webp";
 const TEKSTURA="data:image/webp;base64,UklGRowBAABXRUJQVlA4IIABAAAwEQCdASqZAE0BPp1OpE4lpCOjICgAsBOJaW7gSW16KfUsgAUGOVf/rehnQuktTl1SIX+oW1zAt1CwFJ0QLfhrO7C4mlgmaH6/t9fa6rgXfoXfevBrlcQTkL+7DbDu4Z8yw07rA5HRh8b2rcGn7G6xVNNnIPbEhxipPgDEkQgyvIMOM/WlBEpGArkssjNYLdXPEAD+7zEH97gw6T8rRbMq8Tr1lV3rzNH00anLVhnUo8l7tErfUbihfIsx3BtLoQ7PxcTYcjz9OBEnBXlaP+ZAa0xlPynV6Y+M9MhLZRZEjA/ilrcyTqHZApYaLf2XekhQy+BvemYsJNzj5VwOL7FHjDDUiiNUEUlMD35HBa2gZXwcd9dlAbKXOFb2LmU/Kj2JjFgnaQ/etJalJ5WMFJrULWNqeG99JCokX+/C5isifDjvLMLRc2CPgeB18uhTvPJeEQrjYvQLUWP2MKDsFyp7vTEJtCBL8COZz2eBWonvjQOWHeJ8DTVIScRf1UgAAAA=";
 const PALETA=["#0B0908","#15100C","#FFFFFF","#F4E9D8","#F6BE2C","#FFE600","#ECBC44","#FF4106","#E8622A","#B74D2E","#7B1A0D","#968E7F","#1D6A37","tekstura"];
@@ -1725,7 +1738,7 @@ const UR_DEF={
  tel:{n:"Brojevi telefona",t:"gumb",tx:1,g:"hero"},
  savjet:{n:"Tekst o osobnom preuzimanju",t:"tekst",tx:1,g:"hero"},
  prednosti:{n:"Kartice prednosti",t:"tekst",g:"sek"},
- ispod:{n:"Gumbi ispod prednosti",t:"blok",g:"sek"},
+ ispod:{n:"Gumbi ispod naslovnice",t:"blok",g:"sek"},
  vjernost:{n:"Program vjernosti",t:"blok",g:"sek"},
  onama:{n:"O nama",t:"tekst",g:"sek"},
  uvjeti:{n:"Minimalna narudžba i dostava",t:"tekst",g:"sek"},
@@ -1753,6 +1766,7 @@ function sinkKoza(){
  const an=m.getAnimations({subtree:true}).filter(a=>/^(koza|rTres)/.test(a.animationName||""));
  if(!an.length)return;
  const img=m.querySelector(".koza-glava img");
+ if(kozaT0==null&&!stranicaPrikazana){an.forEach(a=>{try{a.pause();a.currentTime=0;}catch(e){}}); return;}
  if(kozaT0==null){
   if(img&&!img.complete){
    an.forEach(a=>{try{a.pause();a.currentTime=0;}catch(e){}});
@@ -1760,6 +1774,35 @@ function sinkKoza(){
    return;}
   kozaT0=document.timeline.currentTime;}
  an.forEach(a=>{try{if(a.playState==="paused")a.play(); a.startTime=kozaT0;}catch(e){}});}
+/* ---- Gost: pokaži stranicu tek kad je sve spremno (podaci, fontovi, slike naslovnice, prva
+   sličica Coca-Cola videa) — sve se pojavi odjednom. Najduže 3 s, pa se pokaže u svakom slučaju. ---- */
+let stranicaPrikazana=!document.documentElement.classList.contains("ucitava"), otkrivanjeKrenulo=false;
+function cekajSliku(src){return new Promise(r=>{if(!src)return r(true); const i=new Image(); let g=false;
+ const kraj=ok=>{if(g)return; g=true; r(ok);};
+ i.onload=()=>{if(i.decode)i.decode().then(()=>kraj(true),()=>kraj(true)); else kraj(true);};
+ i.onerror=()=>kraj(false); i.src=src; setTimeout(()=>kraj(true),3000);});}
+function cekajImg(i){return i.complete||!i.getAttribute("src")?Promise.resolve():new Promise(r=>{i.addEventListener("load",r,{once:true});i.addEventListener("error",r,{once:true});});}
+async function otkrijKadSpremno(){
+ if(otkrivanjeKrenulo||stranicaPrikazana)return; otkrivanjeKrenulo=true;
+ const posao=(async()=>{
+  const fontovi=(async()=>{try{
+   const l=document.querySelector('link[href*="fonts.googleapis"][media]');
+   if(l&&l.media!=="all")await new Promise(r=>{l.addEventListener("load",r,{once:true});l.addEventListener("error",r,{once:true});setTimeout(r,1800);});
+   if(document.fonts&&document.fonts.load)await Promise.all(["400 40px Anton","600 20px Oswald","500 18px 'Barlow Semi Condensed'","700 18px 'Barlow Semi Condensed'"].map(f=>document.fonts.load(f).catch(()=>{})));
+  }catch(e){}})();
+  // nove lakše slike (.webp); ako ih još nema na GitHubu, koriste se stare (.png/.jpg)
+  const zamjene=await Promise.all(Object.keys(SLIKE_STARO).map(async k=>{
+   if(await cekajSliku(SLIKE[k]))return false; SLIKE[k]=SLIKE_STARO[k]; await cekajSliku(SLIKE[k]); return true;}));
+  if(zamjene.some(Boolean))crtaj(1);
+  const pec=izS("pec").slika||(lokal&&lokal.naslovna_url);
+  await Promise.all([fontovi,cekajSliku(pec),kolaVid&&!kolaVidNema?cekajSliku(KOLA_POSTER):null,
+   ...[...document.querySelectorAll("#topbar img,.hero img")].map(cekajImg)]);
+ })();
+ await Promise.race([posao,new Promise(r=>setTimeout(r,3000))]);
+ prikaziStranicu();}
+function prikaziStranicu(){
+ if(stranicaPrikazana)return; stranicaPrikazana=true;
+ requestAnimationFrame(()=>{document.documentElement.classList.remove("ucitava"); sinkKoza(); pokreniKolaVideo();});}
 function kozaIspocetka(){kozaOdigrana=false;clearTimeout(kozaTimer);kozaTimer=null;kozaT0=null;}
 function izgledAkt(){return urMod&&urNacrt?urNacrt:((lokal&&lokal.izgled)||{});}
 const izS=id=>((izgledAkt().s||{})[id])||{};
@@ -3364,6 +3407,7 @@ function crtaj(prisilno){
  crtajZum();
  ugradiKolaVideo();
  sinkKoza();
+ if(!stranicaPrikazana){if(uloga==='gost'&&lokal)otkrijKadSpremno(); else if(uloga!=='gost')prikaziStranicu();}
  const jm=el("jez-mjesto"); if(jm)jm.innerHTML=jezikSwitcher();
  prevediApp();
  azurirajTopbarGumbe();
@@ -3390,7 +3434,7 @@ function crtaj(prisilno){
    stranica sama pogađa, jer Windows ga po zadanom ne pokazuje pa ga je lako krivo upisati. */
 const GB_ZONE=[
  ["hero","U zaglavlju, ispod slogana"],
- ["ispod","Ispod prednosti (10% · 0,33 L · 4+1)"],
+ ["ispod","Ispod naslovnice"],
  ["dno","Na dnu, ispod jelovnika"],
  ["lijevo","Gore lijevo — na naslovnoj slici"],
  ["desno","Gore desno — na naslovnoj slici"],
@@ -3607,7 +3651,7 @@ function vlGumbi(){
    ${dz("hero","Zaglavlje, ispod slogana")}
    <div class="gb-mock-blok">Pizze · Coca-Cola · 4+1 · naruči</div>
    <div class="gb-mock-blok">Prednosti</div>
-   ${dz("ispod","Ispod prednosti")}
+   ${dz("ispod","Ispod naslovnice")}
    <div class="gb-mock-blok">Vjernost · O nama · Jelovnik</div>
    ${dz("dno","Dno stranice")}
    <div class="gb-mock-blok">Recenzije · kontakt</div></div>
@@ -3711,12 +3755,9 @@ function gostHTML(){
   gb:gbH||urMod?`<div data-ur="gb">${gbH||(urMod?`<p class="savjet" style="text-align:center">(društvene mreže — uključuju se u kartici Početna)</p>`:"")}</div>`:"",
   trio:`<div class="trio anim-${izS("trio").anim||"vrti"}" data-ur="trio">${[1,2,3].map(i=>`<img src="${esc(SL("p"+i,SLIKE["P"+i]))}" alt="" data-ur="p${i}">`).join("")}</div>`,
   kola:`<div class="kola" data-ur="kola">${izS("kola").slika||kolaVidNema?"":`<div class="kola-vid" id="kola-vid-mjesto"></div>`}
-    ${kolaSrc?`<img class="kola-slika" src="${esc(kolaSrc)}" alt="Coca-Cola 0,33 L gratis uz svaku pizzu" ${izS("kola").slika?"":`${kolaVidNema?"":`style="display:none"`} onerror="kolaSlikaDalje(this)"`}>`:""}
-    <div class="kola-scena" style="display:none">
-    <img class="kola-lim" src="${SLIKE.LIMENKA}" alt="">
-    <img class="kola-logo" src="${SLIKE.LOGO}" alt="Coca-Cola">
-    <b class="kola-gratis">0,33L gratis</b>
-    <span>(uz svaku pizzu)</span></div></div>`,
+    ${kolaSrc?(izS("kola").slika||kolaVidNema
+      ?`<img class="kola-slika" src="${esc(kolaSrc)}" alt="Coca-Cola 0,33 L gratis uz svaku pizzu" ${izS("kola").slika?"":`onerror="kolaSlikaDalje(this)"`}>`
+      :`<img class="kola-slika" data-src="${esc(kolaSrc)}" alt="Coca-Cola 0,33 L gratis uz svaku pizzu" style="display:none" onerror="kolaSlikaDalje(this)">`):""}</div>`,
   promo:`<div class="promo" data-ur="promo"><div><b>4 + 1</b>peta pizza gratis</div><div><b>10%</b>jeftinije nego na aplikacijama</div></div>`,
   pay:`<div class="pay-traka" data-ur="pay"><img src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.style.display='none'"><img src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.style.display='none'"><span>plaćanje online ili karticom pri dostavi</span></div>`,
   cta:`<button class="cta" data-ur="cta" onclick="glatkoNaEl('meni')">${T("cta","Naruči odmah")}<i>jelovnik je odmah ispod</i></button>`,
@@ -3725,12 +3766,8 @@ function gostHTML(){
     <a href="${telH(lokal.tel2)}">${esc(lokal.tel2)}</a></div>`,
   savjet:`<p class="savjet" data-ur="savjet" style="margin-top:10px;text-align:center">${T("savjet","Želite doći osobno po narudžbu? Nazovite nas ili pri narudžbi odaberite <b>Osobno preuzimanje</b> — bez naknade za dostavu.")}</p>`};
  const S={
-  prednosti:`<div class="prednosti" data-ur="prednosti">
-  <div class="pr reveal" data-rk="pr1"><b>10%</b><span>niže cijene nego na aplikacijama</span></div>
-  <div class="pr reveal r2" data-rk="pr2"><b>0,33 L</b><span>Coca-Cola gratis uz svaku pizzu</span></div>
-  <div class="pr reveal r3" data-rk="pr3"><b>4+1</b><span>peta pizza gratis, odbija se sama</span></div>
-  <div class="pr reveal r4" data-rk="pr4"><div class="pr-kartice-row"><img class="pay-ik" src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.style.display='none'"><img class="pay-ik" src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.style.display='none'"><img src="${SLIKE.VISA}" alt="Visa"><img src="${SLIKE.MASTERCARD}" alt="MasterCard"></div><span>Apple Pay i Google Pay online, ili karticom pri dostavi</span></div></div>`,
-  ispod:gbI||urMod?`<div data-ur="ispod">${gbI||(urMod?`<p class="savjet" style="text-align:center">(gumbi ispod prednosti — prazno)</p>`:"")}</div>`:"",
+  prednosti:"",  /* kartice prednosti (10% · 0,33 L · 4+1 · plaćanje) maknute — sve to već piše na naslovnici */
+  ispod:gbI||urMod?`<div data-ur="ispod">${gbI||(urMod?`<p class="savjet" style="text-align:center">(gumbi ispod naslovnice — prazno)</p>`:"")}</div>`:"",
   vjernost:`<div data-ur="vjernost">${vjernostHTML()}</div>`,
   onama:`<section data-ur="onama" class="onama2 reveal ${oNamaOtvoreno?"otv":""}" data-rk="onama">
   <button class="on2-traka" onclick="oNamaOtvoreno=!oNamaOtvoreno;crtaj(1)" aria-expanded="${oNamaOtvoreno}">
@@ -4284,7 +4321,7 @@ const KOLA_SRC=["coca-cola-gratis.webp","coca-cola-gratis.png","coca-cola%2B.png
    Jedan te isti <video> element se čuva između crtanja stranice i samo se premješta u novo
    mjesto — tako se ne vraća na početak svaki put kad gost nešto doda u košaricu.
    Ako videa nema, prikazuje se statična Coca-Cola slika. */
-const KOLA_VIDEO=["animacija.mp4","animacija.MP4","animacija.mov","animacija.webm"];
+const KOLA_VIDEO=["animacija.mp4","animacija.MP4","animacija.mov","animacija.webm"], KOLA_POSTER="animacija-poster.webp";
 let kolaVid=null, kolaVidIdx=0, kolaVidNema=false;
 function ugradiKolaVideo(){
  const m=el("kola-vid-mjesto"); if(!m)return;
@@ -4295,14 +4332,19 @@ function ugradiKolaVideo(){
   kolaVid.setAttribute("aria-label","Coca-Cola 0,33 L gratis uz svaku pizzu");
   kolaVid.className="kola-video";
   kolaVid.addEventListener("error",kolaVidGreska);
-  kolaVid.src=KOLA_VIDEO[0];}
+  kolaVid.poster=KOLA_POSTER;
+  if(stranicaPrikazana)kolaVid.src=KOLA_VIDEO[0];}
  if(kolaVid.parentNode!==m){m.appendChild(kolaVid);}
- const p=kolaVid.play(); if(p&&p.catch)p.catch(()=>{});}
+ if(kolaVid.getAttribute("src")){const p=kolaVid.play(); if(p&&p.catch)p.catch(()=>{});}}
+function pokreniKolaVideo(){
+ if(!kolaVid||kolaVid.getAttribute("src")||kolaVidNema)return;
+ kolaVid.src=KOLA_VIDEO[kolaVidIdx]; const p=kolaVid.play(); if(p&&p.catch)p.catch(()=>{});}
 function kolaVidGreska(){
  kolaVidIdx++;
  if(kolaVidIdx<KOLA_VIDEO.length){kolaVid.src=KOLA_VIDEO[kolaVidIdx]; const p=kolaVid.play(); if(p&&p.catch)p.catch(()=>{}); return;}
  kolaVidNema=true; const m=el("kola-vid-mjesto");
- if(m){const f=m.parentElement&&m.parentElement.querySelector(".kola-slika"); m.remove(); if(f)f.style.display="";}}
+ if(m){const f=m.parentElement&&m.parentElement.querySelector(".kola-slika"); m.remove();
+  if(f){f.style.display=""; if(!f.getAttribute("src")&&f.dataset.src)f.src=f.dataset.src;}}}
 function ccNema(im){
  const sc=im.closest(".cc-scena"); if(!sc||sc.classList.contains("cc-nema"))return;
  sc.classList.add("cc-nema"); const f=sc.parentElement&&sc.parentElement.querySelector(".kola-slika");
