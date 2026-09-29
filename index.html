@@ -33,9 +33,9 @@
  var h=(location.hash||"").replace("#","");
  if(h&&h!=="meni")return;               // samo gost; kuhinja/vozač/vlasnik/pult idu starim putem
  // gost: stranica ostaje skrivena dok se ne učitaju podaci, fontovi i slike naslovnice — onda se
- // pokaže SVE ODJEDNOM (nema više pojavljivanja dio po dio). Najduže čeka 3 s.
+ // pokaže SVE ODJEDNOM (nema više pojavljivanja dio po dio). Najduže čeka 3,5 s.
  document.documentElement.className+=" ucitava";
- ["pec-pozadina.webp","pizza-1.webp","pizza-2.webp","pizza-3.webp","koza.webp","animacija-poster.webp"].forEach(function(f){
+ ["pec-pozadina.jpg","pizza-1.png","pizza-2.png","pizza-3.png","koza.webp"].forEach(function(f){
   var l=document.createElement("link");l.rel="preload";l.as="image";l.href=f;
   l.setAttribute("fetchpriority","high");document.head.appendChild(l);});
  // isti upit kao start(): lokal + dostupna jela + dostupni dodaci, ali JEDNIM odlaskom do baze
@@ -1541,6 +1541,28 @@ html.ucitava body::after{content:"";position:fixed;left:50%;top:46%;width:46px;h
  animation:uvodPokazi .25s .35s forwards,uvodVrti .8s linear infinite,uvodSkrij .01s 4.5s forwards}
 @keyframes uvodPokazi{to{opacity:1}} @keyframes uvodSkrij{to{opacity:0;visibility:hidden}}
 @keyframes uvodVrti{to{transform:rotate(360deg)}}
+/* slike se pokažu tek kad su cijele (nema "pola pizze") */
+.trio img,.jelo-sl{transition:opacity .35s ease}
+.trio img:not(.ok),.jelo-sl:not(.ok){opacity:0}
+/* samo osobno preuzimanje */
+.pauza-pill.samo{background:linear-gradient(180deg,#FFB547 0%,#F08A12 48%,#E07A06 54%,#C26504 100%);color:#fff}
+.pauza-dost{margin-top:14px;padding-top:14px;border-top:1px solid var(--line2)}
+.btn.narancast{background:linear-gradient(180deg,#FFB547,#E07A06);color:#fff;--rub:#9A4A03}
+.pauza-velika.samo-preuz{background:linear-gradient(160deg,#F59E0B 0%,#E0660F 100%)}
+.pauza-velika.samo-preuz .pv-ik{color:#fff}
+.pauza-velika .lok-gumb{margin:16px auto 0;max-width:420px;background:#fff;color:#1A120C}
+.pauza-velika .lok-gumb small{color:#5A4A3E}
+.lok-gumb{display:flex;align-items:center;gap:12px;margin:12px 0 4px;padding:12px 14px;border-radius:14px;text-decoration:none;
+ background:var(--card);border:1.5px solid var(--or);color:var(--cream);text-align:left;
+ box-shadow:0 4px 0 rgba(0,0,0,.25);transition:transform .08s}
+.lok-gumb:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.lok-ik{flex:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#E8622A;color:#fff}
+.lok-t{flex:1;display:flex;flex-direction:column;gap:2px;line-height:1.25}
+.lok-t b{font-size:16px}
+.lok-t small{font-size:14px;font-weight:600;color:var(--dim)}
+.lok-str{font-size:26px;color:var(--or);flex:none}
+.izbor button:disabled{opacity:.45;cursor:not-allowed}
+.izbor button small{font-size:12.5px;font-weight:600;opacity:.8}
 </style>
 </head>
 <body>
@@ -1567,8 +1589,7 @@ const DOMENA = "rikys.hr";
 const GEOAPIFY_KEY = "5d6413d954924b2f852f270720776437";
 /* Adresa koja ide u navigaciju — bez poštanskog broja, Google je tako točnije nađe. */
 const ADRESA_NAV = "Zagorska ulica 18, Zagreb, Hrvatska";
-const SLIKE_STARO={PEC:"pec-pozadina.jpg",P1:"pizza-1.png",P2:"pizza-2.png",P3:"pizza-3.png"};
-const SLIKE = {PEC:"pec-pozadina.webp",P1:"pizza-1.webp",P2:"pizza-2.webp",P3:"pizza-3.webp",LOGO:"cola-logo.png",APPLEPAY:"apple-pay.png",GOOGLEPAY:"google-pay.png",LIMENKA:"cola-limenka.png",VISA:"visa.png",MASTERCARD:"mastercard.png"};
+const SLIKE = {PEC:"pec-pozadina.jpg",P1:"pizza-1.png",P2:"pizza-2.png",P3:"pizza-3.png",LOGO:"cola-logo.png",APPLEPAY:"apple-pay.png",GOOGLEPAY:"google-pay.png",LIMENKA:"cola-limenka.png",VISA:"visa.png",MASTERCARD:"mastercard.png"};
 /* SIGURNOST: lozinke i PIN-ovi više se NIKAD ne šalju u preglednik. Provjerava ih server
    (Supabase funkcija "prijava"), koja nakon ispravne lozinke vraća prijavu (sesiju) za tu
    ulogu. Baza narudžbe, kupce i troškove daje SAMO prijavljenom osoblju; gost preko
@@ -1621,6 +1642,16 @@ const DOSTAVA_PRAG_KM=()=>P("dostava_prag_km",2);
 const DOSTAVA_CIJENA=()=>P("dostava_cijena",1);
 const DOSTAVA_PRAG2_KM=()=>P("dostava_prag2_km",5);
 const DOSTAVA_CIJENA2=()=>P("dostava_cijena2",2);
+const colaGratis=()=>!lokal||lokal.cola_gratis!==false;
+const colaPrikaz=()=>lokal&&lokal.cola_prikaz==="slika"?"slika":"video";
+const samoPreuzimanje=()=>!!(lokal&&lokal.samo_preuzimanje);
+const RIKYS_MAPS=()=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("Riky's Pizza, "+((lokal&&lokal.adresa)||"Zagorska ul. 18, Zagreb"));
+const PIN_SVG=`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg>`;
+function lokacijaGumbHTML(){
+ return `<a class="lok-gumb" href="${RIKYS_MAPS()}" target="_blank" rel="noopener">
+  <span class="lok-ik">${PIN_SVG}</span>
+  <span class="lok-t"><b>Riky's Pizza</b><small>${esc(((lokal&&lokal.adresa)||"Zagorska ul. 18").split(",")[0])} — ${tj("otvori u Google Maps")}</small></span>
+  <span class="lok-str">›</span></a>`;}
 const kmTxt=k=>(Math.round(k*10)/10).toLocaleString("hr-HR",{maximumFractionDigits:1});
 /* Kuhinja može privremeno "pauzirati" primanje novih narudžbi (gužva, prevelika naklada) —
    lokal.narudzbe_pauza_do je timestamp do kad vrijedi pauza; null/prošlost = otvoreno. */
@@ -1672,6 +1703,10 @@ async function zatvoriZaDanas(){
  const r=await sb.from("lokali").update({narudzbe_pauza_do:d.toISOString()}).eq("id",lokal.id);
  if(r.error){alert(tj("Greška")+": "+r.error.message);return;}
  lokal.narudzbe_pauza_do=d.toISOString(); pauzaOtvoreno=false; crtaj(1);}
+async function postaviSamoPreuzimanje(da){
+ const r=await sb.from("lokali").update({samo_preuzimanje:!!da}).eq("id",lokal.id);
+ if(r.error){alert(tj("Greška")+": "+r.error.message);return;}
+ lokal.samo_preuzimanje=!!da; pauzaOtvoreno=false; crtaj(1);}
 async function otvoriNarudzbe(){
  const r=await sb.from("lokali").update({narudzbe_pauza_do:null}).eq("id",lokal.id);
  if(r.error){alert(tj("Greška")+": "+r.error.message);return;}
@@ -1679,9 +1714,9 @@ async function otvoriNarudzbe(){
 function kuhAlatiHTML(){
  const zat=narudzbePauzirane();
  return `<div class="kuh-alati">
-  <button class="pauza-pill ${zat?"zatvoreno":"otvoreno"}" onclick="pauzaOtvoreno=!pauzaOtvoreno;crtaj(1)"
-   aria-expanded="${pauzaOtvoreno}" title="${zat?"Narudžbe su zaustavljene":"Narudžbe se primaju"}">
-   <i></i>${zat?tj("Ne primamo")+" · "+(pauzaJeKrajDana()?tj("danas"):tj("do")+" "+pauzaDoDatuma().toLocaleTimeString("hr-HR",{hour:"2-digit",minute:"2-digit"})):tj("Primamo narudžbe")} ▾</button>
+  <button class="pauza-pill ${zat?"zatvoreno":samoPreuzimanje()?"samo":"otvoreno"}" onclick="pauzaOtvoreno=!pauzaOtvoreno;crtaj(1)"
+   aria-expanded="${pauzaOtvoreno}" title="${zat?"Narudžbe su zaustavljene":samoPreuzimanje()?"Samo osobno preuzimanje":"Narudžbe se primaju"}">
+   <i></i>${zat?tj("Ne primamo")+" · "+(pauzaJeKrajDana()?tj("danas"):tj("do")+" "+pauzaDoDatuma().toLocaleTimeString("hr-HR",{hour:"2-digit",minute:"2-digit"})):samoPreuzimanje()?tj("Samo osobno preuzimanje"):tj("Primamo narudžbe")} ▾</button>
   ${zvukGumb(true)}</div>
  ${pauzaOtvoreno?`<div class="pauza-meni">
    ${zat?`<b>⏸ ${tj("Narudžbe su zaustavljene")}</b><p>${pauzaKuhinjaTekst()} ${tj("Gosti na početnoj vide veliku obavijest.")}</p>
@@ -1689,7 +1724,15 @@ function kuhAlatiHTML(){
      <p style="margin:12px 0 8px">${tj("Ili promijeni trajanje pauze:")}</p>`
     :`<b>${tj("Zaustavi primanje narudžbi")}</b><p>${tj("Koliko dugo? Gosti će na početnoj stranici vidjeti veliku obavijest da trenutno ne primamo narudžbe.")}</p>`}
    <div class="pauza-izbor">${[10,15,20,30,60].map(m=>`<button class="btn sm ghost" onclick="pauzirajNarudzbe(${m})">${m}′</button>`).join("")}</div>
-   <button class="btn crven" onclick="zatvoriZaDanas()">${tj("Zatvori za danas")}</button></div>`:""}`;}
+   <button class="btn crven" onclick="zatvoriZaDanas()">${tj("Zatvori za danas")}</button>
+   <div class="pauza-dost">
+    <b>🛵 ${tj("Dostava")}</b>
+    ${samoPreuzimanje()
+     ?`<p>${tj("Dostava je ugašena — gosti mogu naručiti samo za osobno preuzimanje. Na početnoj vide veliku obavijest.")}</p>
+       <button class="btn go" style="margin-top:0" onclick="postaviSamoPreuzimanje(false)">${tj("Ponovno uključi dostavu")}</button>`
+     :`<p>${tj("Gužva? Ugasi dostavu, a narudžbe za osobno preuzimanje i dalje stižu.")}</p>
+       <button class="btn narancast" style="margin-top:0" onclick="postaviSamoPreuzimanje(true)">${tj("Ugasi dostavu — primaj samo osobno preuzimanje")}</button>`}
+   </div></div>`:""}`;}
 function pauzaKontrolaHTML(){
  if(narudzbePauzirane())return `<div class="pauza-trak pauza-aktivna">
    <div><b>⏸ ${tj("Narudžbe su pauzirane")}</b><span>${pauzaKuhinjaTekst()}</span></div>
@@ -1781,6 +1824,13 @@ function cekajSliku(src){return new Promise(r=>{if(!src)return r(true); const i=
  const kraj=ok=>{if(g)return; g=true; r(ok);};
  i.onload=()=>{if(i.decode)i.decode().then(()=>kraj(true),()=>kraj(true)); else kraj(true);};
  i.onerror=()=>kraj(false); i.src=src; setTimeout(()=>kraj(true),3000);});}
+/* Coca-Cola slika prolazi kroz popis mogućih naziva datoteke — čeka se dok se jedna stvarno ne učita */
+function cekajKolaSliku(){return new Promise(r=>{const t0=Date.now();(function p(){
+ const i=document.querySelector(".hero .kola-slika");
+ if(!i||!i.getAttribute("src")||i.style.display==="none"||(i.complete&&i.naturalWidth>0)||Date.now()-t0>3500)return r();
+ setTimeout(p,60);})();});}
+function slikaOk(i){i.classList.add("ok"); SLIKE_OK.add(i.getAttribute("src"));}
+const SLIKE_OK=new Set(), okKl=src=>SLIKE_OK.has(src)?"ok":"";
 function cekajImg(i){return i.complete||!i.getAttribute("src")?Promise.resolve():new Promise(r=>{i.addEventListener("load",r,{once:true});i.addEventListener("error",r,{once:true});});}
 async function otkrijKadSpremno(){
  if(otkrivanjeKrenulo||stranicaPrikazana)return; otkrivanjeKrenulo=true;
@@ -1790,15 +1840,11 @@ async function otkrijKadSpremno(){
    if(l&&l.media!=="all")await new Promise(r=>{l.addEventListener("load",r,{once:true});l.addEventListener("error",r,{once:true});setTimeout(r,1800);});
    if(document.fonts&&document.fonts.load)await Promise.all(["400 40px Anton","600 20px Oswald","500 18px 'Barlow Semi Condensed'","700 18px 'Barlow Semi Condensed'"].map(f=>document.fonts.load(f).catch(()=>{})));
   }catch(e){}})();
-  // nove lakše slike (.webp); ako ih još nema na GitHubu, koriste se stare (.png/.jpg)
-  const zamjene=await Promise.all(Object.keys(SLIKE_STARO).map(async k=>{
-   if(await cekajSliku(SLIKE[k]))return false; SLIKE[k]=SLIKE_STARO[k]; await cekajSliku(SLIKE[k]); return true;}));
-  if(zamjene.some(Boolean))crtaj(1);
-  const pec=izS("pec").slika||(lokal&&lokal.naslovna_url);
-  await Promise.all([fontovi,cekajSliku(pec),kolaVid&&!kolaVidNema?cekajSliku(KOLA_POSTER):null,
-   ...[...document.querySelectorAll("#topbar img,.hero img")].map(cekajImg)]);
+  const pec=izS("pec").slika||(lokal&&lokal.naslovna_url)||SLIKE.PEC;
+  await Promise.all([fontovi,cekajSliku(pec),
+   ...[...document.querySelectorAll("#topbar img,.hero img:not(.kola-slika)")].map(cekajImg),cekajKolaSliku()]);
  })();
- await Promise.race([posao,new Promise(r=>setTimeout(r,3000))]);
+ await Promise.race([posao,new Promise(r=>setTimeout(r,3500))]);
  prikaziStranicu();}
 function prikaziStranicu(){
  if(stranicaPrikazana)return; stranicaPrikazana=true;
@@ -2593,6 +2639,7 @@ const PRIJEVODI={
 "Pošalji poruku":{en:"Send message",de:"Nachricht senden",it:"Invia messaggio",fr:"Envoyer le message",es:"Enviar mensaje"},
 "Za platiti":{en:"To pay",de:"Zu zahlen",it:"Da pagare",fr:"À payer",es:"A pagar"},
 "AKCIJE":{en:"PROMOTIONS",de:"AKTIONEN",it:"PROMOZIONI",fr:"PROMOTIONS",es:"PROMOCIONES"},
+"Akcija 4+1 primjenjuje se automatski: na svakih pet naručenih pizza najjeftinija se odbija od konačnog iznosa. Vrijedi za narudžbe putem naše izravne dostave.":{en:"The 4+1 offer applies automatically: for every five pizzas ordered, the cheapest is deducted from the final amount. Valid for orders through our direct delivery.",de:"Die 4+1-Aktion gilt automatisch: Bei je fünf bestellten Pizzen wird die günstigste vom Endbetrag abgezogen. Gültig für Bestellungen über unsere Direktlieferung.",it:"La promo 4+1 si applica automaticamente: ogni cinque pizze ordinate, la più economica viene detratta dal totale. Valido per gli ordini tramite la nostra consegna diretta.",fr:"L'offre 4+1 s'applique automatiquement : pour cinq pizzas commandées, la moins chère est déduite du montant final. Valable pour les commandes via notre livraison directe.",es:"La oferta 4+1 se aplica automáticamente: por cada cinco pizzas pedidas, la más barata se descuenta del total. Válido para pedidos por nuestro reparto directo."},
 "Akcija 4+1 primjenjuje se automatski: na svakih pet naručenih pizza najjeftinija se odbija od konačnog iznosa. Uz svaku pizzu isporučujemo Coca-Colu 0,33 L bez naplate. Vrijedi za narudžbe putem naše izravne dostave.":{en:"The 4+1 offer applies automatically: for every five pizzas ordered, the cheapest is deducted from the final amount. We deliver a Coca-Cola 0.33 L free with every pizza. Valid for orders through our direct delivery.",de:"Die 4+1-Aktion gilt automatisch: Bei je fünf bestellten Pizzen wird die günstigste vom Endbetrag abgezogen. Zu jeder Pizza liefern wir eine Coca-Cola 0,33 L kostenlos. Gültig für Bestellungen über unsere Direktlieferung.",it:"La promo 4+1 si applica automaticamente: ogni cinque pizze ordinate, la più economica viene detratta dal totale. Con ogni pizza consegniamo una Coca-Cola 0,33 L gratuita. Valido per gli ordini tramite la nostra consegna diretta.",fr:"L'offre 4+1 s'applique automatiquement : pour cinq pizzas commandées, la moins chère est déduite du montant final. Nous livrons une Coca-Cola 0,33 L gratuite avec chaque pizza. Valable pour les commandes via notre livraison directe.",es:"La oferta 4+1 se aplica automáticamente: por cada cinco pizzas pedidas, la más barata se descuenta del total. Con cada pizza entregamos una Coca-Cola 0,33 L gratis. Válido para pedidos por nuestro reparto directo."},
 "NAPOMENA O NARUČIVANJU":{en:"ORDERING NOTICE",de:"HINWEIS ZUR BESTELLUNG",it:"AVVISO SULL'ORDINE",fr:"REMARQUE SUR LA COMMANDE",es:"AVISO SOBRE EL PEDIDO"},
 "Slanjem narudžbe potvrđujete točnost podataka. Namjerno lažno naručivanje kojim se prouzroči imovinska šteta može predstavljati kazneno djelo prijevare iz članka 236. Kaznenog zakona.":{en:"By submitting an order you confirm the accuracy of your details. Deliberately placing a false order that causes financial harm may constitute the criminal offense of fraud under Article 236 of the Croatian Criminal Code.",de:"Mit dem Absenden der Bestellung bestätigen Sie die Richtigkeit Ihrer Angaben. Vorsätzlich falsche Bestellungen, die einen Vermögensschaden verursachen, können als Betrug gemäß Artikel 236 des kroatischen Strafgesetzbuchs strafbar sein.",it:"Inviando l'ordine confermi l'esattezza dei dati. L'invio intenzionale di un ordine falso che causi un danno patrimoniale può costituire il reato di frode ai sensi dell'articolo 236 del Codice penale croato.",fr:"En envoyant la commande, vous confirmez l'exactitude de vos données. Passer volontairement une fausse commande causant un préjudice financier peut constituer le délit de fraude prévu à l'article 236 du Code pénal croate.",es:"Al enviar el pedido confirmas la exactitud de tus datos. Realizar un pedido falso de forma intencionada que cause un perjuicio patrimonial puede constituir el delito de fraude conforme al artículo 236 del Código Penal croata."},
@@ -3138,7 +3185,7 @@ function racun(k){
  const dost=cijenaDostave();
  return {puno,popust,lojalnost:loj,dostava:dost,bezDostave:puno-popust,
   ukupno:puno-popust+dost,gratisPizza:gp,gratisIdx,
-  gratisPice:k.filter(s=>jelo(s.jeloId).kategorija.includes("pizze")||jelo(s.jeloId).kategorija==="Calzone").length};}
+  gratisPice:colaGratis()?k.filter(s=>jelo(s.jeloId).kategorija.includes("pizze")||jelo(s.jeloId).kategorija==="Calzone").length:0};}
 
 function veza(s,t){const v=el("veza");v.className="veza "+s;v.textContent=tj(t);}
 function citajUlogu(){const h=(location.hash||"").replace("#","");
@@ -3326,7 +3373,7 @@ async function osvjezi(){
     pauzu narudžbi, za slučaj da realtime poruka o promjeni lokala promakne. */
  const prazno={data:[],error:null}, osoblje=jeOsoblje();
  let n=prazno, t=prazno, p=prazno;
- const lkP=sb.from("lokali").select("narudzbe_pauza_do,lajkovi,zvukovi").eq("id",lokal.id).single();
+ const lkP=sb.from("lokali").select("narudzbe_pauza_do,lajkovi,zvukovi,samo_preuzimanje,cola_gratis,cola_prikaz").eq("id",lokal.id).single();
  if(osoblje){
   [n,t,p]=await Promise.all([
    sb.from("narudzbe").select("*, stavke(*)").eq("lokal_id",lokal.id)
@@ -3343,6 +3390,7 @@ async function osvjezi(){
  }
  const lk=await lkP;
  if(!lk.error&&lk.data){lokal.narudzbe_pauza_do=lk.data.narudzbe_pauza_do;
+  ["samo_preuzimanje","cola_gratis","cola_prikaz"].forEach(k=>{if(k in lk.data)lokal[k]=lk.data[k];});
   if(typeof lk.data.lajkovi==="number")lokal.lajkovi=lk.data.lajkovi;
   if(lk.data.zvukovi)lokal.zvukovi=lk.data.zvukovi;}
  if(!n.error&&n.data)narudzbe=n.data;
@@ -3626,12 +3674,31 @@ function gbUrediHTML(g){
    <button class="btn sm tiho" onclick="gbPomakni('${id}',-1)">← Ranije</button>
    <button class="btn sm tiho" onclick="gbPomakni('${id}',1)">Kasnije →</button></div>
   <button class="btn sm crven" style="margin-top:10px" onclick="gbObrisi('${id}')">Obriši gumb</button></div>`;}
+async function spremiLokalPolja(polja,poruka){
+ const r=await sb.from("lokali").update(polja).eq("id",lokal.id);
+ if(r.error){alert(tj("Spremanje nije uspjelo: ")+r.error.message);return false;}
+ Object.assign(lokal,polja); crtaj(1); if(poruka)gbPoruka(poruka); return true;}
+function vlColaHTML(){
+ const on=colaGratis(), v=colaPrikaz();
+ return `<div class="sec"><h3>COCA-COLA GRATIS</h3></div>
+ <div class="box">
+  <div class="izbor" style="margin-top:0">
+   <button aria-pressed="${on}" onclick="spremiLokalPolja({cola_gratis:true},tj('Coca-Cola gratis je uključena'))">✓ Uključena</button>
+   <button aria-pressed="${!on}" onclick="spremiLokalPolja({cola_gratis:false},tj('Coca-Cola gratis je isključena'))">✕ Isključena</button></div>
+  <p class="savjet" style="margin-top:10px">${on
+   ?"Gosti vide Coca-Colu na početnoj, a uz svaku pizzu dobivaju Coca-Colu 0,33 L gratis (košarica, račun, kuhinja, vozač)."
+   :"Coca-Cola je <b>isključena</b>: nestala je s početne stranice (sve ispod se pomaknulo gore), iz košarice, računa i uvjeta. Nove narudžbe nemaju gratis Coca-Colu."}</p>
+  ${on?`<label class="f">Što se prikazuje na početnoj</label>
+  <div class="izbor">
+   <button aria-pressed="${v==="video"}" onclick="spremiLokalPolja({cola_prikaz:'video'},tj('Na početnoj je sada video'))">🎬 Video<br><small>dečko s limenkom</small></button>
+   <button aria-pressed="${v==="slika"}" onclick="spremiLokalPolja({cola_prikaz:'slika'},tj('Na početnoj je sada slika'))">🖼 Slika<br><small>logo i limenka</small></button></div>`:""}
+ </div>`;}
 function vlGumbi(){
  const lista=gbLista();
  const chip=g=>`<div class="gb-chip ${gbOdabran===g.id?"odabran":""} ${gbVidljiv(g)?"":"nevidljiv"}" data-gb="${gbSigurnId(g.id)}"
    onpointerdown="gbDolje(event,this)">${gbSlikaHTML(g,g.vrsta==="like"?"gb-like-sl":"gb-ik-sl")}<span class="t">${esc(g.naziv||"Gumb")}</span></div>`;
  const dz=(z,ime,kl)=>`<div class="gb-dz ${kl||""}" data-zona="${z}"><span class="gb-dz-ime">${ime}</span>${lista.filter(g=>g.zona===z).map(chip).join("")}</div>`;
- return `<div class="sec"><h3>IZGLED STRANICE</h3></div>
+ return `${vlColaHTML()}<div class="sec"><h3>IZGLED STRANICE</h3></div>
  <div class="box vl-izgled"><h4>Uređivač izgleda</h4>
   <p class="savjet" style="color:var(--dim)">Otvara stranicu točno kako je gosti vide. Dodirni bilo koji dio — logo, pizze, cijene, opise, telefone, pozadinu, kozu —
    i mijenjaj boju, font, veličinu, tekst i slike, pomiči dijelove gore/dolje ili ih sakrij. Ništa se ne vidi gostima dok ne stisneš <b>Spremi</b>.</p>
@@ -3753,11 +3820,14 @@ function gostHTML(){
   radno:`<div class="radno" data-ur="radno">${T("radno","Uto–ned <b>10:00–23:00</b><i>·</i>pon <b>zatvoreno</b>")}</div>`,
   slogan:`<div class="slogan" data-ur="slogan">${T("slogan","Real food. Real pizza.")}</div>`,
   gb:gbH||urMod?`<div data-ur="gb">${gbH||(urMod?`<p class="savjet" style="text-align:center">(društvene mreže — uključuju se u kartici Početna)</p>`:"")}</div>`:"",
-  trio:`<div class="trio anim-${izS("trio").anim||"vrti"}" data-ur="trio">${[1,2,3].map(i=>`<img src="${esc(SL("p"+i,SLIKE["P"+i]))}" alt="" data-ur="p${i}">`).join("")}</div>`,
-  kola:`<div class="kola" data-ur="kola">${izS("kola").slika||kolaVidNema?"":`<div class="kola-vid" id="kola-vid-mjesto"></div>`}
-    ${kolaSrc?(izS("kola").slika||kolaVidNema
-      ?`<img class="kola-slika" src="${esc(kolaSrc)}" alt="Coca-Cola 0,33 L gratis uz svaku pizzu" ${izS("kola").slika?"":`onerror="kolaSlikaDalje(this)"`}>`
-      :`<img class="kola-slika" data-src="${esc(kolaSrc)}" alt="Coca-Cola 0,33 L gratis uz svaku pizzu" style="display:none" onerror="kolaSlikaDalje(this)">`):""}</div>`,
+  trio:`<div class="trio anim-${izS("trio").anim||"vrti"}" data-ur="trio">${[1,2,3].map(i=>{const u=SL("p"+i,SLIKE["P"+i]);return `<img src="${esc(u)}" class="${okKl(u)}" onload="slikaOk(this)" alt="" data-ur="p${i}">`;}).join("")}</div>`,
+  kola:(()=>{
+   if(!colaGratis())return urMod?`<div data-ur="kola"><p class="savjet" style="text-align:center">(Coca-Cola gratis je isključena — uključuje se u kartici Početna)</p></div>`:"";
+   const vlastita=izS("kola").slika, video=!vlastita&&!kolaVidNema&&colaPrikaz()==="video";
+   return `<div class="kola" data-ur="kola">${video?`<div class="kola-vid" id="kola-vid-mjesto"></div>`:""}
+    ${kolaSrc?(!video
+      ?`<img class="kola-slika" src="${esc(kolaSrc)}" alt="Coca-Cola 0,33 L gratis uz svaku pizzu" ${vlastita?"":`onerror="kolaSlikaDalje(this)"`}>`
+      :`<img class="kola-slika" data-src="${esc(kolaSrc)}" alt="Coca-Cola 0,33 L gratis uz svaku pizzu" style="display:none" onerror="kolaSlikaDalje(this)">`):""}</div>`;})(),
   promo:`<div class="promo" data-ur="promo"><div><b>4 + 1</b>peta pizza gratis</div><div><b>10%</b>jeftinije nego na aplikacijama</div></div>`,
   pay:`<div class="pay-traka" data-ur="pay"><img src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.style.display='none'"><img src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.style.display='none'"><span>plaćanje online ili karticom pri dostavi</span></div>`,
   cta:`<button class="cta" data-ur="cta" onclick="glatkoNaEl('meni')">${T("cta","Naruči odmah")}<i>jelovnik je odmah ispod</i></button>`,
@@ -3800,7 +3870,12 @@ function gostHTML(){
   <h2>${tj("Trenutno ne primamo narudžbe")}</h2>
   <p>${tj("Kuhinja je trenutno puna narudžbi. Molimo vas za malo strpljenja — čim se gužva smiri, ponovno primamo narudžbe.")}</p>
   <div class="pv-do">${pauzaGostTekst()}</div>
-  <p style="font-size:15px;margin-top:12px">${tj("Jelovnik možete i dalje pregledavati.")}</p></div>`:""}
+  <p style="font-size:15px;margin-top:12px">${tj("Jelovnik možete i dalje pregledavati.")}</p></div>`
+ :samoPreuzimanje()?`<div class="pauza-velika samo-preuz" role="alert">
+  <div class="pv-ik">${PIN_SVG}</div>
+  <h2>${tj("Trenutno samo osobno preuzimanje")}</h2>
+  <p>${tj("Zbog velike gužve dostava je privremeno isključena. Naručite ovdje i preuzmite narudžbu kod nas — pizza će biti gotova kad stignete.")}</p>
+  ${lokacijaGumbHTML()}</div>`:""}
  <div class="hero ${(izgledAkt().koza||{}).iskljuceno?"":"s-kozom"} ${kozaOdigrana&&!KOZA_SINK?"koza-odigrano":""}" data-ur="pec"><div class="pec" style="background-image:url('${esc(izS("pec").slika||lokal.naslovna_url||SLIKE.PEC)}')"></div>
   ${gbPlutajuce()}
   <div class="hero-in reveal" data-rk="hero">${poRedu(izgledAkt().hero,HERO_RED).map(k=>H[k]||"").join("")}</div></div>
@@ -3879,7 +3954,7 @@ function jeloHTML(j,k){
  return `<div class="jelo reveal" data-rk="j-${j.id}" data-ur="jelo">
   <div class="jelo-top ${j.slika_url?"sa-slikom":""}" onclick="${ak}" role="button" tabindex="0"
    onkeydown="if(event.key==='Enter'){${ak}}">
-   ${j.slika_url?`<img class="jelo-sl" data-ur="jelo-sl" src="${j.slika_url}" alt="" loading="lazy" onclick="event.stopPropagation();zumSlike('${j.slika_url}','${esc(j.naziv).replace(/'/g,"\\x27")}')">`:""}
+   ${j.slika_url?`<img class="jelo-sl ${okKl(j.slika_url)}" data-ur="jelo-sl" src="${j.slika_url}" alt="" loading="lazy" decoding="async" onload="slikaOk(this)" onclick="event.stopPropagation();zumSlike('${j.slika_url}','${esc(j.naziv).replace(/'/g,"\\x27")}')">`:""}
    <div><div class="jelo-n" data-ur="jelo-n">${esc(j.naziv)}${zn}${kom?`<span class="qty">×${kom}</span>`:""}</div>
     ${j.opis?`<div class="jelo-o" data-ur="jelo-o">${esc(j.opis)}</div>`:""}</div>
    <div class="jelo-c" data-ur="jelo-c">${eur(j.cijena)}</div></div>
@@ -3976,8 +4051,9 @@ function pregledHTML(){
   <div class="row2"><button class="btn ghost" onclick="korak='meni';crtaj(1)">Dodaj još nešto</button>
    <button class="btn" onclick="korak='podaci';crtaj(1);scrollTo(0,0)">Potvrdi i nastavi</button></div></div>`;}
 
-function postaviNacin(v){forma.nacin=v;crtaj(1);}
+function postaviNacin(v){if(v==="dostava"&&samoPreuzimanje())return; forma.nacin=v;crtaj(1);}
 function podaciHTML(){
+ if(samoPreuzimanje())forma.nacin="osobno";
  const ima18=kosarica.some(s=>jelo(s.jeloId).naziv===ALKOHOL||s.uz.some(i=>jelo(i).naziv===ALKOHOL));
  const osobno=forma.nacin==="osobno";
  const r=racun(kosarica);
@@ -3985,8 +4061,10 @@ function podaciHTML(){
   <button class="btn tiho" style="margin:0 0 6px" onclick="korak='pregled';crtaj(1)">← Natrag na pregled</button>
   <label class="f">Način preuzimanja</label>
   <div class="izbor">
-   <button aria-pressed="${!osobno}" onclick="postaviNacin('dostava')">Dostava</button>
+   <button aria-pressed="${!osobno}" onclick="postaviNacin('dostava')" ${samoPreuzimanje()?"disabled":""}>${samoPreuzimanje()?tj("Dostava")+"<br><small>"+tj("trenutno isključena")+"</small>":"Dostava"}</button>
    <button aria-pressed="${osobno}" onclick="postaviNacin('osobno')">Osobno preuzimanje</button></div>
+  ${samoPreuzimanje()?`<p class="savjet" style="color:var(--or);font-weight:700">${tj("Zbog velike gužve trenutno primamo samo narudžbe za osobno preuzimanje.")}</p>`:""}
+  ${osobno?lokacijaGumbHTML():""}
   <div class="tot" style="margin-top:10px"><span>Ukupno za platiti</span><span>${eur(r.ukupno)}</span></div>
   ${r.dostava?`<div class="dost-nak"><span>uključena dostava (${kmTxt(dostavaKm())} km)</span><span>${eur(r.dostava)}</span></div>`:""}
   ${(prikazanaNaknada=r.dostava,"")}
@@ -4204,6 +4282,7 @@ async function geokodiraj(adr){
 
 async function posalji(){
  if(narudzbePauzirane()){greska=tj("Trenutno ne primamo narudžbe.")+" "+pauzaGostTekst();crtaj(1);return;}
+ if(samoPreuzimanje()&&forma.nacin!=="osobno"){forma.nacin="osobno";greska=tj("Dostava je trenutno isključena — moguće je samo osobno preuzimanje.");crtaj(1);return;}
  const ime=(el("f-ime")?el("f-ime").value:forma.ime).trim();
  const tel=(el("f-tel")?el("f-tel").value:forma.tel).trim();
  const adr=(el("f-adr")?el("f-adr").value:forma.adr).trim();
@@ -4321,10 +4400,10 @@ const KOLA_SRC=["coca-cola-gratis.webp","coca-cola-gratis.png","coca-cola%2B.png
    Jedan te isti <video> element se čuva između crtanja stranice i samo se premješta u novo
    mjesto — tako se ne vraća na početak svaki put kad gost nešto doda u košaricu.
    Ako videa nema, prikazuje se statična Coca-Cola slika. */
-const KOLA_VIDEO=["animacija.mp4","animacija.MP4","animacija.mov","animacija.webm"], KOLA_POSTER="animacija-poster.webp";
+const KOLA_VIDEO=["animacija.mp4","animacija.MP4","animacija.mov","animacija.webm"], KOLA_POSTER="data:image/webp;base64,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";
 let kolaVid=null, kolaVidIdx=0, kolaVidNema=false;
 function ugradiKolaVideo(){
- const m=el("kola-vid-mjesto"); if(!m)return;
+ const m=el("kola-vid-mjesto"); if(!m){if(kolaVid&&!kolaVid.paused)try{kolaVid.pause();}catch(e){} return;}
  if(!kolaVid){
   kolaVid=document.createElement("video");
   kolaVid.muted=true; kolaVid.loop=true; kolaVid.autoplay=true; kolaVid.playsInline=true; kolaVid.preload="auto";
@@ -4441,7 +4520,8 @@ async function posaljiPor(id,od){
  p.value="";await osvjezi();}
 
 function pravno(){return `<div class="pravno">
- <h4>AKCIJE</h4><p>Akcija 4+1 primjenjuje se automatski: na svakih pet naručenih pizza najjeftinija se odbija od konačnog iznosa. Uz svaku pizzu isporučujemo Coca-Colu 0,33 L bez naplate. Vrijedi za narudžbe putem naše izravne dostave.</p>
+ <h4>AKCIJE</h4><p>${colaGratis()?"Akcija 4+1 primjenjuje se automatski: na svakih pet naručenih pizza najjeftinija se odbija od konačnog iznosa. Uz svaku pizzu isporučujemo Coca-Colu 0,33 L bez naplate. Vrijedi za narudžbe putem naše izravne dostave."
+  :"Akcija 4+1 primjenjuje se automatski: na svakih pet naručenih pizza najjeftinija se odbija od konačnog iznosa. Vrijedi za narudžbe putem naše izravne dostave."}</p>
  <h4>DOSTAVA I CIJENE</h4><p>Dostava je besplatna do ${kmTxt(DOSTAVA_PRAG_KM())} km od pizzerije. Za adrese udaljenije od toga naplaćuje se ${eur(DOSTAVA_CIJENA())} po kilometru za dio puta od ${kmTxt(DOSTAVA_PRAG_KM())} do ${kmTxt(DOSTAVA_PRAG2_KM())} km, a za dio puta iznad ${kmTxt(DOSTAVA_PRAG2_KM())} km ${eur(DOSTAVA_CIJENA2())} po kilometru (obračun na desetinku kilometra). Udaljenost se izračunava automatski prema cestovnoj udaljenosti od lokala do adrese dostave, a iznos naknade prikazuje se prije slanja narudžbe i uključen je u ukupni iznos. Osobno preuzimanje u lokalu je bez naknade. Sve cijene iskazane su u eurima (€). Minimalna narudžba jednaka je cijeni naše najjeftinije pizze.</p>
  <h4>OBVEZA PLAĆANJA I LAŽNE NARUDŽBE</h4><p>Slanjem narudžbe sklapate s nama ugovor i obvezujete se naručeno preuzeti i platiti. Svaku narudžbu pripremamo odmah i isključivo za vas, pa se hrana pripremljena po narudžbi ne može vratiti niti se od narudžbe može odustati nakon što je potvrđena. Ako naručitelj narudžbu ne preuzme, navede lažne podatke ili naruči bez namjere plaćanja, zadržavamo pravo zahtijevati plaćanje punog iznosa narudžbe te naknadu troškova pripreme i dostave, sukladno Zakonu o obveznim odnosima, uključujući naplatu sudskim putem. U tu svrhu čuvamo podatke o takvoj narudžbi (ime, broj telefona, adresu i vrijeme narudžbe). Namjerno lažno naručivanje kojim se prouzroči imovinska šteta može predstavljati kazneno djelo prijevare iz članka 236. Kaznenog zakona, koje prijavljujemo policiji.</p>
  <h4>GREŠKA U NARUDŽBI</h4><p>Ako pogreškom naše kuhinje ili vozača dobijete pogrešno jelo, o trošku ćemo vam poslati zamjensko — pod uvjetom da nam vratite prvobitno jelo cijelo i netaknuto. Ako je jelo djelomično pojedeno, nažalost zamjenu ne možemo ponuditi.</p>
