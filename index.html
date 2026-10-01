@@ -1575,6 +1575,16 @@ html.ucitava body::after{content:"";position:fixed;left:50%;top:46%;width:46px;h
 .sidr-lbl{color:var(--or)}
 .sidr-box h4 small{font-size:12.5px;color:var(--dim);font-weight:600;margin-left:6px}
 .sidr-ok{margin:10px 0 0;font-weight:700;color:var(--go)}
+.jelo-c .sidr-ik{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;margin-left:6px;vertical-align:middle;
+ border:1.5px solid var(--line);border-radius:50%;background:transparent;color:var(--dim);font-size:15px;line-height:1;cursor:pointer;padding:0}
+.jelo-c .sidr-ik.on{border-color:var(--or);color:var(--or)}
+.jelo-top.sa-slikom .jelo-c .sidr-ik{margin-left:8px}
+.sidr-legenda{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 18px 0;padding:8px 12px;
+ border:1px solid var(--line);border-radius:12px;font-family:"Barlow Semi Condensed",sans-serif;font-size:13.5px;font-weight:600;color:var(--dim)}
+.sidr-sve{flex:none;border:1.5px solid var(--or);background:transparent;color:var(--or);border-radius:999px;padding:5px 12px;
+ font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.sidr-sve.on{background:var(--or);color:#fff}
+.sidr-upoz{color:var(--or)}
 </style>
 </head>
 <body>
@@ -3129,8 +3139,21 @@ function sidrenePrikaz(){const m=(lokal&&lokal.sidrene_prikaz)||"auto";
  if(m==="da")return true; if(m==="ne")return false; return new Date()>=new Date(SIDRENI_POCETAK+"T00:00:00");}
 const datumHr=d=>{if(!d)return "10. 9. 2026."; const p=String(d).slice(0,10).split("-"); return `${+p[2]}. ${+p[1]}. ${p[0]}.`;};
 const sidrenaVr=x=>x&&x.sidrena_cijena!=null&&x.sidrena_cijena!==""?+x.sidrena_cijena:+(x&&x.cijena);
-function sidrenaHTML(x,kratko){
+/* Način prikaza (vlasnik bira u Jelovniku): "uvijek" = sidrena cijena stalno piše uz jelo;
+   "ikona" = uz cijenu stoji mala ⚓, gost je klikne i vidi sidrenu (ili "Prikaži sve" iznad jelovnika). */
+function sidreneNacin(){return (lokal&&lokal.sidrene_nacin)==="ikona"?"ikona":"uvijek";}
+let sidrOtv=new Set(), sidrSve=false;
+const sidrVidi=id=>sidreneNacin()==="uvijek"||sidrSve||sidrOtv.has(id);
+function prebaciSidrenu(id){if(sidrOtv.has(id))sidrOtv.delete(id); else sidrOtv.add(id); crtaj(1);}
+function prebaciSveSidrene(){sidrSve=!sidrSve; sidrOtv.clear(); crtaj(1);}
+function sidrIkonaHTML(j){
+ if(!j||!sidrenePrikaz()||sidreneNacin()!=="ikona")return "";
+ const on=sidrVidi(j.id);
+ return `<button class="sidr-ik${on?" on":""}" type="button" aria-label="${tj("Sidrena cijena")}" aria-expanded="${on}" title="${tj("Sidrena cijena")}"
+  onclick="event.stopPropagation();prebaciSidrenu('${j.id}')" onkeydown="event.stopPropagation()">⚓</button>`;}
+function sidrenaHTML(x,kratko,roditelj){
  if(!x||!sidrenePrikaz())return "";
+ if(!sidrVidi(x.id)&&!(roditelj&&sidrVidi(roditelj)))return "";
  return `<small class="sidr${kratko?" kratko":""}">${kratko?"sidrena ":tj("Sidrena cijena")+" "}${datumHr(x.sidrena_datum)}: ${eur(sidrenaVr(x))}</small>`;}
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const el=id=>document.getElementById(id);
@@ -3399,7 +3422,7 @@ async function osvjezi(){
     pauzu narudžbi, za slučaj da realtime poruka o promjeni lokala promakne. */
  const prazno={data:[],error:null}, osoblje=jeOsoblje();
  let n=prazno, t=prazno, p=prazno;
- const lkP=sb.from("lokali").select("narudzbe_pauza_do,lajkovi,zvukovi,samo_preuzimanje,cola_gratis,cola_prikaz").eq("id",lokal.id).single();
+ const lkP=sb.from("lokali").select("narudzbe_pauza_do,lajkovi,zvukovi,samo_preuzimanje,cola_gratis,cola_prikaz,sidrene_prikaz,sidrene_nacin").eq("id",lokal.id).single();
  if(osoblje){
   [n,t,p]=await Promise.all([
    sb.from("narudzbe").select("*, stavke(*)").eq("lokal_id",lokal.id)
@@ -3416,7 +3439,7 @@ async function osvjezi(){
  }
  const lk=await lkP;
  if(!lk.error&&lk.data){lokal.narudzbe_pauza_do=lk.data.narudzbe_pauza_do;
-  ["samo_preuzimanje","cola_gratis","cola_prikaz"].forEach(k=>{if(k in lk.data)lokal[k]=lk.data[k];});
+  ["samo_preuzimanje","cola_gratis","cola_prikaz","sidrene_prikaz","sidrene_nacin"].forEach(k=>{if(k in lk.data)lokal[k]=lk.data[k];});
   if(typeof lk.data.lajkovi==="number")lokal.lajkovi=lk.data.lajkovi;
   if(lk.data.zvukovi)lokal.zvukovi=lk.data.zvukovi;}
  if(!n.error&&n.data)narudzbe=n.data;
@@ -3883,6 +3906,8 @@ function gostHTML(){
    <b>⏸ ${tj("Trenutno ne primamo nove narudžbe")}</b>
    <span>${tj("Zbog trenutne gužve u kuhinji.")} ${pauzaGostTekst()} ${tj("Jelovnik možete i dalje pregledavati.")}</span></div>`:""}
  <nav class="kat-nav">${kats.map(k=>`<button class="kat-pill" data-ur="kat-pill" onclick="skociNaKat('${katId(k)}')">${esc(k)}</button>`).join("")}</nav>
+ ${sidrenePrikaz()&&sidreneNacin()==="ikona"?`<div class="sidr-legenda"><span>⚓ ${tj("uz cijenu = sidrena cijena")}</span>
+  <button type="button" class="sidr-sve${sidrSve?" on":""}" onclick="prebaciSveSidrene()">${sidrSve?tj("Sakrij sve"):tj("Prikaži sve")}</button></div>`:""}
  <div id="meni">${kats.map(k=>`<section class="katblok" id="${katId(k)}">
   <div class="kat"><h2 class="reveal" data-ur="kat-h" data-rk="kh-${katId(k)}">${esc(k)}</h2></div>
   ${vidljiva.filter(j=>j.kategorija===k).map(j=>jeloHTML(j,k)).join("")}</section>`).join("")}</div>
@@ -3983,20 +4008,20 @@ function jeloHTML(j,k){
    ${j.slika_url?`<img class="jelo-sl ${okKl(j.slika_url)}" data-ur="jelo-sl" src="${j.slika_url}" alt="" loading="lazy" decoding="async" onload="slikaOk(this)" onclick="event.stopPropagation();zumSlike('${j.slika_url}','${esc(j.naziv).replace(/'/g,"\\x27")}')">`:""}
    <div><div class="jelo-n" data-ur="jelo-n">${esc(j.naziv)}${zn}${kom?`<span class="qty">×${kom}</span>`:""}</div>
     ${j.opis?`<div class="jelo-o" data-ur="jelo-o">${esc(j.opis)}</div>`:""}${sidrenaHTML(j)}</div>
-   <div class="jelo-c" data-ur="jelo-c">${eur(j.cijena)}</div></div>
+   <div class="jelo-c" data-ur="jelo-c">${eur(j.cijena)}${sidrIkonaHTML(j)}</div></div>
   ${slozeno?`<div class="dod ${otvoreno===j.id?"on":""}" id="d-${j.id}">
    ${mojiDodaci.length?`<button class="vise" type="button" onclick="prebaciPod('dodaci')" aria-expanded="${podOtvoreno.dodaci}">${podOtvoreno.dodaci?"▲ Sakrij dodatke":pizza?"▼ Želite dodatak na pizzu?":"▼ Želite dodatak?"}</button>
    ${podOtvoreno.dodaci?`<h4 class="h-dod">DODACI PO ŽELJI</h4>
    <div class="dod-grid">${mojiDodaci.map(d=>`<label><input type="checkbox" data-d="${j.id}" value="${d.id}">
-     ${esc(d.naziv)}<span>+${eur(d.cijena)}${sidrenaHTML(d,1)}</span></label>`).join("")}</div>`:""}`:""}
+     ${esc(d.naziv)}<span>+${eur(d.cijena)}${sidrenaHTML(d,1,j.id)}</span></label>`).join("")}</div>`:""}`:""}
    ${pizza?`<button class="vise" type="button" onclick="prebaciPod('pice')" aria-expanded="${podOtvoreno.pice}">${podOtvoreno.pice?"▲ Sakrij piće":"▼ Želite dodatno piće?"}</button>
    ${podOtvoreno.pice?`<h4 class="h-pice">DODAJ PIĆE UZ OVU PIZZU</h4>
    <div class="dod-grid jedan">${pica.map(p=>`<label><input type="checkbox" data-u="${j.id}" value="${p.id}">
-     ${esc(p.naziv)}<span>+${eur(p.cijena)}${sidrenaHTML(p,1)}</span></label>`).join("")}</div>`:""}
+     ${esc(p.naziv)}<span>+${eur(p.cijena)}${sidrenaHTML(p,1,j.id)}</span></label>`).join("")}</div>`:""}
    <button class="vise" type="button" onclick="prebaciPod('desert')" aria-expanded="${podOtvoreno.desert}">${podOtvoreno.desert?"▲ Sakrij desert":"▼ Želite desert?"}</button>
    ${podOtvoreno.desert?`<h4 class="h-des">DODAJ DESERT</h4>
    <div class="dod-grid jedan">${des.map(p=>`<label><input type="checkbox" data-u="${j.id}" value="${p.id}">
-     ${esc(p.naziv)}<span>+${eur(p.cijena)}${sidrenaHTML(p,1)}</span></label>`).join("")}</div>`:""}`:""}
+     ${esc(p.naziv)}<span>+${eur(p.cijena)}${sidrenaHTML(p,1,j.id)}</span></label>`).join("")}</div>`:""}`:""}
    <div class="row2"><button class="btn sm ghost" onclick="otvori('${j.id}')">Zatvori</button>
     <button class="btn sm" onclick="uKosaricu('${j.id}')">Dodaj <span id="c-${j.id}">${eur(j.cijena)}</span></button></div>
    ${pizza&&pravoNaGratis()&&!kosarica.some(x=>x.gratis)?`<button class="btn go" onclick="uKosaricu('${j.id}',1)">Uzmi kao nagradnu pizzu — 0,00 €</button>`:""}
@@ -4555,7 +4580,7 @@ async function prebaciArhivuCjenika(){
 function pravno(){return `<div class="pravno">
  <h4>AKCIJE</h4><p>${colaGratis()?"Akcija 4+1 primjenjuje se automatski: na svakih pet naručenih pizza najjeftinija se odbija od konačnog iznosa. Uz svaku pizzu isporučujemo Coca-Colu 0,33 L bez naplate. Vrijedi za narudžbe putem naše izravne dostave."
   :"Akcija 4+1 primjenjuje se automatski: na svakih pet naručenih pizza najjeftinija se odbija od konačnog iznosa. Vrijedi za narudžbe putem naše izravne dostave."}</p>
- <h4>SIDRENE CIJENE I CJENIK</h4><p>${sidrenePrikaz()?"Uz cijene je navedena i sidrena cijena — cijena istog proizvoda na dan 10. 9. 2026., a za proizvode uvedene nakon toga cijena na dan uvođenja u ponudu (Odluka Vlade RH, NN 101/2026).":"Od 17. 11. 2026. uz cijene će biti navedena i sidrena cijena — cijena istog proizvoda na dan 10. 9. 2026. (Odluka Vlade RH, NN 101/2026)."}
+ <h4>SIDRENE CIJENE I CJENIK</h4><p>${sidrenePrikaz()&&sidreneNacin()==="ikona"?"Sidrena cijena — cijena istog proizvoda na dan 10. 9. 2026., a za proizvode uvedene nakon toga cijena na dan uvođenja u ponudu (Odluka Vlade RH, NN 101/2026) — prikazuje se klikom na ⚓ uz cijenu ili gumbom „Prikaži sve” iznad jelovnika.":sidrenePrikaz()?"Uz cijene je navedena i sidrena cijena — cijena istog proizvoda na dan 10. 9. 2026., a za proizvode uvedene nakon toga cijena na dan uvođenja u ponudu (Odluka Vlade RH, NN 101/2026).":"Od 17. 11. 2026. uz cijene će biti navedena i sidrena cijena — cijena istog proizvoda na dan 10. 9. 2026. (Odluka Vlade RH, NN 101/2026)."}
   Cjenik u strojno čitljivom obliku: <a href="${CJENIK_URL}?format=csv" target="_blank" rel="noopener">CSV</a> · <a href="${CJENIK_URL}?format=xml" target="_blank" rel="noopener">XML</a> ·
   <a href="#" onclick="event.preventDefault();prebaciArhivuCjenika()">${cjenikArhiva.otv?"sakrij ranije verzije":"ranije verzije (30 dana)"}</a></p>
   ${cjenikArhiva.otv?`<div class="cj-arhiva">${cjenikArhiva.ucitava?"Učitavam…":cjenikArhiva.greska?esc(cjenikArhiva.greska):
@@ -4731,7 +4756,7 @@ function vlTablica(nas,obj,limit){
 /* ---------- JELOVNIK sa slikama i preslagivanjem ---------- */
 const RUCKA_SVG=`<svg viewBox="0 0 20 20" width="20" height="20"><circle cx="6" cy="4" r="1.6"/><circle cx="14" cy="4" r="1.6"/><circle cx="6" cy="10" r="1.6"/><circle cx="14" cy="10" r="1.6"/><circle cx="6" cy="16" r="1.6"/><circle cx="14" cy="16" r="1.6"/></svg>`;
 function vlSidreneHTML(){
- const m=(lokal&&lokal.sidrene_prikaz)||"auto", ok=!!(lokal&&lokal.sidrene_provjereno);
+ const m=(lokal&&lokal.sidrene_prikaz)||"auto", ok=!!(lokal&&lokal.sidrene_provjereno), nac=sidreneNacin();
  const razl=jela.filter(j=>j.sidrena_cijena!=null&&+j.sidrena_cijena!==+j.cijena).length;
  return `<div class="box sidr-box">
   <h4>⚓ ${tj("Sidrene cijene")} <small>${tj("obveza od 17. 11. 2026.")}</small></h4>
@@ -4745,6 +4770,12 @@ function vlSidreneHTML(){
    <button aria-pressed="${m==="auto"}" onclick="spremiLokalPolja({sidrene_prikaz:'auto'})">${tj("Od 17. 11.")}<br><small>${tj("automatski")}</small></button>
    <button aria-pressed="${m==="da"}" onclick="spremiLokalPolja({sidrene_prikaz:'da'})">${tj("Odmah")}</button>
    <button aria-pressed="${m==="ne"}" onclick="spremiLokalPolja({sidrene_prikaz:'ne'})">${tj("Ne prikazuj")}</button></div>
+  <label class="f">${tj("Kako gost vidi sidrenu cijenu")}</label>
+  <div class="izbor">
+   <button aria-pressed="${nac==="uvijek"}" onclick="spremiLokalPolja({sidrene_nacin:'uvijek'},tj('Sidrene cijene su sada stalno vidljive'))">${tj("Uvijek vidljivo")}<br><small>${tj("ispod svakog jela")}</small></button>
+   <button aria-pressed="${nac==="ikona"}" onclick="spremiLokalPolja({sidrene_nacin:'ikona'},tj('Sidrene cijene su sada iza ikonice ⚓'))">⚓ ${tj("Na klik")}<br><small>${tj("gost klikne ikonicu")}</small></button></div>
+  ${nac==="ikona"?`<p class="savjet sidr-upoz">⚠ Uz cijenu stoji ⚓, a sidrena cijena se vidi tek na klik. Zakon traži da sidrena cijena bude <b>istaknuta</b> —
+   ako inspekcija zatraži da bude stalno vidljiva, samo klikni <b>Uvijek vidljivo</b>; promjena je odmah na svim mobitelima.</p>`:""}
   <p class="savjet">${sidrenePrikaz()?"Gosti sada vide sidrene cijene.":"Gosti još ne vide sidrene cijene."} ${razl?`Jela kojima je cijena drukčija od sidrene: <b>${razl}</b>.`:""}
    Strojno čitljiv cjenik (obveza za web stranicu) objavljuje se sam nakon svake promjene cijene:
    <a href="${CJENIK_URL}?format=csv" target="_blank" rel="noopener">CSV</a> · <a href="${CJENIK_URL}?format=xml" target="_blank" rel="noopener">XML</a></p></div>`;}
