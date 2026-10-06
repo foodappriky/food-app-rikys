@@ -4,6 +4,68 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Riky's Pizza</title>
+<!-- ============================================================================
+     META / FACEBOOK — KOJE SLIKE OGLAS SMIJE POVUĆI SA STRANICE
+     ============================================================================
+     Metin robot NE pokreće JavaScript, pa ne vidi jelovnik (on se učitava iz baze).
+     Vidi samo ovo što je ovdje u HTML-u. Zato je dosad vukao pizza-1/2/3.png
+     s naslovnice — to su jedine slike koje je mogao vidjeti.
+
+     Ispod je popis jela koja Meta SMIJE uzeti, redom. Prva slika je glavna,
+     ostale koristi za carousel i collection. Po dva jela iz svake kategorije,
+     da se vidi da ima i burgera, tortilja, graha, tjestenine i sendviča.
+
+     KAMO IDE: u index.html, odmah ISPOD retka <title>Riky's Pizza</title>
+     NAKON OBJAVE: obavezno osvježi Metin predmemorirani snimak —
+     developers.facebook.com/tools/debug/ → zalijepi https://www.rikyspizza.com.hr/
+     → Debug → Scrape Again. Bez toga Meta i dalje pokazuje stare tri pizze.
+============================================================================ -->
+
+<meta property="og:type" content="restaurant.menu">
+<meta property="og:site_name" content="Riky's Pizza">
+<meta property="og:locale" content="hr_HR">
+<meta property="og:url" content="https://www.rikyspizza.com.hr/">
+<meta property="og:title" content="Riky's Pizza — pizze, burgeri, tortilje, domaća kuhinja">
+<meta property="og:description" content="Zagorska 18, Zagreb. Naruči izravno preko našeg web shopa — niže cijene nego na aplikacijama, 0,33 Coca-Cola gratis uz svaku pizzu i lokalna dostava. Pizze, burgeri, tortilje, quesadille, XXL sendviči, grah, tjestenine i palačinke.">
+
+<!-- 1 · PIZZA (premium) — Riky's -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/48507acd-74d8-4fcf-a647-cb51c8bcd519-mugp9gpv.jpg">
+<meta property="og:image:alt" content="Pizza Riky's">
+<!-- 2 · PIZZA (klasična) — Capricciosa -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/8000197a-7e29-4d7d-9561-a6432ba2845a-mugp9fp7.jpg">
+<meta property="og:image:alt" content="Pizza Capricciosa">
+<!-- 3 · BURGER — Bacon Cheeseburger u brioche pecivu -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/c7fbcd8d-a78c-4b79-9736-5ac0ac5ef413-mugp9gtm.jpg">
+<meta property="og:image:alt" content="Bacon Cheeseburger u brioche pecivu">
+<!-- 4 · TORTILJA — Piletina Tortilla -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/b72dccdf-ec0b-426f-bd9e-0b87e3a9e851-mugpbsfa.jpg">
+<meta property="og:image:alt" content="Piletina tortilla">
+<!-- 5 · QUESADILLA — Double Cheese Lava Quesadilla -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/d3caf671-19d9-451d-b504-066dd6a9545a-mugpbsjx.jpg">
+<meta property="og:image:alt" content="Double Cheese Lava Quesadilla">
+<!-- 6 · XXL SENDVIČ — pršut -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/4fec2c81-429c-40d0-8f93-159431d1c39f-mugpbvl9.jpg">
+<meta property="og:image:alt" content="XXL sendvič s pršutom">
+<!-- 7 · RUČAK — Grah varivo -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/a4184c19-f6d2-4b95-899f-3002261a5b03-mugp9hb9.jpg">
+<meta property="og:image:alt" content="Grah varivo">
+<!-- 8 · RUČAK — Tjestenina Bolognese -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/14cb877c-ed4a-42f1-8461-188e2207b47c-mugp9gxo.jpg">
+<meta property="og:image:alt" content="Tjestenina bolognese">
+<!-- 9 · RUČAK — Ćevapi u lepinji -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/9780e069-4378-4d3e-9133-1342a7e3251b-mugpbtuu.jpg">
+<meta property="og:image:alt" content="Ćevapi u lepinji">
+<!-- 10 · DORUČAK — Omlet sa šunkom i sirom -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/0d90c55f-4662-464c-b5ea-18b42d6600a5-mugpbtmu.jpg">
+<meta property="og:image:alt" content="Omlet sa šunkom i sirom">
+<!-- 11 · DESERT — Nutella palačinke -->
+<meta property="og:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/fc614b74-4f8b-4e3e-9ede-703e0b1a2efe-mugpbuii.jpg">
+<meta property="og:image:alt" content="Nutella palačinke">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Riky's Pizza — pizze, burgeri, tortilje, domaća kuhinja">
+<meta name="twitter:description" content="Naruči izravno preko našeg web shopa — niže cijene, 0,33 Coca-Cola gratis uz svaku pizzu, lokalna dostava.">
+<meta name="twitter:image" content="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/48507acd-74d8-4fcf-a647-cb51c8bcd519-mugp9gpv.jpg">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0B0908">
 <link rel="icon" href="icon-192.png" type="image/png">
@@ -1588,6 +1650,27 @@ html.ucitava body::after{content:"";position:fixed;left:50%;top:46%;width:46px;h
 </style>
 </head>
 <body>
+<!-- Isti jelovnik još jednom, kao prave <img> oznake. Metina opcija
+     "Website highlights" / Collection ne čita samo og:image nego i slike na
+     stranici — a kako njezin robot ne pokreće JavaScript, bez ovoga ne vidi
+     nijedno jelo. Gostu se NE prikazuje: <noscript> se iscrta samo kad je
+     JavaScript isključen, a tada stranica ionako ne radi. -->
+<noscript>
+<div id="meta-jelovnik">
+ <h2>Jelovnik — Riky's Pizza, Zagorska 18, Zagreb</h2>
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/48507acd-74d8-4fcf-a647-cb51c8bcd519-mugp9gpv.jpg" width="600" height="600" alt="Pizza Riky's">
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/8000197a-7e29-4d7d-9561-a6432ba2845a-mugp9fp7.jpg" width="600" height="600" alt="Pizza Capricciosa">
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/c7fbcd8d-a78c-4b79-9736-5ac0ac5ef413-mugp9gtm.jpg" width="600" height="600" alt="Bacon Cheeseburger u brioche pecivu">
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/b72dccdf-ec0b-426f-bd9e-0b87e3a9e851-mugpbsfa.jpg" width="600" height="600" alt="Piletina tortilla">
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/d3caf671-19d9-451d-b504-066dd6a9545a-mugpbsjx.jpg" width="600" height="600" alt="Double Cheese Lava Quesadilla">
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/4fec2c81-429c-40d0-8f93-159431d1c39f-mugpbvl9.jpg" width="600" height="600" alt="XXL sendvič s pršutom">
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/a4184c19-f6d2-4b95-899f-3002261a5b03-mugp9hb9.jpg" width="600" height="600" alt="Grah varivo">
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/14cb877c-ed4a-42f1-8461-188e2207b47c-mugp9gxo.jpg" width="600" height="600" alt="Tjestenina bolognese">
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/9780e069-4378-4d3e-9133-1342a7e3251b-mugpbtuu.jpg" width="600" height="600" alt="Ćevapi u lepinji">
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/0d90c55f-4662-464c-b5ea-18b42d6600a5-mugpbtmu.jpg" width="600" height="600" alt="Omlet sa šunkom i sirom">
+ <img src="https://ajhgvczgjbkhzdzuzyby.supabase.co/storage/v1/object/public/slike/jela/fc614b74-4f8b-4e3e-9ede-703e0b1a2efe-mugpbuii.jpg" width="600" height="600" alt="Nutella palačinke">
+</div>
+</noscript>
 <div class="topbar" id="topbar"><div class="tb-grupa">
  <button class="tb-it" id="vj-btn" onclick="skociNaVjernost()" aria-label="Program vjernosti" style="display:none"><span class="tb-ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><circle cx="7" cy="10" r="1.5" fill="currentColor"/><circle cx="11.5" cy="10" r="1.5" fill="currentColor"/><circle cx="16" cy="10" r="1.5"/><path d="M6 15h7"/><path d="M17.5 13.6l.7 1.3 1.4.2-1 1 .3 1.4-1.4-.7-1.3.7.2-1.4-1-1 1.4-.2z" fill="currentColor" stroke-width="1"/></svg></span><span class="tb-t">Vjernost</span></button>
  <button class="tb-it" id="pwa-btn" onclick="instalirajApp()" aria-label="Instaliraj kao aplikaciju" style="display:none"><span class="tb-ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.6"/><path d="M12 7v7"/><path d="M9 11.2l3 3 3-3"/><path d="M10.4 18.4h3.2"/></svg></span><span class="tb-t">Instaliraj</span></button>
