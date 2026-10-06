@@ -2,70 +2,167 @@
 <html lang="hr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Riky's — Pult</title>
+
+<!-- Manifest MORA biti statična datoteka s start_url "/pult.html".
+     Safari ga pročita u trenutku kad korisnik pritisne "Dodaj na početni zaslon",
+     i zato ikona na zaslonu uvijek otvara BAŠ pult, a ne gostinsku naslovnicu. -->
 <link rel="manifest" href="manifest-pult.json">
+
 <meta name="theme-color" content="#0B0908">
-<link rel="icon" href="icon-192.png" type="image/png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Riky's — Pult">
+<meta name="apple-mobile-web-app-title" content="Pult">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+
 <script>
-/* Ako je stranica otvorena kao instalirana aplikacija (dodana na početni zaslon),
-   odmah, bez treptaja, preusmjeri izravno u Pult — ova stranica se u tom
-   slučaju nikad stvarno ne vidi, služi samo kao "sidro" za ispravan naziv/ikonu
-   pri dodavanju na početni zaslon. */
+/* ---------------------------------------------------------------------------
+   Ako je stranica pokrenuta IZ IKONE na početnom zaslonu (standalone), ovdje
+   se ne zadržavamo ni sekunde — odmah skačemo na pravi pult ekran (/#pult).
+   Radi se replace(), ne href=, da povratak ne vrati korisnika na ovu stranicu.
+
+   Ako je otvorena NORMALNO u Safariju, ostajemo tu i pokazujemo upute za
+   dodavanje na zaslon. Bitno: dok korisnik dijeli stranicu, adresa u traci
+   mora ostati /pult.html — zato se ovdje NE preusmjerava.
+--------------------------------------------------------------------------- */
 (function(){
- var samostalna = window.navigator.standalone === true ||
-  (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
- if (samostalna) { location.replace('/#pult'); }
+  var app = (window.navigator.standalone === true) ||
+            (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+            (window.matchMedia && window.matchMedia("(display-mode: fullscreen)").matches) ||
+            (window.matchMedia && window.matchMedia("(display-mode: minimal-ui)").matches);
+  if (app) location.replace("/#pult");
 })();
 </script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-:root{--bg:#0B0908;--bg2:#151110;--card:#1C1614;--line:#3D322D;--line2:#5A4A42;
- --cream:#F6EFE8;--dim:#B0A099;--dim2:#8C7D76;--or:#E8622A;--bw:2px}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--cream);font-family:"Oswald",sans-serif;
- min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-.wrap{width:100%;max-width:420px}
-.brand{text-align:center;margin-bottom:22px}
-.brand img{width:64px;height:64px;border-radius:16px;margin-bottom:10px}
-.brand h1{font-family:"Anton",sans-serif;letter-spacing:.08em;font-size:22px;margin:0}
-.brand span{display:block;color:var(--or);font-size:13px;text-transform:uppercase;
- letter-spacing:.12em;margin-top:4px}
-.kartica{background:var(--card);border:var(--bw) solid var(--line2);border-radius:16px;
- padding:20px}
-.kartica h3{font-size:16px;margin:0 0 6px;text-transform:none}
-.kartica>p{color:var(--dim2);font-size:13.5px;margin:0 0 14px}
-.korak{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:var(--bw) solid var(--line)}
-.korak:first-of-type{border-top:none;padding-top:0}
-.broj{flex:none;width:24px;height:24px;border-radius:50%;background:var(--or);color:#fff;
- font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center}
-.ikona{flex:none;width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:var(--or)}
-.ikona svg{width:100%;height:100%}
-.korak>span:last-child{font-size:14px}
-.otvori{display:block;text-align:center;margin-top:18px;color:var(--dim2);font-size:13px;
- text-decoration:underline}
+:root{--bg:#0B0908;--bg2:#151110;--card:#1C1614;--line:#3D322D;
+      --cream:#F6EFE8;--dim:#C4B6AC;--dim2:#A5968C;--or:#E8622A;--gold:#E9A44C;--go:#4E9B5F}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--cream)}
+body{font-family:"Barlow Semi Condensed","Oswald",system-ui,-apple-system,sans-serif;
+     font-weight:600;min-height:100vh;display:flex;align-items:center;justify-content:center;
+     padding:calc(24px + env(safe-area-inset-top)) 18px calc(24px + env(safe-area-inset-bottom))}
+.omot{width:100%;max-width:520px}
+
+.glava{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.glava>div{min-width:0}   /* bez ovoga dugačak naslov razvuče stranicu u širinu */
+.glava img{width:60px;height:60px;border-radius:15px;flex:none;
+           box-shadow:0 6px 20px rgba(0,0,0,.5)}
+.glava b{display:block;font-family:"Anton",sans-serif;font-size:clamp(20px,5.9vw,27px);
+         letter-spacing:.03em;text-transform:uppercase;line-height:1.08;overflow-wrap:break-word}
+.glava span{display:block;font-size:15.5px;color:var(--dim2);margin-top:3px}
+
+.kart{background:var(--card);border:1px solid var(--line);border-radius:20px;
+      padding:22px 20px;box-shadow:0 10px 34px rgba(0,0,0,.42)}
+h2{font-family:"Oswald",sans-serif;font-size:14.5px;letter-spacing:.11em;text-transform:uppercase;
+   color:var(--gold);margin:0 0 16px;font-weight:600}
+
+.k{display:flex;align-items:flex-start;gap:14px;padding:13px 0}
+.k + .k{border-top:1px solid var(--line)}
+.broj{flex:none;width:30px;height:30px;border-radius:50%;background:var(--or);color:#fff;
+      font-family:"Anton",sans-serif;font-size:17px;display:flex;align-items:center;
+      justify-content:center;line-height:1}
+.k p{margin:0;font-size:17.5px;line-height:1.38;color:var(--cream)}
+.k p b{color:#fff}
+.ik{display:inline-flex;vertical-align:-5px;width:21px;height:21px;color:#0A84FF;margin:0 2px}
+.ik svg{width:100%;height:100%}
+
+.nap{margin:18px 0 0;padding:14px 16px;border-radius:13px;background:rgba(233,164,76,.11);
+     border:1px solid rgba(233,164,76,.3);font-size:16px;line-height:1.42;color:var(--gold)}
+.nap b{color:#F3C684}
+
+.cta{display:block;width:100%;margin-top:18px;padding:17px;border:none;border-radius:14px;
+     background:var(--or);color:#fff;font-family:"Oswald",sans-serif;font-size:16.5px;
+     font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-align:center;
+     text-decoration:none;cursor:pointer}
+.cta:active{transform:scale(.985);filter:brightness(.92)}
+.cta.tiho{background:transparent;border:1px solid var(--line);color:var(--dim);margin-top:10px}
+
+.andr{display:none}
+.podnozje{text-align:center;font-size:14.5px;color:var(--dim2);margin-top:20px;line-height:1.45}
 </style>
 </head>
 <body>
-<div class="wrap">
- <div class="brand"><img src="icon-192.png" alt=""><h1>RIKY'S</h1><span>Pult — proizvodnja</span></div>
- <div class="kartica">
-  <h3>Dodaj Pult na početni zaslon</h3>
-  <p>Nakon što ovo dodaš, ikona na početnom zaslonu otvarat će izravno pult s narudžbama koje se rade, bez prolaska kroz gostinsku stranicu.</p>
-  <div class="korak"><span class="broj">1</span><span class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
- stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/>
- <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></span>
-   <span>Dodirni gumb <b>Dijeli</b> u traci preglednika</span></div>
-  <div class="korak"><span class="broj">2</span><span class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
- stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/>
- <path d="M12 8v8M8 12h8"/></svg></span>
-   <span>Odaberi „<b>Dodaj na Home ekran</b>”</span></div>
- </div>
- <a class="otvori" href="/#pult">Otvori pult sad, bez instalacije →</a>
+<div class="omot">
+
+  <div class="glava">
+    <img src="icon-192.png" alt="">
+    <div>
+      <b>Pult — proizvodnja</b>
+      <span>Riky's Pizza · ekran kod peći</span>
+    </div>
+  </div>
+
+  <div class="kart">
+    <h2 id="naslov">Dodaj na početni zaslon</h2>
+
+    <div id="ios">
+      <div class="k">
+        <span class="broj">1</span>
+        <p>Dodirni <b>Dijeli</b>
+          <span class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8.2 6.8L12 3l3.8 3.8"/><path d="M6 12.5v7a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-7"/></svg></span>
+          u donjoj traci Safarija.</p>
+      </div>
+      <div class="k">
+        <span class="broj">2</span>
+        <p>Skrolaj niže i odaberi <b>Dodaj na početni zaslon</b>
+          <span class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="4.2"/><path d="M12 8.2v7.6M8.2 12h7.6"/></svg></span>.</p>
+      </div>
+      <div class="k">
+        <span class="broj">3</span>
+        <p>Gore desno potvrdi <b>Dodaj</b>. Ikona <b>Pult</b> je na zaslonu.</p>
+      </div>
+    </div>
+
+    <div id="android" class="andr">
+      <div class="k">
+        <span class="broj">1</span>
+        <p>Otvori izbornik preglednika <b>⋮</b> (gore desno).</p>
+      </div>
+      <div class="k">
+        <span class="broj">2</span>
+        <p>Odaberi <b>Instaliraj aplikaciju</b> ili <b>Dodaj na početni zaslon</b>.</p>
+      </div>
+    </div>
+
+    <p class="nap">Dodaj na zaslon <b>s ove stranice</b>. Ako dodaješ s naslovnice
+      (rikyspizza.com.hr), ikona otvori jelovnik za goste, a ne pult.</p>
+
+    <a class="cta" href="/#pult">Otvori pult sada</a>
+    <button class="cta tiho" id="btn-instaliraj" style="display:none">Instaliraj aplikaciju</button>
+  </div>
+
+  <p class="podnozje">Pult vidi samo hranu u pripremi —<br>bez imena, adresa i telefona kupaca.</p>
 </div>
+
+<script>
+/* Android/Chrome: pokaži pravi gumb za instalaciju kad ga preglednik ponudi. */
+(function(){
+  var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if(!iOS){
+    document.getElementById("ios").style.display = "none";
+    document.getElementById("android").style.display = "block";
+  }
+  var odgoda = null, btn = document.getElementById("btn-instaliraj");
+  window.addEventListener("beforeinstallprompt", function(e){
+    e.preventDefault(); odgoda = e; btn.style.display = "block";
+  });
+  btn.addEventListener("click", async function(){
+    if(!odgoda) return;
+    odgoda.prompt();
+    try{ await odgoda.userChoice; }catch(e){}
+    odgoda = null; btn.style.display = "none";
+  });
+  window.addEventListener("appinstalled", function(){ btn.style.display = "none"; });
+})();
+</script>
 </body>
 </html>
