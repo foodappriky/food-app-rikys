@@ -2015,45 +2015,49 @@ body.rk-v2 .wrap,body.rk-v3 .wrap{max-width:none;padding-left:0;padding-right:0}
 body.rk-v2 .zg-meni,body.rk-v2 .zg-kat-in,body.rk-v3 .zg-meni,body.rk-v3 .zg-kat-in{max-width:760px}
 body.rk-v2 [data-ur="vjernost"],body.rk-v3 [data-ur="vjernost"]{max-width:760px;margin-left:auto;margin-right:auto;padding:0 12px}
 
-/* verzija 2: zbijeni strip u stilu GTA naslovnice — kosi rezovi, tanke tamne fuge, 3 stupca */
-.rkb{max-width:760px;margin:0 auto;padding:8px 8px 2px}
-.rkb-grid{--s:12px;--v:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:6px;background:#060403;border:2px solid #FF4106;border-radius:6px;
- grid-template-areas:"logo logo logo" "cola cola akc" "piz pos vj" "gta gta gta"}
-.rkb-p{--l1:0px;--l2:0px;--r1:0px;--r2:0px;--t1:0px;--t2:0px;--b1:0px;--b2:0px;
- clip-path:polygon(var(--l1) var(--t1),calc(100% - var(--r1)) var(--t2),calc(100% - var(--r2)) calc(100% - var(--b2)),var(--l2) calc(100% - var(--b1)));
- position:relative;overflow:hidden;background:#1A1310 center/cover no-repeat;color:#fff;border:0;margin:0;font:inherit;
- min-height:96px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:10px 8px;font-family:Anton,Oswald,sans-serif;text-transform:uppercase}
+/* verzija 2: strip u stilu GTA naslovnice — kosi rezovi, tanke tamne fuge */
+.rkb{max-width:760px;margin:0 auto;padding:10px 10px 4px}
+.rkb-grid{--s:16px;--v:16px;display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:7px;background:#060403;border:2px solid #FF4106;border-radius:6px}
+.rkb-p{position:relative;overflow:hidden;background:#1A1310 center/cover no-repeat;color:#fff;border:0;margin:0;font:inherit;
+ min-height:110px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:14px 18px;font-family:Anton,Oswald,sans-serif;text-transform:uppercase}
 button.rkb-p{cursor:pointer}
-.rkb-logo{grid-area:logo;min-height:112px;--b2:var(--s);flex-direction:row;gap:10px;padding:8px 12px 14px}
-.rkb-logo::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.35),rgba(0,0,0,.72))}
+.rkb-logo{grid-column:1/-1;min-height:178px;clip-path:polygon(0 0,100% 0,100% calc(100% - var(--s)),0 100%)}
+.rkb-logo::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.7))}
 .rkb-logo>*{position:relative}
-.rkb-koza{width:84px;height:auto;flex:none;filter:drop-shadow(0 6px 14px rgba(0,0,0,.6))}
-.rkb-ime{display:flex;flex-direction:column;align-items:flex-start;line-height:.9}
-.rkb-ime b{font-weight:400;font-size:clamp(44px,13vw,72px);text-shadow:0 3px 0 #000}
-.rkb-ime span{font-family:Oswald,sans-serif;font-weight:600;letter-spacing:.45em;color:#FF4106;font-size:14px;margin-top:4px}
-.rkb-logo small{position:absolute;right:12px;bottom:calc(var(--s) + 6px);font-family:Oswald,sans-serif;font-size:11px;letter-spacing:.1em;color:#F6BE2C}
-.rkb-kola{grid-area:cola;--t1:var(--s);--t2:calc(var(--s)/3);--b2:calc(var(--s)*2/3);--r2:var(--v);padding:calc(var(--s) + 4px) calc(var(--v) + 6px) 10px 8px;
- background:radial-gradient(ellipse at 70% 45%,rgba(225,20,30,.6),rgba(225,20,30,0) 65%),linear-gradient(rgba(10,5,4,.8),rgba(10,5,4,.88)),var(--pec) center/cover}
-.rkb-kola img{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 14px rgba(0,0,0,.6))}
-.rkb-akc{grid-area:akc;--t1:calc(var(--s)/3);--l1:var(--v);--b1:calc(var(--s)*2/3);--b2:var(--s);background:linear-gradient(150deg,#FF5A1F,#C42E00);padding-left:calc(var(--v) + 4px)}
-.rkb-pos{grid-area:pos;--t1:calc(var(--s)*2/3);--t2:calc(var(--s)/3);--b1:calc(var(--s)/3);--b2:calc(var(--s)*2/3);--l1:var(--v);--r2:var(--v);background:linear-gradient(150deg,#FFD24A,#E89A00);color:#140A06;padding:10px calc(var(--v) + 4px)}
-.rkb-akc b,.rkb-pos b,.rkb-vj b{font-weight:400;font-size:clamp(34px,10vw,52px);line-height:1}
-.rkb-akc span,.rkb-pos span,.rkb-vj span{font-family:Oswald,sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.03em;line-height:1.15;margin-top:3px}
-.rkb-piz{grid-area:piz;--t1:var(--s);--t2:calc(var(--s)*2/3);--b2:calc(var(--s)/3);--r2:var(--v)}
-.rkb-piz::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 55%,rgba(255,120,40,.35),rgba(0,0,0,.6) 72%)}
-.rkb-piz img{position:absolute;left:50%;top:52%;width:118%;max-width:none;transform:translate(-50%,-50%);filter:drop-shadow(0 8px 14px rgba(0,0,0,.7));animation:rkbVrti 40s linear infinite}
+.rkb-koza{position:absolute!important;left:3%;top:8%;width:28%;max-width:150px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.6))}
+.rkb-ime{display:flex;flex-direction:column;align-items:center;line-height:.9;padding-left:14%}
+.rkb-ime>b{font-weight:400;font-size:clamp(52px,15vw,92px);letter-spacing:.01em;text-shadow:0 4px 0 #000}
+.rkb-ime>span{font-family:Oswald,sans-serif;font-weight:600;letter-spacing:.5em;color:#FF4106;font-size:clamp(15px,4.4vw,22px);margin-top:6px;padding-left:.5em}
+.rkb-logo small{margin-top:10px;font-family:Oswald,sans-serif;font-size:13px;letter-spacing:.12em;color:#F6BE2C}
+/* Coca-Cola: cijeli logo unutra, zatamnjena pozadina peći + crveni sjaj */
+.rkb-kola{grid-column:1/-1;min-height:0;padding:calc(var(--s) + 12px) 22px calc(var(--s) + 12px);
+ background:radial-gradient(ellipse at 70% 45%,rgba(225,20,30,.55),rgba(225,20,30,0) 62%),linear-gradient(rgba(10,5,4,.82),rgba(10,5,4,.88)),var(--pec) center/cover;
+ clip-path:polygon(0 var(--s),100% 0,100% calc(100% - var(--s)),0 100%)}
+.rkb-kola img{width:100%;max-width:520px;height:auto;display:block;filter:drop-shadow(0 8px 18px rgba(0,0,0,.6))}
+/* red s dvije pločice, kosa fuga */
+.rkb-akc{background:linear-gradient(150deg,#FF5A1F,#C42E00);clip-path:polygon(0 var(--s),100% calc(var(--s)/2),calc(100% - var(--v)) calc(100% - var(--s)/2),0 100%);padding-right:calc(var(--v) + 12px)}
+.rkb-pos{background:linear-gradient(150deg,#FFD24A,#E89A00);color:#140A06;clip-path:polygon(var(--v) calc(var(--s)/2),100% 0,100% calc(100% - var(--s)),0 calc(100% - var(--s)/2));padding-left:calc(var(--v) + 12px)}
+.rkb-akc b,.rkb-pos b{font-weight:400;font-size:clamp(46px,13vw,70px);line-height:1}
+.rkb-akc span,.rkb-pos span{font-family:Oswald,sans-serif;font-weight:700;font-size:14px;letter-spacing:.03em;line-height:1.15;margin-top:4px}
+.rkb-piz{min-height:150px;clip-path:polygon(0 var(--s),calc(100% - var(--v)) calc(var(--s)/2),100% calc(100% - var(--s)/2),0 100%)}
+.rkb-piz::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 55%,rgba(255,120,40,.35),rgba(0,0,0,.55) 70%)}
+.rkb-piz img{position:absolute;left:50%;top:52%;width:112%;max-width:none;transform:translate(-50%,-50%);filter:drop-shadow(0 10px 18px rgba(0,0,0,.7));animation:rkbVrti 40s linear infinite}
 @keyframes rkbVrti{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.rkb-vj{grid-area:vj;--t1:calc(var(--s)/3);--l1:var(--v);--b1:calc(var(--s)*2/3);--b2:var(--s);background:linear-gradient(160deg,#2B1C14,#120B08);padding-left:calc(var(--v) + 4px)}
-.rkb-vj::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 15%,rgba(246,190,44,.3),transparent 55%)}
-.rkb-vj b{color:#F6BE2C}
-.rkb-gta{grid-area:gta;min-height:104px;--t1:var(--s);justify-content:flex-end;align-items:flex-start;text-align:left;padding:12px 14px;background-position:center 35%}
-.rkb-gta::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(30,0,40,.85),rgba(30,0,40,.15) 70%)}
+.rkb-vj{background:linear-gradient(160deg,#2B1C14,#120B08);clip-path:polygon(0 calc(var(--s)/2),100% 0,100% calc(100% - var(--s)),var(--v) calc(100% - var(--s)/2));padding:16px 10px 16px calc(var(--v) + 10px);box-shadow:inset 0 0 0 2px rgba(246,190,44,.35)}
+.rkb-vj-t{font-family:Oswald,sans-serif;font-weight:600;font-size:15px;letter-spacing:.04em;color:#F6EFE8}
+.rkb-vj-t b{color:#F6BE2C;font-family:Anton,sans-serif;font-weight:400;font-size:22px}
+.rkb-vj em{font-style:normal;font-family:Anton,sans-serif;font-size:34px;line-height:1;color:#F6BE2C;margin:2px 0 6px}
+.rkb-pec{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;width:100%;max-width:150px}
+.rkb-pec i{aspect-ratio:1;border-radius:50%;border:1.5px dashed rgba(255,255,255,.35);font-style:normal;font-size:10px;display:grid;place-items:center}
+.rkb-pec i.on{border:0;background:radial-gradient(circle,#F8CC4F 0 45%,#E2762B 50% 100%)}
+.rkb-pec i.dar{border:0;background:#F6BE2C}
+.rkb-vj small{margin-top:6px;font-family:Oswald,sans-serif;font-size:11px;letter-spacing:.06em;color:#BFAFA5}
+.rkb-gta{grid-column:1/-1;min-height:190px;justify-content:flex-end;align-items:flex-start;text-align:left;padding:18px;clip-path:polygon(0 var(--s),100% 0,100% 100%,0 100%)}
+.rkb-gta::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(30,0,40,.88))}
 .rkb-gta>*{position:relative}
-.rkb-gta i{position:absolute;top:calc(var(--s) + 4px);left:12px;font-style:normal;font-size:11px;padding:3px 8px;border-radius:5px;background:#FF3E9A;font-family:Oswald,sans-serif;font-weight:700;letter-spacing:.08em}
-.rkb-gta b{font-weight:400;font-size:32px;line-height:1;color:#FFE259;text-shadow:0 3px 0 #2B0B45}
-.rkb-gta small{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:13px;text-transform:none;margin-top:3px}
-.rkb-grid.bez-cole{grid-template-areas:"logo logo logo" "akc akc akc" "piz pos vj" "gta gta gta"}
-.rkb-grid.bez-cole .rkb-akc{--l1:0px;--t1:var(--s);--b1:0px}
+.rkb-gta i{position:absolute;top:calc(var(--s) + 6px);left:14px;font-style:normal;font-size:12px;padding:4px 9px;border-radius:5px;background:#FF3E9A;font-family:Oswald,sans-serif;font-weight:700;letter-spacing:.08em}
+.rkb-gta b{font-weight:400;font-size:38px;line-height:1;color:#FFE259;text-shadow:0 3px 0 #2B0B45}
+.rkb-gta small{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:14px;text-transform:none;margin-top:4px}
 .rkb-naruci,.rkm-naruci{display:block;width:100%;margin:10px 0 0;border:0;cursor:pointer;border-radius:14px;padding:16px;font-family:Anton,Oswald,sans-serif;font-size:26px;letter-spacing:.06em;color:#fff;
  background:linear-gradient(180deg,#FF6A2E,#E23B00);box-shadow:0 5px 0 #8E2400,0 12px 30px rgba(255,65,6,.35)}
 .rkb-naruci:active,.rkm-naruci:active{transform:translateY(3px);box-shadow:0 2px 0 #8E2400}
@@ -2074,28 +2078,53 @@ button.rkb-p{cursor:pointer}
 .rkm-banner i{position:absolute;top:12px;left:12px;font:700 12px/1 Oswald,sans-serif;letter-spacing:.08em;padding:5px 9px;border-radius:6px;background:#FF3E9A;font-style:normal}
 .rkm-banner b{font:400 36px/1 Anton,sans-serif;color:#FFE259;text-shadow:0 3px 0 #2B0B45}
 .rkm-banner small{font:700 15px/1.2 "Plus Jakarta Sans",sans-serif;margin-top:4px}
-/* verzija 3: moderni bento s velikim brojkama */
-.rkm-bento{display:grid;grid-template-columns:1.05fr 1fr;grid-template-areas:"akc pos" "akc vj" "cola cola";gap:10px;margin-top:12px}
-.rkm-k{position:relative;overflow:hidden;border:0;margin:0;font:inherit;border-radius:22px;padding:14px;color:#fff;text-align:left;
- display:flex;flex-direction:column;justify-content:flex-end;gap:4px;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 10px 24px rgba(0,0,0,.35)}
-.rkm-k::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 15% 0%,rgba(255,255,255,.22),transparent 45%);mix-blend-mode:soft-light}
-.rkm-k span{position:relative;z-index:1;font:700 14.5px/1.2 "Plus Jakarta Sans",sans-serif}
-.rkm-k.akc{grid-area:akc;min-height:236px;background:linear-gradient(165deg,#FF7A2E 0%,#FF4106 45%,#9E2300 100%)}
-.rkm-k.akc b{position:absolute;left:-6px;top:30px;font:400 112px/0.85 Anton,sans-serif;letter-spacing:-.02em;transform:rotate(-8deg);
- color:#fff;text-shadow:5px 5px 0 #7A1B00}
-.rkm-oz{position:absolute!important;top:12px;left:12px;padding:5px 10px;border-radius:999px;background:rgba(0,0,0,.28);font:700 11px/1 Oswald,sans-serif!important;letter-spacing:.14em;text-transform:uppercase}
-.rkm-k.pos{grid-area:pos;min-height:113px;background:linear-gradient(160deg,#FFE27A,#F6BE2C 55%,#E08A00);color:#140A06}
-.rkm-k.pos b{position:absolute;right:-6px;top:-10px;font:400 74px/1 Anton,sans-serif;letter-spacing:-.02em;color:#140A06;opacity:.92}
-.rkm-k.pos b i{font-style:normal;font-size:.55em;vertical-align:top}
-.rkm-k.pos span{max-width:70%;font-size:13px}
-.rkm-k.vj{grid-area:vj;min-height:113px;background:linear-gradient(160deg,#30200F,#120B08);box-shadow:inset 0 0 0 1.5px rgba(246,190,44,.5),0 10px 24px rgba(0,0,0,.35);cursor:pointer}
-.rkm-k.vj b{color:#F6BE2C;font-family:Anton,sans-serif;font-weight:400;font-size:20px}
-.rkm-pec{display:grid!important;grid-template-columns:repeat(5,1fr);gap:4px;width:100%;margin-bottom:auto}
-.rkm-pec i{aspect-ratio:1;border-radius:50%;border:1.5px dashed rgba(255,255,255,.35);font-style:normal;font-size:9px;display:grid;place-items:center}
-.rkm-pec i.on{border:0;background:radial-gradient(circle,#F8CC4F 0 45%,#E2762B 50% 100%)}
-.rkm-pec i.dar{border:0;background:#F6BE2C}
-.rkm-k.cola{grid-area:cola;padding:12px 18px;background:radial-gradient(ellipse at 75% 40%,rgba(228,30,43,.65),transparent 60%),linear-gradient(160deg,#1A0606,#0B0303);align-items:center}
-.rkm-k.cola img{width:100%;max-width:480px;height:auto;display:block;position:relative;z-index:1}
+.rkm-ponude{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.rkm-k{border:0;margin:0;font:inherit;border-radius:16px;padding:14px 12px;min-height:118px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:4px;color:#fff}
+.rkm-k b{font:400 22px/1.05 Anton,sans-serif;letter-spacing:.02em}
+.rkm-k b.vel{font-size:44px;line-height:1}
+.rkm-k em{font:400 26px/1 Anton,sans-serif;font-style:normal;color:#FFE259}
+.rkm-k span{font:700 15px/1.25 "Plus Jakarta Sans",sans-serif}
+.rkm-k.cola{background:linear-gradient(150deg,#E41E2B,#8E0A12)}
+.rkm-k.akc{background:linear-gradient(150deg,#FF5A1F,#C42E00)}
+.rkm-k.pos{background:linear-gradient(150deg,#FFD24A,#E89A00);color:#140A06}
+.rkm-k.vj{background:linear-gradient(160deg,#2B1C14,#120B08);box-shadow:inset 0 0 0 2px rgba(246,190,44,.45);cursor:pointer}
+.rkm-k.vj b{color:#F6BE2C}
+
+/* ---- verzija 2: koza s animacijom u logu ---- */
+.rkb-logo .rkb-ime{padding-left:0}
+.rkb-mark{font-size:clamp(52px,15vw,88px);margin-left:1.5em;text-shadow:0 4px 0 #000;color:#fff}
+.rkb-logo .mark-r{animation:rTres 6s ease-in-out 2.2s infinite}
+.rkb-logo.koza-odigrano .koza-ulaz,.rkb-logo.koza-odigrano .koza-tekst b{animation:none}
+.rkb-logo .koza{text-shadow:none}
+/* vjernost: bez žutog okvira, gumb "Provjeri stanje" */
+.rkb-vj{box-shadow:none!important}
+.rkb-provjeri{margin-top:8px;padding:6px 12px;border-radius:999px;background:#F6BE2C;color:#140A06;font:700 12px/1 Oswald,sans-serif;letter-spacing:.06em}
+.vj2-koraci{text-align:left;max-width:420px;margin:12px auto 0;padding-left:22px;color:#D9CBBF;font-size:14.5px;line-height:1.5}
+.vj2-koraci li{margin-bottom:4px}.vj2-koraci b{color:#fff}
+/* društvene mreže */
+.rkb-gta{clip-path:polygon(0 var(--s),100% 0,100% calc(100% - var(--s)),0 100%)!important;padding-bottom:calc(var(--s) + 12px)!important}
+.rkb-mreze{grid-column:1/-1;min-height:0!important;flex-direction:row!important;justify-content:space-between!important;gap:10px;padding:calc(var(--s) + 10px) 16px 12px!important;
+ background:linear-gradient(90deg,#1B1210,#2A1712)!important;clip-path:polygon(0 var(--s),100% 0,100% 100%,0 100%)}
+.rkb-mreze>span:first-child{font-family:Oswald,sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;text-align:left;color:#F6EFE8}
+.rk-mr-ik{display:flex;gap:10px;flex:none}
+.rk-mr-ik a{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.45)}
+.rk-mr-ik a svg{width:24px;height:24px}
+.rk-mr-ik a.fb{background:#1877F2}
+.rk-mr-ik a.ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
+.gta-dno-mreze{display:flex!important;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+/* traka "ne primamo narudžbe" na vrhu ekrana */
+#rk-tapa{position:fixed;left:0;right:0;top:0;z-index:9000;padding:7px 0;background:repeating-linear-gradient(-45deg,#F6BE2C 0 14px,#141414 14px 28px);
+ box-shadow:0 6px 20px rgba(0,0,0,.45);animation:rkTapa .45s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes rkTapa{from{transform:translateY(-100%)}to{transform:none}}
+.rk-tapa-in{display:flex;align-items:center;gap:12px;background:#B3121B;color:#fff;padding:9px 14px;max-width:none;border-top:2px solid #000;border-bottom:2px solid #000}
+.rk-tapa-in>div{flex:1;min-width:0;max-width:720px;margin:0 auto}
+.rk-tapa-in b{display:block;font:400 18px/1.1 Anton,Oswald,sans-serif;letter-spacing:.04em;text-transform:uppercase}
+.rk-tapa-in span{display:block;font:600 13.5px/1.35 "Plus Jakarta Sans",system-ui,sans-serif;opacity:.95;margin-top:2px}
+.rk-tapa-ik{flex:none;width:32px;height:32px;border-radius:50%;background:#F6BE2C;color:#141414;display:grid;place-items:center;font:400 20px/1 Anton,sans-serif}
+body.rk-pauza{padding-top:96px}
+body.rk-pauza .zg-kat{top:96px}
+.rkb-logo>small{position:absolute!important;right:12px;top:10px;bottom:auto;margin:0!important}
+.rkb-logo{min-height:190px!important}
 </style>
 </head>
 <body>
@@ -4049,6 +4078,7 @@ function crtaj(prisilno){
  document.body.classList.toggle("gost-str",uloga==="gost"||urMod);
  vrati();
  rkZgNakon();
+ try{rkTraka();}catch(e){}
  crtajZum();
  ugradiKolaVideo();
  sinkKoza();
@@ -4720,37 +4750,64 @@ function rkSheetGrupe(j){
 
 /* ---------- NOVA NASLOVNICA (PROBA): otvara se samo s ?nova na kraju adrese ---------- */
 /* ---------- NASLOVNICE ZA PROBU: ?v=1 (GTA), ?v=2 (Riky's strip), ?v=3 (minimalna) ---------- */
-const RK_V=(()=>{try{const q=new URLSearchParams(location.search); if(q.has("nova"))return "1"; const v=q.get("v"); return ["1","2","3"].includes(v)?v:"";}catch(e){return "";}})();
+const RK_V=(()=>{try{const q=new URLSearchParams(location.search); if(q.has("nova"))return "1"; const v=q.get("v"); if(v==="0")return ""; return ["1","2","3"].includes(v)?v:"2";}catch(e){return "2";}})();
 const rkGtaSkok=()=>`zgSkoci('${katId(RK_GTA_KAT)}')`;
 const rkPecati=(n,m)=>Array.from({length:m},(_,i)=>`<i class="${i===m-1?"dar":i<n?"on":""}">${i===m-1?"🎁":""}</i>`).join("");
+/* ---- PAUZA / NERADNI DAN: traka na vrhu ekrana (samo za goste) ---- */
+const rkNeradniDan=()=>new Date().getDay()===1;   // ponedjeljak = neradni dan (UTO–NED 10–23)
+{const _np=narudzbePauzirane; narudzbePauzirane=function(){return _np()||(typeof uloga!=="undefined"&&uloga==="gost"&&!urMod&&rkNeradniDan());};}
+function rkSljedeciDan(){const d=new Date(); d.setDate(d.getDate()+1); if(d.getDay()===1)return tj("u utorak"); return tj("sutra");}
+function rkTrakaTekst(){
+ if(rkNeradniDan())return [tj("Danas ne primamo narudžbe"),tj("Ponedjeljak je naš neradni dan. Vidimo se u utorak od 10:00 — hvala na razumijevanju!")];
+ if(pauzaJeKrajDana())return [tj("Danas više ne primamo narudžbe"),tj("Hvala na razumijevanju! Ponovno smo tu")+" "+rkSljedeciDan()+" "+tj("od 10:00.")];
+ const d=pauzaDoDatuma(), sat=d?d.toLocaleTimeString("hr-HR",{hour:"2-digit",minute:"2-digit"}):"";
+ return [tj("Trenutno ne primamo narudžbe"),tj("Kuhinja je zbog gužve trenutno puna.")+(sat?" "+tj("Pokušajte ponovno nakon")+" "+sat+".":" "+tj("Pokušajte ponovno malo kasnije."))+" "+tj("Hvala na strpljenju!")];}
+function rkTraka(){
+ const da=typeof uloga!=="undefined"&&uloga==="gost"&&!urMod&&!mojaId&&narudzbePauzirane();
+ let t=document.getElementById("rk-tapa");
+ document.body.classList.toggle("rk-pauza",da);
+ if(!da){if(t)t.remove();return;}
+ const [n,p]=rkTrakaTekst();
+ if(!t){t=document.createElement("div");t.id="rk-tapa";t.setAttribute("role","alert");document.body.appendChild(t);}
+ const h=`<div class="rk-tapa-in"><span class="rk-tapa-ik">!</span><div><b>${esc(n)}</b><span>${esc(p)}</span></div></div>`;
+ if(t.innerHTML!==h)t.innerHTML=h;}
+function rkVjernostSkok(){skociNaVjernost(); setTimeout(()=>{const i=el("k-tel"); if(i)try{i.focus({preventScroll:true});}catch(e){}},900);}
+function rkMrezeHTML(kl){
+ const g=Array.isArray(lokal&&lokal.gumbi)?lokal.gumbi:[], url=id=>((g.find(x=>x.id===id)||{}).link)||"";
+ const fb=url("facebook")||"https://www.facebook.com/profile.php?id=100091792689469", ig=url("instagram")||"https://www.instagram.com/rikys_pizza/";
+ return `<div class="${kl}"><span>${tj("Zaprati nas za još pogodnosti")}</span><span class="rk-mr-ik">
+  <a href="${esc(fb)}" target="_blank" rel="noopener" aria-label="Facebook" class="fb"><svg viewBox="0 0 24 24"><path fill="#fff" d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.5V21z"/></svg></a>
+  <a href="${esc(ig)}" target="_blank" rel="noopener" aria-label="Instagram" class="ig"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".9" fill="#fff" stroke="none"/></svg></a></span></div>`;}
+
 function rkV2Vrh(){
- const kv=RK_KOLA[rkKolaV()]||RK_KOLA.n2, gta=(jela.find(j=>j.gta==="pizza")||{}).slika_url, P=PRAG||10, cola=colaGratis();
+ const kv=RK_KOLA[rkKolaV()]||RK_KOLA.n2, gta=(jela.find(j=>j.gta==="pizza")||{}).slika_url, P=PRAG||10;
  return `<section class="rkb">
- <div class="rkb-grid${cola?"":" bez-cole"}">
-  <div class="rkb-p rkb-logo" style="background-image:url('${SLIKE.PEC}')">
-   <img class="rkb-koza" src="${KOZA_SRC}" alt="" onerror="this.remove()">
-   <div class="rkb-ime"><b>RIKY'S</b><span>PIZZA</span></div>
+ <div class="rkb-grid">
+  <div class="rkb-p rkb-logo ${kozaOdigrana&&!KOZA_SINK?"koza-odigrano":""}" style="background-image:url('${SLIKE.PEC}')">
+   <div class="rkb-ime"><div class="mark rkb-mark">${kozaHTML()}<span class="mark-r">R</span>IKY'S</div><span>PIZZA</span></div>
    <small>UTO–NED 10–23 · ${tj("Zagorska")} 18</small></div>
-  ${cola?`<div class="rkb-p rkb-kola" style="--pec:url('${SLIKE.PEC}')"><img src="${kv}" alt="Coca-Cola 0,33 L gratis uz veliku pizzu"></div>`:""}
-  <div class="rkb-p rkb-akc"><b>4+1</b><span>${tj("peta gratis")}</span></div>
-  <div class="rkb-p rkb-piz" style="background-image:url('${SLIKE.PEC}')"><img src="${SLIKE.P2}" alt="" onerror="this.remove()"></div>
+  ${colaGratis()?`<div class="rkb-p rkb-kola" style="--pec:url('${SLIKE.PEC}')"><img src="${kv}" alt="Coca-Cola 0,33 L gratis uz veliku pizzu"></div>`:""}
+  <div class="rkb-p rkb-akc"><b>4+1</b><span>${tj("peta pizza gratis")}</span></div>
   <div class="rkb-p rkb-pos"><b>15%</b><span>${tj("jeftinije nego u aplikacijama")}</span></div>
-  <button type="button" class="rkb-p rkb-vj" onclick="skociNaVjernost()"><b>${P}.</b><span>${tj("pizza gratis")}</span></button>
+  <div class="rkb-p rkb-piz" style="background-image:url('${SLIKE.PEC}')"><img src="${SLIKE.P2}" alt="" onerror="this.remove()"></div>
+  <button type="button" class="rkb-p rkb-vj" onclick="rkVjernostSkok()"><span class="rkb-vj-t">${tj("Svaka")} <b>${P}.</b> ${tj("pizza")}</span><em>GRATIS</em>
+   <span class="rkb-pec">${rkPecati(P-1,P)}</span><span class="rkb-provjeri">${tj("Provjeri stanje")} →</span></button>
   ${gta?`<button type="button" class="rkb-p rkb-gta" onclick="${rkGtaSkok()}" style="background-image:url('${gta}')"><i>${tj("NOVO")}</i><b>GTA MENU</b><small>${tj("od")} 13,50 €</small></button>`:""}
+  ${rkMrezeHTML("rkb-p rkb-mreze")}
  </div>
  <button type="button" class="rkb-naruci" onclick="glatkoNaEl('meni')">${tj("NARUČI")} <span>↓</span></button></section>`;}
 function rkV3Vrh(){
  const gta=(jela.find(j=>j.gta==="pizza")||{}).slika_url, P=PRAG||10;
  const k=[];
- k.push(`<div class="rkm-k akc"><span class="rkm-oz">${tj("akcija")}</span><b>4+1</b><span>${tj("peta pizza gratis")}</span></div>`);
- k.push(`<div class="rkm-k pos"><b>15<i>%</i></b><span>${tj("jeftinije nego u aplikacijama")}</span></div>`);
- k.push(`<button type="button" class="rkm-k vj" onclick="skociNaVjernost()"><span class="rkm-pec">${rkPecati(P-1,P)}</span><span>${tj("svaka")} <b>${P}.</b> ${tj("pizza gratis")}</span></button>`);
- if(colaGratis())k.push(`<div class="rkm-k cola"><img src="${RK_KOLA[rkKolaV()]||RK_KOLA.n2}" alt="Coca-Cola 0,33 L gratis uz veliku pizzu"></div>`);
+ if(colaGratis())k.push(`<div class="rkm-k cola"><b>Coca-Cola<br>0,33 l</b><em>GRATIS</em><span>${tj("uz svaku veliku pizzu")}</span></div>`);
+ k.push(`<div class="rkm-k akc"><b class="vel">4+1</b><span>${tj("peta pizza gratis")}</span></div>`);
+ k.push(`<div class="rkm-k pos"><b class="vel">15%</b><span>${tj("jeftinije nego u aplikacijama")}</span></div>`);
+ k.push(`<button type="button" class="rkm-k vj" onclick="skociNaVjernost()"><b class="vel">${P}.</b><span>${tj("svaka")} ${P}. ${tj("pizza gratis")}</span></button>`);
  return `<section class="rkm">
  <div class="rkm-vrh"><img src="${KOZA_SRC}" alt="" onerror="this.remove()"><div><b>RIKY'S PIZZA</b><small>UTO–NED 10–23 · ${tj("Zagorska")} 18</small></div>
   <a class="rkm-tel" href="${telH(lokal.tel1)}" aria-label="${tj("Nazovi")}">${RK_IK.tel}</a></div>
  ${gta?`<button type="button" class="rkm-banner" onclick="${rkGtaSkok()}" style="background-image:url('${gta}')"><i>${tj("NOVO")}</i><b>GTA MENU</b><small>${tj("od")} 13,50 €</small></button>`:""}
- <div class="rkm-bento">${k.join("")}</div>
+ <div class="rkm-ponude">${k.join("")}</div>
  <button type="button" class="rkm-naruci" onclick="glatkoNaEl('meni')">${tj("NARUČI")}</button></section>`;}
 
 const RK_NOVA=RK_V==="1";
@@ -4771,8 +4828,8 @@ const RK_IK={
  kartica:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>'};
 function rkNovaHTML(kats,vidljiva){
  const r=racun(kosarica), V=RK_V||"1";
- const pauza=narudzbePauzirane()?`<div class="gta-obav"><b>⏸ ${tj("Trenutno ne primamo narudžbe")}</b>${tj("Kuhinja je trenutno puna.")} ${pauzaGostTekst()} ${tj("Jelovnik možete i dalje pregledavati.")}</div>`
-  :samoPreuzimanje()?`<div class="gta-obav"><b>${tj("Trenutno samo osobno preuzimanje")}</b>${tj("Zbog velike gužve dostava je privremeno isključena. Naručite ovdje i preuzmite narudžbu kod nas.")}</div>`:"";
+ const pauza=""; void (narudzbePauzirane()?`<div class="gta-obav"><b>⏸ ${tj("Trenutno ne primamo narudžbe")}</b>${tj("Kuhinja je trenutno puna.")} ${pauzaGostTekst()} ${tj("Jelovnik možete i dalje pregledavati.")}</div>`
+  :samoPreuzimanje()?`<div class="gta-obav"><b>${tj("Trenutno samo osobno preuzimanje")}</b>${tj("Zbog velike gužve dostava je privremeno isključena. Naručite ovdje i preuzmite narudžbu kod nas.")}</div>`:"");
  const vrh=V==="2"?rkV2Vrh():V==="3"?rkV3Vrh():"";
  const kuc=[["posto","15% jeftinije nego u aplikacijama"],["cola","Coca-Cola 0,33 l gratis uz svaku veliku pizzu"],["pizza","4+1 gratis na pizze"],["skuter","Dostava UTO–NED 10–23h"]]
   .filter((x,i)=>i!==1||colaGratis());
@@ -4797,6 +4854,7 @@ function rkNovaHTML(kats,vidljiva){
  ${recenzijeTraka()||""}
  <footer class="gta-dno">
   <div class="gta-dno-ime">RIKY'S PIZZA</div>
+  ${rkMrezeHTML("gta-dno-mreze")}
   <a href="${telH(lokal.tel1)}">${RK_IK.tel}<span>${esc(lokal.tel1)}</span></a>
   ${lokal.tel2?`<a href="${telH(lokal.tel2)}">${RK_IK.tel}<span>${esc(lokal.tel2)}</span></a>`:""}
   <a href="${RIKYS_MAPS()}" target="_blank" rel="noopener">${RK_IK.pin}<span>Zagorska ulica 18, Zagreb (Trešnjevka)</span></a>
@@ -4916,7 +4974,8 @@ function vjernostHTML(){
     :`<div class="vj2-stanje">${pun} od ${PR} — još ${PR-pun} ${PR-pun===1?"narudžba":"narudžbi"} do besplatne pizze</div>`}
    <div class="vj2-kupac"><div><b>${esc(kupac.ime||kupac.tel)}</b><span>${esc(kupac.tel)} · ${kupac.novi?"još nemate dostavljenih narudžbi":kupac.dostavljenih+" dostavljenih narudžbi"}</span></div>
     <button class="btn sm tiho" onclick="kupac=null;crtaj(1)">Odjava</button></div>`
-  :`<p class="vj2-opis">Bez računa i lozinke. Brojimo vaše dostavljene narudžbe po <b>broju mobitela koji upišete pri narudžbi</b> — svaka ${PR}. pizza je naša.</p>
+  :`<p class="vj2-opis">Upišite broj mobitela s kojim naručujete i odmah vidite koliko vam fali do besplatne pizze.</p>
+   <ol class="vj2-koraci"><li>Naručujte s <b>istim brojem mobitela</b> — bez računa i lozinke</li><li>Svaka dostavljena pizza je <b>jedan pečat</b></li><li><b>${PR}. pizza je gratis</b> — na jelovniku odaberete „Uzmi kao nagradnu pizzu”</li></ol>
    <div class="vj2-unos">
     <input id="k-tel" inputmode="tel" autocomplete="tel" placeholder="Vaš broj mobitela" value="${esc(kupacUnos)}"
      oninput="kupacUnos=this.value" onkeydown="if(event.key==='Enter')prijaviKupca()">
