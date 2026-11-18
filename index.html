@@ -2133,6 +2133,123 @@ body.rk-pauza .zg-kat{top:96px}
 .rkb-logo .rkb-mark{margin-left:0}
 .rkb-logo .rkb-ime>span{position:relative;z-index:3;padding-left:.5em;text-shadow:0 2px 0 #000}
 .rkb-kola{padding-left:16px!important;padding-right:16px!important}
+
+/* ===== KUHINJA + VOZAČ — novi izgled (k2/v2) 18.11.2026. ===== */
+.k2,.v2{padding:0 14px 30px}
+.k2 *,.v2 *{letter-spacing:normal}
+.k2-vrh,.v2-vrh{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 0 6px}
+.k2-tab{display:flex;gap:8px;margin:6px 0 12px}
+.k2-tab button,.v2-mali{flex:1;min-height:52px;border-radius:14px;border:2px solid var(--line);background:var(--card);
+ color:var(--cream);font:700 17px/1.1 "Barlow Semi Condensed",system-ui,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 12px}
+.k2-tab button.on{background:var(--or);border-color:var(--or);color:#fff}
+.k2-alarm{display:flex;align-items:center;gap:12px;background:var(--red);color:#fff;border-radius:16px;padding:14px 18px;
+ font:700 24px/1.1 "Oswald",sans-serif;text-transform:uppercase;margin:4px 0 12px;animation:k2puls 1.1s ease-in-out infinite}
+.k2-alarm small{display:block;font:600 15px "Barlow Semi Condensed",sans-serif;text-transform:none;opacity:.9}
+@keyframes k2puls{0%,100%{transform:scale(1)}50%{transform:scale(1.015);filter:brightness(1.15)}}
+.k2-stupci{display:block}
+.k2-stupac>h2{display:flex;align-items:center;gap:10px;font-size:20px;margin:18px 2px 10px;color:var(--cream)}
+.k2-stupac>h2 .br{min-width:34px;height:34px;border-radius:17px;background:var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:18px;padding:0 8px}
+.k2-stupac.hitno>h2 .br{background:var(--red);color:#fff}
+@media (min-width:1000px){.k2-stupci{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;align-items:start}}
+.k2-karta{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.k2-karta.novo{border:3px solid var(--red);box-shadow:0 0 0 4px rgba(208,2,27,.18)}
+.k2-karta.spr{border-color:var(--go)}
+.k2-gl{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.k2-br{font:700 38px/1 "Oswald",sans-serif}
+.k2-vr{font-size:17px;color:var(--dim);margin-top:4px;font-weight:600}
+.k2-vr b{color:var(--cream)}
+.k2-vrsta{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 12px;border-radius:10px;font-weight:700;font-size:17px;
+ background:rgba(232,98,42,.14);color:var(--or)}
+.k2-vrsta.osobno{background:rgba(62,156,201,.16);color:var(--pice)}
+.pb{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:14px;padding:8px 12px;min-width:118px;
+ font:700 17px/1.1 "Oswald",sans-serif;text-transform:uppercase;border:3px solid currentColor}
+.pb b{font-size:26px;margin-top:3px;display:block}
+.pb small{font:700 13px "Barlow Semi Condensed",sans-serif;text-transform:none;margin-top:3px}
+.pb-kes{color:#2fa84f;background:rgba(47,168,79,.12)}
+.pb-kar{color:#2f8fe0;background:rgba(47,143,224,.13)}
+.pb-onl{color:var(--dim);background:rgba(160,160,160,.1)}
+.pb-upoz{color:var(--red);background:rgba(208,2,27,.1)}
+.k2-stavke{margin-top:14px;border-top:2px dashed var(--line);padding-top:10px}
+.k2-st{padding:9px 0;border-bottom:1px solid var(--line)}
+.k2-st:last-child{border-bottom:0}
+.k2-st .n{font-size:22px;font-weight:700;line-height:1.2}
+.k2-st .n i{font-style:normal;color:var(--or);margin-right:4px}
+.k2-napom{margin-top:12px;background:#F6BE2C;color:#1a1200;border-radius:12px;padding:11px 14px;font-size:19px;font-weight:700}
+.k2-napom small{display:block;font-size:13px;text-transform:uppercase;opacity:.75}
+.k2-porukica{margin-top:12px;background:var(--pice);color:#fff;border-radius:12px;padding:10px 14px;font-size:18px;font-weight:700}
+.k2-min{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.k2-min button{min-height:58px;border-radius:14px;border:2px solid var(--line2);background:var(--bg2);color:var(--cream);font:700 24px "Oswald",sans-serif}
+.k2-min button.on{background:var(--or);border-color:var(--or);color:#fff}
+.k2-lbl{font-size:15px;font-weight:700;color:var(--dim);text-transform:uppercase;margin-top:14px}
+.vg{width:100%;min-height:64px;border:0;border-radius:16px;font:700 21px/1.1 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.03em;
+ display:flex;align-items:center;justify-content:center;gap:10px;margin-top:12px;color:#fff;background:var(--or);text-decoration:none;padding:0 14px}
+.vg.zel{background:#2f9e4f}.vg.pla{background:#2f7fd0}.vg.siv{background:var(--line);color:var(--cream)}
+.vg.okv{background:transparent;color:var(--cream);border:2px solid var(--line2)}
+.vg.crv{background:transparent;color:var(--red);border:2px solid var(--red);min-height:50px;font-size:17px}
+.vg:disabled{opacity:.35;filter:grayscale(.7)}
+.vg svg{flex:none}
+.vg-red{display:flex;gap:10px}.vg-red .vg{flex:1 1 0;min-width:0;width:auto;font-size:17px;padding:0 6px;gap:5px}
+.k2-status{margin-top:12px;font-size:18px;font-weight:700;color:var(--dim)}
+.k2-det-gumb{margin-top:12px;width:100%;background:none;border:0;color:var(--dim);font-size:16px;font-weight:700;padding:8px;text-decoration:underline}
+.k2-det{margin-top:6px;background:var(--bg2);border-radius:14px;padding:12px 14px;font-size:17px}
+.k2-det .r{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--line)}
+.k2-det .r span{color:var(--dim)}.k2-det .r b{text-align:right}
+.k2-prazno{border:2px dashed var(--line);border-radius:16px;padding:22px;text-align:center;color:var(--dim);font-size:17px;font-weight:600}
+/* vozač */
+.v2-ja{display:flex;align-items:center;gap:8px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 14px;margin:12px 0 4px}
+.v2-ja .av{flex:none;width:48px;height:48px;border-radius:24px;background:var(--or);color:#fff;display:flex;align-items:center;justify-content:center;font:700 22px "Oswald",sans-serif}
+.v2-ja .im{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 20px "Oswald",sans-serif;text-transform:uppercase}
+.v2-ja .im small{display:block;font:600 14px "Barlow Semi Condensed",sans-serif;text-transform:none;color:var(--dim)}
+.v2-nav{display:flex;gap:6px;flex:none}.v2-ja .zvuk-wrap{flex:none}
+.v2-nav button{border:2px solid var(--line);background:transparent;color:var(--dim);border-radius:10px;padding:6px 7px;font-weight:700;font-size:13px}
+.v2-nav button.on{border-color:var(--or);color:var(--or)}
+.v2 h2{display:flex;align-items:center;gap:10px;font-size:21px;margin:22px 2px 10px}
+.v2 h2 .br{min-width:34px;height:34px;border-radius:17px;background:var(--or);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:18px;padding:0 8px}
+.v2-k{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.v2-k.moja{border-color:var(--or)}
+.v2-gl{display:flex;gap:12px;align-items:flex-start}
+.v2-pin{flex:none;width:44px;height:44px;border-radius:22px;background:var(--or);color:#fff;display:flex;align-items:center;justify-content:center;font:700 22px "Oswald",sans-serif}
+.v2-adr{flex:1;min-width:0}
+.v2-adr .a{font-size:23px;font-weight:700;line-height:1.15}
+.v2-adr .z{font-size:16px;color:var(--dim);font-weight:600;margin-top:3px}
+.v2-gost{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;font-size:19px;font-weight:700}
+.v2-tel{display:inline-flex;align-items:center;gap:6px;background:var(--bg2);border:2px solid var(--line2);color:var(--cream);text-decoration:none;
+ border-radius:12px;padding:9px 14px;font-size:17px;font-weight:700}
+.v2-pl{margin-top:12px;border-radius:16px;padding:12px 14px;border:3px solid currentColor}
+.v2-pl .t{display:flex;justify-content:space-between;align-items:center;font:700 22px "Oswald",sans-serif;text-transform:uppercase}
+.v2-pl .t b{font-size:30px}
+.v2-kus{margin-top:8px;display:grid;gap:6px}
+.v2-kus div{display:flex;justify-content:space-between;background:rgba(0,0,0,.14);border-radius:10px;padding:8px 12px;font-size:18px;font-weight:700;color:var(--cream)}
+.v2-kus div b{color:#2fa84f;font-size:20px}
+.v2-nosim{margin-top:12px;background:var(--bg2);border-radius:12px;padding:10px 12px;font-size:17px;font-weight:600}
+.v2-nosim b{display:block;font-size:13px;color:var(--dim);text-transform:uppercase;margin-bottom:4px}
+.v2-nosim i{font-style:normal;color:var(--gold);font-size:15px}
+.v2-pos{display:flex;align-items:center;gap:12px;margin-top:12px;padding:14px;border-radius:14px;border:3px solid #2f8fe0;background:rgba(47,143,224,.12);
+ font-size:19px;font-weight:700;color:var(--cream);cursor:pointer;user-select:none}
+.v2-pos input{width:30px;height:30px;accent-color:#2f8fe0;flex:none}
+.v2-pos.ok{border-color:#2fa84f;background:rgba(47,168,79,.12)}
+.v2-sitno{display:flex;gap:8px;margin-top:10px}
+.v2-sitno button{flex:1;min-height:46px;border-radius:12px;border:2px solid var(--line2);background:transparent;color:var(--dim);font-weight:700;font-size:16px}
+.v2-usput{border:3px dashed #2fa84f;border-radius:18px;padding:14px;margin-bottom:14px;background:rgba(47,168,79,.06)}
+.v2-usput>b{display:block;font:700 19px "Oswald",sans-serif;text-transform:uppercase;color:#2fa84f;margin-bottom:6px}
+.v2-zaj{margin-top:10px;font-size:16px;font-weight:700;color:#2fa84f}
+.v2-km{font-size:15px;color:var(--dim);font-weight:700;white-space:nowrap}
+.v2-uskoro{font-size:16px;color:var(--dim);font-weight:600;padding:8px 2px;border-bottom:1px solid var(--line)}
+body.svijetlo .k2-karta,body.svijetlo .v2-k{box-shadow:0 3px 10px rgba(80,50,20,.12)}
+body.svijetlo .v2-kus div{background:rgba(0,0,0,.05)}
+
+/* dodaci/piće/desert — varijanta C (Rik 18.11.): svako jelo u svojoj kutiji, okvir dodataka ZELEN,
+   naslov okvira u boji vrste (dodaci narančasto, piće plavo, desert ljubičasto), tekst bijel */
+.k2 .k2-stavke{border-top:0;padding-top:4px;margin-top:12px}
+.k2 .k2-st{background:var(--bg2);border-radius:14px;padding:12px;margin-bottom:10px;border:0}
+.k2 .k2-st .n{font-size:28px;font-weight:800;line-height:1.15;display:flex;align-items:baseline;gap:8px}
+.k2 .k2-st .n i{font-size:40px;font-weight:800;color:var(--or);font-family:"Oswald",sans-serif;margin:0;flex:none;line-height:1}
+.k2-uz{margin-top:8px;background:transparent;border:3px solid #2fa84f;border-radius:10px;padding:5px 12px 7px;
+ font-size:21px;font-weight:700;line-height:1.2;color:var(--cream)}
+.k2-uz small{display:block;font-size:13px;font-weight:800;letter-spacing:.06em;margin-bottom:1px}
+.k2-uz.d small{color:#E8622A}.k2-uz.p small{color:#2f8fe0}.k2-uz.s small{color:#B96BC7}
+body.svijetlo .k2-uz.d small{color:#C4431A}body.svijetlo .k2-uz.p small{color:#135C82}body.svijetlo .k2-uz.s small{color:#6C2B80}
+.k2-st .g{font-size:14px;font-weight:800;background:#2fa84f;color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -3523,7 +3640,7 @@ function sviraj(kljuc){
   const p=audioEl.play(); if(p&&p.catch)p.catch(()=>{});}catch(e){}
  if(ZV.vibracija&&navigator.vibrate)navigator.vibrate([220,90,220]);
  if(ZV.bljesak)bljesni();}
-function odsviraj(vrsta){ if(!zvukOK)return; sviraj(ZV[vrsta]||vrsta); }
+function odsviraj(vrsta){ if(!zvukOK||zvukSvira())return; sviraj(ZV[vrsta]||vrsta); }
 function bljesni(){
  const b=document.body; b.classList.add("bljesak");
  setTimeout(()=>b.classList.remove("bljesak"),1400);}
@@ -3552,18 +3669,41 @@ function ucitajProcitane(){try{const a=JSON.parse(localStorage.getItem("procitan
  a.forEach(x=>procitane.add(x)); procitaneSpremljeno=procitane.size;}catch(e){}}
 function spremiProcitane(){if(procitane.size===procitaneSpremljeno)return;
  try{localStorage.setItem("procitane-"+(lokal&&lokal.id),JSON.stringify([...procitane].slice(-400)));procitaneSpremljeno=procitane.size;}catch(e){}}
-function pokreniAlarm(){
- clearInterval(zvukTajmer); ucitajProcitane();
- zvukTajmer=setInterval(()=>{spremiProcitane(); const v=stoZvoni(); if(v)odsviraj(v);},3500);}
+/* ZVUK (18.11.2026.) — Rik: "zvuk zapne, stalno se ponavlja, ne mogu ga zaustaviti bez gašenja".
+   Prije: dok je ijedna narudžba bila "novo" (kuhinja) ili "spremno" (vozač), zvonilo je svakih
+   3,5 s bez kraja, a zvuk se prekidao usred sviranja pa je "štekao".
+   Sad: svaka stvar koja traži pažnju ima svoj ključ. Dodir ekrana UTIŠA sve što trenutno zvoni
+   na 1 minutu. Ako za to vrijeme nitko ne prihvati/preuzme, ponovno zazvoni. Nova narudžba
+   zvoni odmah. Zvuk se ne pokreće ponovno dok prethodni još svira (nema štekanja). */
+let tisinaDo={};
+const ZV_TISINA_MS=60000;
+function zvoniStvari(){
+ const a=[];
+ if(uloga==="kuhinja"&&kuhUlaz){
+  narudzbe.filter(o=>o.stanje==="novo").forEach(o=>a.push({k:"n"+o.id,v:"narudzba"}));
+  poruke.filter(p=>p.od==="gost"&&porukaZvoni(p)).forEach(p=>a.push({k:"p"+p.id,v:"poruka"}));}
+ if(uloga==="gost"&&mojaId)
+  poruke.filter(p=>p.narudzba_id===mojaId&&p.od==="kuhinja"&&!procitane.has(p.id)).forEach(p=>a.push({k:"p"+p.id,v:"poruka"}));
+ if(uloga==="vozac"&&vozac&&!vlasnikGleda)
+  narudzbe.filter(o=>o.stanje==="spremno"&&o.nacin!=="osobno"&&!o.vozac).forEach(o=>a.push({k:"s"+o.id,v:"tura"}));
+ return a;}
 function stoZvoni(){
  if(!zvukOK)return null;
- if(uloga==="kuhinja"&&kuhUlaz){
-  if(narudzbe.some(o=>o.stanje==="novo"))return "narudzba";
-  if(poruke.some(p=>p.od==="gost"&&porukaZvoni(p)))return "poruka";}
- if(uloga==="gost"&&mojaId&&poruke.some(p=>p.narudzba_id===mojaId&&p.od==="kuhinja"&&!procitane.has(p.id)))
-  return "poruka";
- if(uloga==="vozac"&&vozac&&narudzbe.some(o=>o.stanje==="spremno"))return "tura";
- return null;}
+ const sad=Date.now(), z=zvoniStvari().find(x=>!(tisinaDo[x.k]>sad));
+ return z?z.v:null;}
+const zvukSvira=()=>!!(audioEl&&!audioEl.paused&&!audioEl.ended&&audioEl.src!==ZV_TIHI);
+function utisaj(){
+ const z=zvoniStvari(); if(!z.length)return;
+ const sad=Date.now(); let bilo=false;
+ z.forEach(x=>{if(!(tisinaDo[x.k]>sad)){tisinaDo[x.k]=sad+ZV_TISINA_MS;bilo=true;}});
+ if(bilo||zvukSvira()){try{if(audioEl&&audioEl.src!==ZV_TIHI){audioEl.pause();audioEl.currentTime=0;}
+  if(navigator.vibrate)navigator.vibrate(0);}catch(e){}}}
+document.addEventListener("pointerdown",utisaj,true);
+document.addEventListener("touchstart",utisaj,{capture:true,passive:true});
+function pokreniAlarm(){
+ clearInterval(zvukTajmer); ucitajProcitane();
+ zvukTajmer=setInterval(()=>{spremiProcitane(); const v=stoZvoni(); if(v&&!zvukSvira())odsviraj(v);},3500);}
+
 function otkljucaj(){
  if(!ZV.ukljucen||zvukOK)return;
  try{if(!audioEl){audioEl=document.createElement("audio");
@@ -3996,7 +4136,7 @@ async function osvjezi(){
  if(!sb||!lokal)return;
  const prijeNovihId=new Set(narudzbe.filter(o=>o.stanje==="novo").map(o=>o.id));
  const prijeNovih=prijeNovihId.size;
- const prijeSpremnih=narudzbe.filter(o=>o.stanje==="spremno").length;
+ const prijeSpremnih=narudzbe.filter(o=>o.stanje==="spremno"&&o.nacin!=="osobno"&&!o.vozac).length;
  const prijeUPripremi=narudzbe.filter(o=>o.stanje==="u_pripremi").length;
  /* Sva četiri upita idu ISTOVREMENO (prije su išla jedan za drugim, pa je svako osvježavanje
     ekrana čekalo četiri puna odlaska do baze umjesto jednog). Prvi je sigurnosna mreža za
@@ -4030,7 +4170,7 @@ async function osvjezi(){
  narudzbe.filter(o=>o.stanje==="novo"&&!prijeNovihId.has(o.id)).forEach(o=>otvorene.add(o.id));
  if(zvukOK){
   if(uloga==="kuhinja"&&narudzbe.filter(o=>o.stanje==="novo").length>prijeNovih)odsviraj("narudzba");
-  if(uloga==="vozac"&&narudzbe.filter(o=>o.stanje==="spremno").length>prijeSpremnih)odsviraj("tura");
+  if(uloga==="vozac"&&!vlasnikGleda&&narudzbe.filter(o=>o.stanje==="spremno"&&o.nacin!=="osobno"&&!o.vozac).length>prijeSpremnih)odsviraj("tura");
   // pult: kad kuhinja prihvati narudžbu, kod peći mora zazvoniti i bljesnuti
   if(uloga==="pult"&&narudzbe.filter(o=>o.stanje==="u_pripremi").length>prijeUPripremi)odsviraj("narudzba");}
  if(!t.error&&t.data)ture=t.data;
@@ -6683,6 +6823,60 @@ async function resetPovijest(){
  await osvjezi(); crtaj(1);}
 
 /* ==================== KUHINJA ==================== */
+/* ===== KUHINJA — novi, pojednostavljeni izgled (18.11.2026.) =====
+   Rik: "previše informacija i sitnih slova, ljudi ne vide". Sad: veliki broj narudžbe,
+   velika plaketa NAČINA NAPLATE, jela velikim slovima, napomena kuhinji žutom bojom,
+   a ime/adresa/mobitel/chat su pod "Detalji". */
+const IK={
+ nav:'<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 21 3l-8 18-2-8z"/></svg>',
+ ok:'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6"/></svg>',
+ tel:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/></svg>',
+ plus:'<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+ ruta:'<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H17a3.5 3.5 0 0 0 0-7H7a3.5 3.5 0 0 1 0-7h8.5"/></svg>'};
+function plBedz(o){
+ if(o.placeno)return `<div class="pb pb-onl">✓ PLAĆENO<small>ne naplaćuje se</small></div>`;
+ if(o.placanje==="online")return `<div class="pb pb-upoz">⚠ ONLINE<b>${eur(o.iznos)}</b><small>nije plaćeno</small></div>`;
+ if(o.placanje==="kartica")return `<div class="pb pb-kar">💳 KARTICA<b>${eur(o.iznos)}</b><small>treba POS</small></div>`;
+ return `<div class="pb pb-kes">💵 GOTOVINA<b>${eur(o.iznos)}</b></div>`;}
+const starost=o=>Math.max(0,Math.round((Date.now()-new Date(o.stvoreno).getTime())/60000));
+function k2Stavke(o){
+ return `<div class="k2-stavke">${(o.stavke||[]).map(s=>`<div class="k2-st">
+   <div class="n"><i>1×</i><span>${esc(s.naziv)}${s.gratis?'<span class="g">NAGRADNA</span>':""}</span></div>
+   ${s.dodaci?`<div class="k2-uz d"><small>➕ DODACI</small><span>${esc(s.dodaci)}</span></div>`:""}
+   ${pica_(s.uz)?`<div class="k2-uz p"><small>🥤 PIĆE</small><span>${esc(pica_(s.uz))}</span></div>`:""}
+   ${des_(s.uz)?`<div class="k2-uz s"><small>🍰 DESERT</small><span>${esc(des_(s.uz))}</span></div>`:""}</div>`).join("")}
+  ${o.gratis_pice?`<div class="k2-st"><div class="n"><i>${o.gratis_pice}×</i><span>Coca-Cola 0,33 <span class="g">GRATIS</span></span></div></div>`:""}</div>`;}
+function k2Karta(o,akcije){
+ const osobno=o.nacin==="osobno";
+ const dolazi=o.preuzimanje_min?sat(new Date(o.stvoreno).getTime()+o.preuzimanje_min*60000):null;
+ const mp=poruke.filter(p=>p.narudzba_id===o.id);
+ const novaP=mp.length&&mp[mp.length-1].od==="gost"&&!procitane.has(mp[mp.length-1].id);
+ const otv=otvorene.has(o.id);
+ const t=String(o.telefon).replace(/\D/g,""), n=brojac_kupaca[t]||0;
+ return `<div class="k2-karta ${o.stanje==="novo"?"novo":o.stanje==="spremno"?"spr":""}">
+  <div class="k2-gl"><div><div class="k2-br">#${o.broj}</div>
+   <div class="k2-vr"><b>${sat(o.stvoreno)}</b> · prije ${starost(o)} min</div>
+   <div class="k2-vrsta ${osobno?"osobno":""}">${osobno?"🏠 OSOBNO"+(dolazi?" · dolazi "+dolazi:""):"🛵 DOSTAVA"+(o.naselje?" · "+esc(o.naselje):"")}</div></div>
+   ${plBedz(o)}</div>
+  ${k2Stavke(o)}
+  ${o.napomena?`<div class="k2-napom"><small>Napomena kuhinji</small>${esc(o.napomena)}</div>`:""}
+  ${novaP?`<div class="k2-porukica" onclick="prebaci('${o.id}')">💬 Nova poruka gosta — otvori detalje</div>`:""}
+  ${akcije||""}
+  <button class="k2-det-gumb" onclick="prebaci('${o.id}')">${otv?"▲ Sakrij detalje":"▼ Detalji (gost, adresa, poruke)"}</button>
+  ${otv?`<div class="k2-det">
+   <div class="r"><span>Gost</span><b>${esc(o.ime)}</b></div>
+   <div class="r"><span>Mobitel</span><b><a href="${telH(o.telefon)}">${esc(o.telefon)}</a></b></div>
+   ${osobno?"":`<div class="r"><span>Adresa</span><b><a target="_blank" rel="noopener" href="${trazi(o.adresa)}">${esc(o.adresa)}</a></b></div>`}
+   <div class="r"><span>Kupac</span><b>${n?(n+1)+". narudžba"+(o.kupac_tel?" · vjernost":""):"NOVI KUPAC"}</b></div>
+   ${o.napomena_dostava?`<div class="r"><span>Za dostavu</span><b>${esc(o.napomena_dostava)}</b></div>`:""}
+   ${o.vozac?`<div class="r"><span>Vozač</span><b>${esc(o.vozac)}</b></div>`:""}
+   ${blizina(o)}
+   <div class="chat-k" style="margin-top:10px">
+    ${mp.length?`<div class="chat-tok">${mp.map(p=>`<div class="mjehur ${p.od==="gost"?"m-gost":"m-kuh"}">
+      <b>${p.od==="gost"?esc(o.ime):"Pizzeria"}</b>${esc(p.tekst)}<i>${sat(p.stvoreno)}</i></div>`).join("")}</div>`:""}
+    <textarea class="f" id="ck-${o.id}" placeholder="Poruka gostu…" style="min-height:54px"></textarea>
+    <button class="btn sm ghost" style="margin-top:8px" onclick="posaljiPor('${o.id}','kuhinja')">Pošalji poruku</button></div>
+  </div>`:""}</div>`;}
 function kuhinjaHTML(){
  if(!kuhUlaz)return `<div class="login"><h2>Kuhinja</h2><p>Ova stranica nije dostupna gostima</p>
   <div class="box"><label class="f" for="kl">Lozinka</label><input class="f" id="kl" type="password">
@@ -6691,41 +6885,34 @@ function kuhinjaHTML(){
  if(telNar)return telefonHTML();
  if(kuhTab==="povijest")return `${kuhAlatiHTML()}`+povijestHTML();
  const f=s=>narudzbe.filter(o=>o.stanje===s);
+ const nove=f("novo"), prip=f("u_pripremi"), spr=f("spremno"), van=f("u_dostavi");
+ const stup=(naslov,lista,hitno,prazno,fn)=>`<section class="k2-stupac ${hitno?"hitno":""}">
+   <h2>${naslov} <span class="br">${lista.length}</span></h2>
+   ${lista.length?lista.map(fn).join(""):`<div class="k2-prazno">${prazno}</div>`}</section>`;
  return `${vlasnikGleda?`<button class="natrag" onclick="natragVlasnik()">← Natrag u vlasničko sučelje</button>`:""}${kuhAlatiHTML()}
- <div style="padding:14px 18px 0"><button class="btn" onclick="telPocni()">📞 Narudžba telefonom</button></div>
- <div class="podtab">
-  <button aria-selected="true" onclick="kuhTab='rad';crtaj(1)">Radna ploča</button>
-  <button aria-selected="false" onclick="kuhTab='povijest';ucitajPovijest();">Povijest narudžbi</button></div>
- <div class="kuh-stupci"><section class="kuh-stupac hitno">
- <div class="sec"><h3>NOVE NARUDŽBE — ČEKAJU POTVRDU</h3></div>
- ${f("novo").length?f("novo").map(o=>{
-   const p=etaOdabir[o.id]||20, v=minute(km(L(),o)), g=p+v+REZERVA();
-   return kartica(o,`<div class="eta"><h4>ZA KOLIKO ĆE BITI GOTOVO IZ PEĆI?</h4>
-    <div class="brzi">${[10,15,20,25,30,40].map(m=>
-     `<button class="${p===m?"stisnut":""}" onclick="etaOdabir['${o.id}']=${m};crtaj()">${m}′</button>`).join("")}</div>
-    <div class="izracun"><div class="ist"><span>Priprema</span><b>${p}′</b></div>
-     <div><span>Vožnja do gosta</span><b>${v}′</b></div></div>
-    <button class="btn go" onclick="prihvati('${o.id}',${p},${v},${g})">Prihvati — pečeno za ${p} min</button>
-    <button class="btn crven" onclick="odbij('${o.id}')">Odbij narudžbu</button></div>`);}).join("")
-  :`<div class="prazno"><strong>Nema novih narudžbi</strong>Nova će se pojaviti sama.</div>`}
- </section><section class="kuh-stupac">
- <div class="sec"><h3>U PRIPREMI — RADIMO</h3></div>
- ${f("u_pripremi").length?f("u_pripremi").map(o=>kartica(o,`
-   <div class="row2"><button class="btn" onclick="stanje('${o.id}','spremno')">${o.nacin==="osobno"?"Spremno za preuzimanje":"Spremno za dostavu"}</button>
-   <button class="btn tiho" onclick="kasni('${o.id}')">Kašnjenje +15 min</button></div>`)).join("")
-  :`<div class="prazno">Ništa se ne priprema.</div>`}
- </section><section class="kuh-stupac">
- <div class="sec"><h3>SPREMNO — ČEKA VOZAČA</h3></div>
- ${f("spremno").filter(o=>o.nacin!=="osobno").length?f("spremno").filter(o=>o.nacin!=="osobno").map(o=>kartica(o,"")).join("")
-  :`<div class="prazno">Ništa ne čeka.</div>`}
- <div class="sec"><h3>🏠 ČEKA GOSTA — OSOBNO PREUZIMANJE</h3></div>
- ${f("spremno").filter(o=>o.nacin==="osobno").length?f("spremno").filter(o=>o.nacin==="osobno").map(o=>kartica(o,
-   `<button class="btn go" onclick="preuzeoGost('${o.id}')">Gost je preuzeo narudžbu</button>`)).join("")
-  :`<div class="prazno">Nitko trenutno ne čeka preuzimanje.</div>`}
- <div class="sec"><h3>U DOSTAVI</h3></div>
- ${f("u_dostavi").length?f("u_dostavi").map(o=>kartica(o,"")).join("")
-  :`<div class="prazno">Nitko trenutno ne vozi.</div>`}
- </section></div>`;}
+ <div class="k2">
+  <div class="k2-tab">
+   <button class="on" onclick="kuhTab='rad';crtaj(1)">🍕 Narudžbe</button>
+   <button onclick="kuhTab='povijest';ucitajPovijest();">📋 Povijest</button>
+   <button onclick="telPocni()">📞 Telefonom</button></div>
+  ${nove.length?`<div class="k2-alarm">🔔 ${nove.length===1?"Nova narudžba":nove.length+" nove narudžbe"}<small>Odaberi vrijeme i stisni PRIHVATI</small></div>`:""}
+  <div class="k2-stupci">
+  ${stup("🔔 Nove",nove,true,"Nema novih narudžbi",o=>{
+    const p=etaOdabir[o.id]||20, v=minute(km(L(),o)), g=p+v+REZERVA();
+    return k2Karta(o,`<div class="k2-lbl">Gotovo iz peći za:</div>
+     <div class="k2-min">${[10,15,20,25,30,40].map(m=>
+      `<button class="${p===m?"on":""}" onclick="etaOdabir['${o.id}']=${m};crtaj(1)">${m}′</button>`).join("")}</div>
+     <button class="vg zel" onclick="prihvati('${o.id}',${p},${v},${g})">${IK.ok} Prihvati · ${p} min</button>
+     <button class="vg crv" onclick="odbij('${o.id}')">Odbij</button>`);})}
+  ${stup("🔥 U pripremi",prip,false,"Ništa se ne priprema",o=>k2Karta(o,`
+     ${o.eta?`<div class="k2-status">⏱ Iz peći za ${o.eta}′${o.kasnjenje?` (+${o.kasnjenje}′ kašnjenje)`:""}</div>`:""}
+     <button class="vg zel" onclick="stanje('${o.id}','spremno')">${IK.ok} ${o.nacin==="osobno"?"Spremno za gosta":"Spremno za vozača"}</button>
+     <button class="vg okv" style="min-height:50px;font-size:17px" onclick="kasni('${o.id}')">Kasni +15 min</button>`))}
+  ${stup("✅ Spremno / vani",spr.concat(van),false,"Ništa ne čeka",o=>k2Karta(o,
+     o.stanje==="spremno"&&o.nacin==="osobno"?`<button class="vg zel" onclick="preuzeoGost('${o.id}')">${IK.ok} Gost je preuzeo</button>`
+     :o.stanje==="spremno"?`<div class="k2-status">⏳ Čeka vozača</div>`
+     :`<div class="k2-status">🛵 Vozi ${esc(o.vozac||"vozač")}${o.krenula_u?" · krenuo "+sat(o.krenula_u):""}</div>`))}
+  </div></div>`;}
 
 async function ucitajPovijest(){
  kuhTab="povijest";
@@ -6925,7 +7112,42 @@ async function grupirajSada(){
   await sb.from("narudzbe").update({tura_id:t.data.id}).in("id",gr.map(o=>o.id));
   slob=slob.filter(o=>!gr.some(g=>g.id===o.id));}}
 
-/* ==================== VOZAČ ==================== */
+/* ==================== VOZAČ — bez tura (18.11.2026.) ====================
+   Rik: "ture su bezveze". Vozač sad samo stisne PREUZMI na narudžbi; ona ode u "Moje dostave".
+   Ispod se pokaže što još može usput (blizu) pa se doda jednim klikom. Ture postoje i dalje
+   samo u pozadini (za kilometre po vozilu), vozač ih ne vidi niti ih mora zatvarati:
+   kad dostavi zadnju narudžbu, tura se zatvori sama.
+   POS: narudžbu plaćenu karticom nije moguće preuzeti bez kvačice "Uzeo sam POS uređaj". */
+let posUzet=new Set(), v2Radim=false;
+const trebaPOS=o=>o.placanje==="kartica"&&!o.placeno;
+const mojeDostave=()=>narudzbe.filter(o=>o.vozac===vozac&&o.stanje==="u_dostavi"&&!o.dostavljeno);
+const imamPOS=()=>mojeDostave().some(trebaPOS);
+const slobodne=()=>narudzbe.filter(o=>o.stanje==="spremno"&&o.nacin!=="osobno"&&!o.vozac);
+function kusur(iznos){
+ const a=Math.round(+iznos*100)/100; if(!a)return [];
+ const c=[Math.ceil(a-1e-9),5,10,20,50,100].filter(x=>x>a+0.001);
+ return [...new Set(c)].sort((x,y)=>x-y).slice(0,3).map(x=>({daje:x,vrati:x-a}));}
+function v2Placanje(o,sKusurom){
+ if(o.placeno)return `<div class="v2-pl pb-onl"><div class="t"><span>✓ Plaćeno online</span><b>0 €</b></div>
+  <div style="font-weight:700;margin-top:4px">NE naplaćuj ništa</div></div>`;
+ if(o.placanje==="kartica")return `<div class="v2-pl pb-kar"><div class="t"><span>💳 Kartica · POS</span><b>${eur(o.iznos)}</b></div></div>`;
+ if(o.placanje==="online")return `<div class="v2-pl pb-upoz"><div class="t"><span>⚠ Online — nije plaćeno</span><b>${eur(o.iznos)}</b></div>
+  <div style="font-weight:700;margin-top:4px">Naplati na vratima</div></div>`;
+ const k=sKusurom?kusur(o.iznos):[];
+ return `<div class="v2-pl pb-kes"><div class="t"><span>💵 Gotovina</span><b>${eur(o.iznos)}</b></div>
+  ${k.length?`<div class="v2-kus">${k.map(x=>`<div><span>Daje ${x.daje} €</span><span>vrati <b>${eur(x.vrati)}</b></span></div>`).join("")}</div>`:""}</div>`;}
+function v2Nosim(o){
+ return `<div class="v2-nosim"><b>Nosim (#${o.broj})</b>${(o.stavke||[]).map(x=>`<div>1× ${esc(x.naziv)}${x.dodaci?` <i>+ ${esc(x.dodaci)}</i>`:""}${x.uz?` <i>+ ${esc(String(x.uz).replace("‖",", "))}</i>`:""}</div>`).join("")}
+  ${o.gratis_pice?`<div>${o.gratis_pice}× Coca-Cola 0,33 <i>gratis</i></div>`:""}</div>`;}
+function v2PosKvacica(o){
+ if(!trebaPOS(o))return "";
+ if(imamPOS())return `<div class="v2-pos ok">✓ POS je već kod tebe (imaš narudžbu na karticu)</div>`;
+ const ok=posUzet.has(o.id);
+ return `<label class="v2-pos ${ok?"ok":""}"><input type="checkbox" ${ok?"checked":""} onchange="v2POS('${o.id}',this.checked)">
+  💳 Uzeo sam POS uređaj</label>`;}
+function v2POS(id,da){if(da)posUzet.add(id);else posUzet.delete(id);crtaj(1);}
+const v2Smije=o=>!trebaPOS(o)||imamPOS()||posUzet.has(o.id);
+function v2KmOd(o){return o.lat?cestKm(km(L(),o)).toFixed(1)+" km":"";}
 function vozacHTML(){
  if(!vozac)return `<div class="login"><h2>Prijava vozača</h2><p>Odaberi se i upiši PIN</p>
   <div class="box"><label class="f" for="vt">Vozač</label>
@@ -6935,96 +7157,107 @@ function vozacHTML(){
    <label class="f" for="vp">PIN</label><input class="f" id="vp" type="password" inputmode="numeric">
    <p class="err" id="vpe">Pogrešan PIN.</p>
    <button class="btn" onclick="ulazV()">Prijavi se</button></div></div>`;
- const moja=ture.find(t=>t.vozac===vozac&&t.stanje==="preuzeta");
- const slob=ture.filter(t=>!t.vozac&&t.stanje==="ponudjena"
-   &&narudzbe.some(o=>o.tura_id===t.id&&o.stanje==="spremno"));
- const nar=t=>narudzbe.filter(o=>o.tura_id===t.id);
- let h=`${vlasnikGleda?`<button class="natrag" onclick="natragVlasnik()">← Natrag u vlasničko sučelje</button>`:""}`+zvukGumb()+`<div class="sec"><h3>VOZAČ: ${esc(vozac.toUpperCase())}</h3></div>
-  <div class="nav-izbor"><span>Navigacija</span>
-   ${["google","apple"].map(k=>
-    `<button class="${NAV===k?"tren":""}" onclick="postaviNav('${k}')">${NAZIV_NAV[k]}</button>`).join("")}
-   <i class="nav-info">Odabrano: <b>${NAZIV_NAV[NAV]}</b> — svi gumbi za navigaciju otvaraju ovu aplikaciju.</i></div>`;
- if(moja){
-  const st=poredaj(nar(moja));
-  const rkm=duljinaRute(st);
-  h+=`<div class="tura moja"><div class="tura-h"><div class="kv">${esc(moja.kvart||"—")}</div>
-   <span class="tag t-dost">moja tura</span></div>
-   ${vlasnikGleda?`<div class="karta" id="karta-tura"></div>`:""}
-   ${rutaStanjeHTML(st)}
-   <div class="stat"><div><span>STANICA</span><b>${st.length}</b></div>
-    <div><span>KM</span><b>${rkm.toFixed(1)}</b></div>
-    <div><span>OKO</span><b>${trajanjeRute(st,rkm)}′</b></div>
-    <div><span>NAPLATITI</span><b>${st.reduce((s,o)=>s+ +o.iznos,0).toFixed(0)} €</b></div></div>
-   <div class="redoslijed">Redoslijed vožnje: pizzeria → ${st.map((o,i)=>(i+1)+". "+esc(o.adresa.split(",")[0])).join(" → ")} → pizzeria</div>
-   ${st.map((o,i)=>{
-     if(!otvoreneStanice.has(o.id))return `<div class="stop stop-zatvoren" onclick="otvoriStanicu('${o.id}')">
-      <div class="pin">${i+1}</div>
-      <div class="b"><div class="stanica-sazetak"><b>#${o.broj}</b><span class="tag t-dost">u dostavi</span></div>
-       <div class="savjet" style="margin-top:6px">Dodirni za detalje dostave</div></div></div>`;
-     return `<div class="stop ${o.dostavljeno?"gotovo":""}"><div class="pin">${i+1}</div>
-    <div class="b">
-     <div class="nosim"><b>ŠTO NOSIM — #${o.broj}</b>
-      ${(o.stavke||[]).map(x=>`<div class="ns">1× ${esc(x.naziv)}
-       ${x.dodaci?`<i>+ ${esc(x.dodaci)}</i>`:""}
-       ${x.uz?`<i class="uz">+ ${esc(x.uz)}</i>`:""}</div>`).join("")}
-      ${o.gratis_pice?`<div class="ns gratis">${o.gratis_pice}× Coca-Cola 0,33 GRATIS</div>`:""}</div>
-     <div class="dostava-box" style="margin-top:10px"><b>PODACI ZA DOSTAVU</b>
-      <div class="dp-ime">${esc(o.ime)}</div>
-      <a class="dp-adr" target="_blank" rel="noopener"
-       href="${jednaRuta(o)}">${esc(o.adresa)}</a>
-      ${o.naselje?`<div style="font-size:15px;color:var(--dim2);margin-top:3px">${esc(o.naselje)}</div>`:""}
-      <a class="dp-tel" href="${telH(o.telefon)}">${esc(o.telefon)}</a>
-      ${o.napomena_dostava?`<div class="napom">${esc(o.napomena_dostava)}</div>`:""}</div>
-     <div class="nacin ${plKlasa(o)}">${o.placeno?`✓ PLAĆENO ONLINE (${eur(o.iznos)}) — NE naplaćuj`:`Naplati ${eur(o.iznos)} — <span>${esc(plNaziv(o))}</span>`}</div>
-     <div class="row2" style="margin-top:9px">
-      ${!o.dostavljeno?`<button class="btn sm go" onclick="isporucio('${o.id}')">Dostavljeno</button>`:""}
-      ${!o.dostavljeno?`<button class="btn sm tiho" onclick="kasnimJa('${o.id}')">Kasnim</button>`:""}
-      ${!o.dostavljeno&&mozeVratiti(o)?`<button class="btn sm tiho" onclick="vratiNarudzbu('${o.id}')">Vrati (još ${ostaloZaVratiti(o)} min)</button>`:""}</div>
-     ${!o.dostavljeno&&!mozeVratiti(o)?`<div class="zakljucano">Rok za vraćanje je istekao — narudžbu je potrebno dostaviti.</div>`:""}
-    </div></div>`;}).join("")}
-   <a href="${rutaLink(st)}" target="_blank" rel="noopener"><button class="btn">Otvori rutu u ${NAZIV_NAV[NAV]}</button></a>
-   ${dodajUTuruHTML(st)}
-   ${moja.stanje==="preuzeta"&&st.every(o=>o.dostavljeno)&&st.length
-    ?`<button class="btn go" onclick="zavrsi('${moja.id}')">Završi turu</button>`:""}
-  </div>`;}
- const bezTure=narudzbe.filter(o=>o.stanje==="spremno"&&!o.tura_id&&!o.vozac);
- if(bezTure.length){
-  h+=`<div class="sec"><h3>SPREMNO, BEZ TURE</h3></div>`+bezTure.map(o=>`
-   <div class="tura"><div class="tura-h"><div class="kv">${esc(o.adresa.split(",")[0])}</div>
-    <span class="tag t-spr">#${o.broj}</span></div>
-    <div style="font-size:15.5px;color:var(--dim)">${esc(o.ime)} · ${eur(o.iznos)} · ${esc(plNaziv(o))}</div>
-    <button class="btn" onclick="uzmiSamu('${o.id}')">Preuzimam ovu</button></div>`).join("");}
- h+=`<div class="sec"><h3>PONUĐENE TURE</h3></div>`;
- h+=slob.length?slob.map(t=>{const st=nar(t);
-  const p=poredaj(st), rk=duljinaRute(p), otv=otvorene.has(t.id);
-  return `<div class="tura"><div class="tura-h"><div class="kv">${esc(t.kvart||"—")}</div>
-   <span class="tag t-spr">slobodno</span></div>
-   <div class="stanice-kratko">${p.map((o,i)=>`<div class="sk">
-     <span class="skb">${i+1}</span>
-     <div><b>${esc(o.adresa)}</b>
-      <i>#${o.broj} · ${esc(o.ime)} · ${eur(o.iznos)} · ${esc(plNaziv(o))}</i></div></div>`).join("")}</div>
-   ${bliskeTuri(t,st)}
-   <div class="stat"><div><span>STANICA</span><b>${st.length}</b></div>
-    <div><span>KM</span><b>${rk.toFixed(1)}</b></div>
-    <div><span>OKO</span><b>${trajanjeRute(p,rk)}′</b></div>
-    <div><span>NAPLATITI</span><b>${st.reduce((s,o)=>s+ +o.iznos,0).toFixed(0)} €</b></div></div>
-   <button class="vise" onclick="prebaci('${t.id}')" aria-expanded="${otv}">${otv?"▲ Sakrij pregled":"▼ Pregledaj narudžbe i rutu"}</button>
-   ${otv?`${vlasnikGleda?`<div class="karta" id="karta-${t.id}"></div>`:""}${rutaStanjeHTML(p)}
-    <div class="redoslijed">Pizzeria → ${p.map((o,i)=>(i+1)+". "+esc(o.adresa)).join(" → ")} → pizzeria</div>
-    ${p.map((o,i)=>`<div class="nosim" style="margin-top:9px">
-      <b>${i+1}. ${esc(o.adresa)}${o.naselje?" — "+esc(o.naselje):""}</b>
-      ${(o.stavke||[]).map(x=>`<div class="ns">1× ${esc(x.naziv)}
-        ${x.dodaci?`<i>+ ${esc(x.dodaci)}</i>`:""}
-        ${pica_(x.uz)?`<i class="uz">+ ${esc(pica_(x.uz))}</i>`:""}
-        ${des_(x.uz)?`<i class="des">+ ${esc(des_(x.uz))}</i>`:""}</div>`).join("")}
-      ${o.gratis_pice?`<div class="ns gratis">${o.gratis_pice}× Coca-Cola 0,33 GRATIS</div>`:""}
-      ${o.napomena_dostava?`<div class="napom">${esc(o.napomena_dostava)}</div>`:""}</div>`).join("")}
-    <a href="${rutaLink(p)}" target="_blank" rel="noopener"><button class="btn ghost">Pogledaj rutu u ${NAZIV_NAV[NAV]}</button></a>`:""}
-   <button class="btn" onclick="uzmi('${t.id}')">${moja?"Dodaj u moju turu":"Preuzimam ovu turu"}</button></div>`;}).join("")
-  :`<div class="prazno"><strong>Nema slobodnih tura</strong>Kuhinja još ništa nije označila spremnim.</div>`;
+ setTimeout(v2Pocisti,0);
+ const moje=poredaj(mojeDostave());
+ const slob=slobodne();
+ const blizuMojih=o=>o.lat&&moje.some(x=>x.lat&&km(x,o)<=3);
+ const usput=moje.length?slob.filter(blizuMojih):[];
+ const ostale=slob.filter(o=>!usput.includes(o)).sort((a,b)=>(a.lat?km(L(),a):99)-(b.lat?km(L(),b):99));
+ const uskoro=narudzbe.filter(o=>o.stanje==="u_pripremi"&&o.nacin!=="osobno");
+ const ponudaKarta=(o,dodaj)=>{
+  const sus=slob.filter(x=>x.id!==o.id&&o.lat&&x.lat&&km(x,o)<=3);
+  return `<div class="v2-k">
+   <div class="v2-gl"><div class="v2-adr"><div class="a">${esc(o.adresa.split(",")[0])}</div>
+    <div class="z">#${o.broj}${o.naselje?" · "+esc(o.naselje):""}${o.lat?" · "+v2KmOd(o):""}</div></div></div>
+   ${v2Placanje(o,false)}
+   ${v2Nosim(o)}
+   ${o.napomena_dostava?`<div class="k2-napom"><small>Za dostavu</small>${esc(o.napomena_dostava)}</div>`:""}
+   ${!dodaj&&sus.length?`<div class="v2-zaj">➕ Može zajedno s ${sus.map(x=>"#"+x.broj+" "+esc(x.adresa.split(",")[0])).join(", ")}</div>`:""}
+   ${v2PosKvacica(o)}
+   <button class="vg ${dodaj?"zel":""}" ${v2Smije(o)&&!v2Radim?"":"disabled"} onclick="v2Preuzmi('${o.id}')">${dodaj?IK.plus+" Dodaj u moje dostave":IK.ok+" Preuzmi"}</button>
+  </div>`;};
+ let h=`${vlasnikGleda?`<button class="natrag" onclick="natragVlasnik()">← Natrag u vlasničko sučelje</button>`:""}<div class="v2">
+  <div class="v2-ja"><div class="av">${esc(vozac.charAt(0).toUpperCase())}</div>
+   <div class="im">${esc(vozac)}<small>Vozač</small></div>
+   <div class="v2-nav">${["google","apple"].map(k=>`<button class="${NAV===k?"on":""}" onclick="postaviNav('${k}')">${k==="google"?"Google":"Apple"}</button>`).join("")}</div>
+   ${zvukGumb(true)}</div>`;
+ if(moje.length){
+  h+=`<h2>🛵 Moje dostave <span class="br">${moje.length}</span></h2>`;
+  if(moje.length>1)h+=`<a class="vg pla" href="${rutaLink(moje)}" target="_blank" rel="noopener">${IK.ruta} Otvori cijelu rutu (${moje.length})</a><div style="height:12px"></div>`;
+  h+=moje.map((o,i)=>`<div class="v2-k moja">
+   <div class="v2-gl"><div class="v2-pin">${i+1}</div><div class="v2-adr"><div class="a">${esc(o.adresa)}</div>
+    <div class="z">#${o.broj}${o.naselje?" · "+esc(o.naselje):""}</div></div></div>
+   <div class="v2-gost"><span>${esc(o.ime)}</span><a class="v2-tel" href="${telH(o.telefon)}">${IK.tel} Nazovi</a></div>
+   ${o.napomena_dostava?`<div class="k2-napom"><small>Za dostavu</small>${esc(o.napomena_dostava)}</div>`:""}
+   ${v2Placanje(o,true)}
+   ${v2Nosim(o)}
+   <div class="vg-red"><a class="vg okv" href="${jednaRuta(o)}" target="_blank" rel="noopener">${IK.nav} Navigacija</a>
+    <button class="vg zel" ${v2Radim?"disabled":""} onclick="v2Dostavljeno('${o.id}')">${IK.ok} Dostavljeno</button></div>
+   <div class="v2-sitno"><button onclick="kasnimJa('${o.id}')">⏱ Kasnim</button>
+    ${mozeVratiti(o)?`<button onclick="vratiNarudzbu('${o.id}')">↩ Vrati (još ${ostaloZaVratiti(o)} min)</button>`:""}</div>
+  </div>`).join("");
+  if(usput.length)h+=`<div class="v2-usput"><b>➕ Može usput (blizu tvojih)</b>${usput.map(o=>ponudaKarta(o,true)).join("")}</div>`;}
+ h+=`<h2>📦 Spremno za dostavu <span class="br">${ostale.length}</span></h2>`;
+ h+=ostale.length?ostale.map(o=>ponudaKarta(o,false)).join("")
+  :`<div class="k2-prazno">Trenutno ništa ne čeka.<br>Kad kuhinja označi spremno, zazvonit će.</div>`;
+ if(uskoro.length)h+=`<h2 style="font-size:17px;color:var(--dim)">🔥 Uskoro iz peći</h2>`+uskoro.map(o=>
+  `<div class="v2-uskoro">#${o.broj} · ${esc(o.adresa.split(",")[0])}${o.eta?" · za ~"+o.eta+" min":""} · ${esc(plNaziv(o))}</div>`).join("");
  h+=blagajnaHTML();
- h+=`<p style="padding:0 18px;margin-top:16px"><button class="btn sm tiho" onclick="odjaviOsoblje()">Odjava</button></p>`;
+ h+=`<button class="vg siv" style="margin-top:22px;min-height:50px;font-size:17px" onclick="odjaviOsoblje()">Odjava</button></div>`;
  return h;}
+async function v2Preuzmi(id){
+ if(v2Radim)return;
+ const o=narudzbe.find(x=>x.id===id); if(!o)return;
+ if(!v2Smije(o)){alert(tj("Narudžba se plaća karticom. Uzmi POS uređaj i označi kvačicu."));return;}
+ v2Radim=true; crtaj(1);
+ try{
+  const stara=o.tura_id;
+  let moja=ture.find(x=>x.vozac===vozac&&x.stanje==="preuzeta"), nova=false;
+  if(!moja){
+   const kv=(o.naselje||o.adresa.split(",")[0]||"Dostava").trim(), km0=o.lat?cestKm(2*km(L(),o)):0;
+   let t=await sb.from("ture").insert({lokal_id:lokal.id,vozac,vozilo_id:voziloId,stanje:"preuzeta",kvart:kv,ukupno_km:km0}).select().single();
+   if(t.error)t=await sb.from("ture").insert({lokal_id:lokal.id,vozac,stanje:"preuzeta",kvart:kv,ukupno_km:km0}).select().single();
+   if(t.error){alert("Preuzimanje nije uspjelo: "+t.error.message);return;}
+   moja=t.data; nova=true;}
+  const r=await sb.from("narudzbe").update({tura_id:moja.id,stanje:"u_dostavi",uzeta_u:new Date().toISOString(),vozac})
+   .eq("id",id).eq("stanje","spremno").is("vozac",null).select("id");
+  if(r.error||!r.data||!r.data.length){
+   if(nova)await sb.from("ture").update({stanje:"zavrsena"}).eq("id",moja.id);
+   alert(r.error?"Greška: "+r.error.message:tj("Ovu narudžbu je netko već preuzeo."));return;}
+  if(stara&&stara!==moja.id)await zatvoriPraznu(stara);
+  posUzet.delete(id);
+ }finally{v2Radim=false; await osvjezi();}}
+async function v2Dostavljeno(id){
+ const o=narudzbe.find(x=>x.id===id); if(!o||v2Radim)return;
+ const nap=o.placeno?"plaćeno online":o.placanje==="kartica"?"naplaćeno POS-om "+eur(o.iznos):"naplaćeno gotovinom "+eur(o.iznos);
+ if(!confirm(tj("Dostavljeno #"+o.broj+" ("+nap+")?")))return;
+ v2Radim=true; crtaj(1);
+ try{
+  const r=await sb.from("narudzbe").update({dostavljeno:true,stanje:"dostavljeno"}).eq("id",id);
+  if(javiGresku(r,"dostavljeno"))return;
+  otvoreneStanice.delete(id);
+  await v2ZatvoriTuru(o.tura_id,id);
+ }finally{v2Radim=false; await osvjezi();}}
+async function v2ZatvoriTuru(turaId,bezId){
+ if(!turaId)return;
+ const ost=await sb.from("narudzbe").select("id").eq("tura_id",turaId).eq("stanje","u_dostavi").neq("id",bezId||"00000000-0000-0000-0000-000000000000");
+ if(ost.error||ost.data.length)return;
+ const t=ture.find(x=>x.id===turaId);
+ const r=await sb.from("ture").update({stanje:"zavrsena"}).eq("id",turaId).neq("stanje","zavrsena").select("id");
+ if(!r.error&&r.data&&r.data.length&&t&&t.vozilo_id&&+t.ukupno_km>0)await pripisiKm(t.vozilo_id,+t.ukupno_km);}
+/* stare narudžbe iz prijašnjeg načina rada ("Dostavljeno" pa "Završi turu"): ako je vozač
+   kliknuo Dostavljeno, a turu nije zatvorio, ovdje se same dovrše */
+const v2Pokusano=new Set();
+async function v2Pocisti(){
+ if(v2Radim||vlasnikGleda||!vozac)return;
+ const stare=narudzbe.filter(o=>o.vozac===vozac&&o.stanje==="u_dostavi"&&o.dostavljeno&&!v2Pokusano.has(o.id));
+ stare.forEach(o=>v2Pokusano.add(o.id));
+ if(!stare.length)return;
+ v2Radim=true;
+ try{
+  await sb.from("narudzbe").update({stanje:"dostavljeno"}).in("id",stare.map(o=>o.id));
+  for(const tid of [...new Set(stare.map(o=>o.tura_id).filter(Boolean))])await v2ZatvoriTuru(tid);
+ }finally{v2Radim=false; await osvjezi();}}
 
 const APOENI=[50,20,10,5,2,1,0.5,0.2,0.1];
 function brojDostava(n){ // hrvatska sklonidba: 1 dostava, 2-4 dostave, inače (0,5,6...) dostava
