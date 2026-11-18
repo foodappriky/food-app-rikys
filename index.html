@@ -2254,6 +2254,27 @@ body.svijetlo .v2-kus div{background:rgba(0,0,0,.05)}
 .k2-uz.d small{color:#E8622A}.k2-uz.p small{color:#2f8fe0}.k2-uz.s small{color:#B96BC7}
 body.svijetlo .k2-uz.d small{color:#C4431A}body.svijetlo .k2-uz.p small{color:#135C82}body.svijetlo .k2-uz.s small{color:#6C2B80}
 .k2-st .g{font-size:14px;font-weight:800;background:#2fa84f;color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.k2-karta.osob{border-color:#2f8fe0}
+.k2-osobno{display:flex;gap:12px;align-items:center;margin-top:12px;background:#1F6FB0;color:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 0 0 3px rgba(47,143,224,.35)}
+.k2-osobno .ik{font-size:40px;line-height:1}
+.k2-osobno .tx{display:flex;flex-direction:column;min-width:0}
+.k2-osobno b{font:700 24px/1.05 "Oswald",sans-serif;letter-spacing:.03em}
+.k2-osobno span{font-size:21px;font-weight:800;margin-top:4px}
+.k2-osobno em{font-style:normal;font:700 30px/1 "Oswald",sans-serif;margin-top:4px}
+.k2-osobno small{font-size:13px;font-weight:800;letter-spacing:.05em;opacity:.9;margin-top:5px}
+.k2-osobno.sad{background:#D0021B;animation:k2puls 1.1s ease-in-out infinite}
+/* vozač — skočni prozor za potvrdu dostave */
+.v2-modal{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.7);display:flex;align-items:flex-end;justify-content:center;padding:16px;animation:v2fade .15s}
+@keyframes v2fade{from{opacity:0}to{opacity:1}}
+.v2-modal .ok{width:100%;max-width:460px;background:var(--card);border:2px solid var(--line2);border-radius:22px;padding:20px 18px 16px;color:var(--cream);
+ animation:v2gore .2s ease-out;box-shadow:0 -10px 40px rgba(0,0,0,.4)}
+@keyframes v2gore{from{transform:translateY(40px)}to{transform:none}}
+.v2-modal h3{margin:0;font:700 24px "Oswald",sans-serif;text-transform:uppercase}
+.v2-modal .adr{color:var(--dim);font-size:17px;font-weight:600;margin-top:4px}
+.v2-modal .iznos{margin-top:16px;border-radius:16px;padding:16px;text-align:center;border:3px solid currentColor}
+.v2-modal .iznos span{display:block;font:700 18px "Oswald",sans-serif;text-transform:uppercase}
+.v2-modal .iznos b{display:block;font:700 46px/1.1 "Oswald",sans-serif;margin-top:4px}
+.v2-modal .pit{font-size:19px;font-weight:700;text-align:center;margin-top:14px}
 </style>
 </head>
 <body>
@@ -6866,6 +6887,15 @@ function k2Stavke(o){
    ${pica_(s.uz)?`<div class="k2-uz p"><small>🥤 PIĆE</small><span>${esc(pica_(s.uz))}</span></div>`:""}
    ${des_(s.uz)?`<div class="k2-uz s"><small>🍰 DESERT</small><span>${esc(des_(s.uz))}</span></div>`:""}</div>`).join("")}
   ${o.gratis_pice?`<div class="k2-st"><div class="n"><i>${o.gratis_pice}×</i><span>Coca-Cola 0,33 <span class="g">GRATIS</span></span></div></div>`:""}</div>`;}
+/* OSOBNO PREUZIMANJE — Rik: "u kuhinji ne vide pa ja dođem po dostavu, a lik sam došao po pizzu".
+   Sad je to velika plava traka preko cijele kartice s vremenom dolaska. */
+function k2Osobno(o){
+ const t=o.preuzimanje_min?new Date(o.stvoreno).getTime()+o.preuzimanje_min*60000:null;
+ const za=t?Math.round((t-Date.now())/60000):null;
+ const kad=t==null?"Gost dolazi osobno":za<=0?"Gost je trebao doći u "+sat(t):"Gost dolazi u "+sat(t);
+ return `<div class="k2-osobno ${za!=null&&za<=5?"sad":""}"><div class="ik">🏠</div>
+  <div class="tx"><b>OSOBNO PREUZIMANJE</b><span>${kad}</span>
+  ${za!=null?`<em>${za>0?"za "+za+" min":"STIŽE SADA"}</em>`:""}<small>NE IDE VOZAČU · gost dolazi u lokal</small></div></div>`;}
 function k2Karta(o,akcije){
  const osobno=o.nacin==="osobno";
  const dolazi=o.preuzimanje_min?sat(new Date(o.stvoreno).getTime()+o.preuzimanje_min*60000):null;
@@ -6873,11 +6903,12 @@ function k2Karta(o,akcije){
  const novaP=mp.length&&mp[mp.length-1].od==="gost"&&!procitane.has(mp[mp.length-1].id);
  const otv=otvorene.has(o.id);
  const t=String(o.telefon).replace(/\D/g,""), n=brojac_kupaca[t]||0;
- return `<div class="k2-karta ${o.stanje==="novo"?"novo":o.stanje==="spremno"?"spr":""}">
+ return `<div class="k2-karta ${o.stanje==="novo"?"novo":o.stanje==="spremno"?"spr":""} ${osobno?"osob":""}">
   <div class="k2-gl"><div><div class="k2-br">#${o.broj}</div>
    <div class="k2-vr"><b>${sat(o.stvoreno)}</b> · prije ${starost(o)} min</div>
-   <div class="k2-vrsta ${osobno?"osobno":""}">${osobno?"🏠 OSOBNO"+(dolazi?" · dolazi "+dolazi:""):"🛵 DOSTAVA"+(o.naselje?" · "+esc(o.naselje):"")}</div></div>
+   ${osobno?"":`<div class="k2-vrsta">🛵 DOSTAVA${o.naselje?" · "+esc(o.naselje):""}</div>`}</div>
    ${plBedz(o)}</div>
+  ${osobno?k2Osobno(o):""}
   ${k2Stavke(o)}
   ${o.napomena?`<div class="k2-napom"><small>Napomena kuhinji</small>${esc(o.napomena)}</div>`:""}
   ${novaP?`<div class="k2-porukica" onclick="prebaci('${o.id}')">💬 Nova poruka gosta — otvori detalje</div>`:""}
@@ -7247,10 +7278,23 @@ async function v2Preuzmi(id){
   if(stara&&stara!==moja.id)await zatvoriPraznu(stara);
   posUzet.delete(id);
  }finally{v2Radim=false; await osvjezi();}}
+/* Potvrda dostave: ako je plaćeno online (Teya) — bez pitanja. Inače lijepi prozor
+   "Naplati X € gotovinom / POS-om" s dva velika gumba. */
+function v2Potvrda(o){
+ return new Promise(res=>{
+  const kar=o.placanje==="kartica";
+  const m=document.createElement("div"); m.className="v2-modal";
+  m.innerHTML=`<div class="ok"><h3>Dostava #${o.broj}</h3><div class="adr">${esc(o.adresa.split(",")[0])} · ${esc(o.ime)}</div>
+   <div class="iznos ${kar?"pb-kar":"pb-kes"}"><span>${kar?"💳 Naplati POS-om":"💵 Naplati gotovinom"}</span><b>${eur(o.iznos)}</b></div>
+   <div class="pit">Jesi li naplatio i predao narudžbu?</div>
+   <button class="vg zel" data-da>${IK.ok} Da, naplaćeno</button>
+   <button class="vg siv" style="min-height:52px;font-size:17px" data-ne>Odustani</button></div>`;
+  const kraj=v=>{m.remove();res(v);};
+  m.addEventListener("click",e=>{if(e.target===m||e.target.closest("[data-ne]"))kraj(false);else if(e.target.closest("[data-da]"))kraj(true);});
+  document.body.appendChild(m);});}
 async function v2Dostavljeno(id){
  const o=narudzbe.find(x=>x.id===id); if(!o||v2Radim)return;
- const nap=o.placeno?"plaćeno online":o.placanje==="kartica"?"naplaćeno POS-om "+eur(o.iznos):"naplaćeno gotovinom "+eur(o.iznos);
- if(!confirm(tj("Dostavljeno #"+o.broj+" ("+nap+")?")))return;
+ if(!o.placeno&&!(await v2Potvrda(o)))return;
  v2Radim=true; crtaj(1);
  try{
   const r=await sb.from("narudzbe").update({dostavljeno:true,stanje:"dostavljeno"}).eq("id",id);
