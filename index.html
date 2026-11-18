@@ -2190,7 +2190,11 @@ body.rk-pauza .zg-kat{top:96px}
 .vg svg{flex:none}
 .vg-red{display:flex;gap:10px}.vg-red .vg{flex:1 1 0;min-width:0;width:auto;font-size:17px;padding:0 6px;gap:5px}
 .k2-status{margin-top:12px;font-size:18px;font-weight:700;color:var(--dim)}
-.k2-det-gumb{margin-top:12px;width:100%;background:none;border:0;color:var(--dim);font-size:16px;font-weight:700;padding:8px;text-decoration:underline}
+.k2-det-gumb{margin-top:12px;width:100%;min-height:54px;display:flex;align-items:center;justify-content:center;gap:10px;
+ background:var(--bg2);border:2px solid var(--line2);border-radius:14px;color:var(--cream);font:700 18px "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.03em}
+.k2-det-gumb .ch{display:inline-flex;width:30px;height:30px;border-radius:15px;background:var(--line);align-items:center;justify-content:center;transition:transform .2s}
+.k2-det-gumb.otv{border-color:var(--or);color:var(--or)}
+.k2-det-gumb.otv .ch{transform:rotate(180deg);background:var(--or);color:#fff}
 .k2-det{margin-top:6px;background:var(--bg2);border-radius:14px;padding:12px 14px;font-size:17px}
 .k2-det .r{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--line)}
 .k2-det .r span{color:var(--dim)}.k2-det .r b{text-align:right}
@@ -4775,8 +4779,18 @@ function zgPodaciHTML(){
    <label class="zg-lbl" for="f-adr">${tj("Ulica i kućni broj")}</label>
    <input class="zg-in" id="f-adr" placeholder="${tj("npr. Ilica 25, Zagreb")}" value="${esc(forma.adr)}" autocomplete="off" oninput="forma.adr=this.value;forma.lat=null;provjeriAdresu(this.value)">
    <p class="zg-pomoc" id="adr-stanje">${adrStanjeTekst()}</p>
+   <label class="zg-lbl">${tj("Kuća ili zgrada?")}</label>
+   <div class="zg-nacin" style="margin:6px 0 0;max-width:none">
+    <button type="button" aria-pressed="${forma.tip==="kuca"}" onclick="forma.tip='kuca';crtaj(1)">🏠 ${tj("Kuća")}</button>
+    <button type="button" aria-pressed="${forma.tip==="zgrada"}" onclick="forma.tip='zgrada';crtaj(1)">🏢 ${tj("Zgrada")}</button></div>
+   ${forma.tip==="zgrada"?`<div style="display:flex;gap:10px"><div style="flex:1"><label class="zg-lbl" for="f-kat">${tj("Kat")}</label>
+     <input class="zg-in" id="f-kat" placeholder="${tj("npr. 3 ili prizemlje")}" value="${esc(forma.kat||"")}" oninput="forma.kat=this.value"></div>
+    <div style="flex:1"><label class="zg-lbl" for="f-stan">${tj("Stan")} <i>(${tj("nije obavezno")})</i></label>
+     <input class="zg-in" id="f-stan" placeholder="${tj("npr. 12")}" value="${esc(forma.stan||"")}" oninput="forma.stan=this.value"></div></div>
+   <label class="zg-lbl" for="f-port">${tj("Ime na portafonu / zvonu")}</label>
+   <input class="zg-in" id="f-port" placeholder="${tj("npr. Horvat")}" value="${esc(forma.port||"")}" oninput="forma.port=this.value">`:""}
    <label class="zg-lbl" for="f-napd">${tj("Napomena za dostavljača")} <i>(${tj("nije obavezno")})</i></label>
-   <textarea class="zg-in" id="f-napd" rows="2" placeholder="${tj("Kat, stan, ulaz iz dvorišta, zvono…")}" oninput="forma.napD=this.value">${esc(forma.napD)}</textarea></section>`}
+   <textarea class="zg-in" id="f-napd" rows="2" placeholder="${tj("Ulaz iz dvorišta, nazovite kad stignete…")}" oninput="forma.napD=this.value">${esc(forma.napD)}</textarea></section>`}
   <section class="zg-kartica"><h3>${tj("Napomena za kuhinju")}</h3>
    <textarea class="zg-in" id="f-nap" rows="2" placeholder="${tj("Alergije, bez luka, dobro pečeno… (nije obavezno)")}" oninput="forma.nap=this.value">${esc(forma.nap)}</textarea></section>
   <section class="zg-kartica"><h3>${tj("Plaćanje")}</h3><div class="zg-placanje">
@@ -5512,7 +5526,9 @@ async function posalji(){
  const adr=(el("f-adr")?el("f-adr").value:forma.adr).trim();
  const nap=(el("f-nap")?el("f-nap").value:forma.nap).trim();
  const napD=(el("f-napd")?el("f-napd").value:forma.napD||"").trim();
- forma={...forma,ime,tel,adr,nap,napD};
+ const kat=(el("f-kat")?el("f-kat").value:forma.kat||"").trim(), stan=(el("f-stan")?el("f-stan").value:forma.stan||"").trim(),
+  port=(el("f-port")?el("f-port").value:forma.port||"").trim();
+ forma={...forma,ime,tel,adr,nap,napD,kat,stan,port};
  const osobno=forma.nacin==="osobno";
  const ima18=kosarica.some(s=>jelo(s.jeloId).naziv===ALKOHOL||s.uz.some(i=>jelo(i).naziv===ALKOHOL)||rkPivo(s));
  const r0=racun(kosarica);
@@ -5522,6 +5538,9 @@ async function posalji(){
   : !ime?"Upišite ime i prezime."
   : tel.replace(/\D/g,"").length<8?"Upišite ispravan broj mobitela."
   : (!osobno&&adr.length<5)?"Upišite adresu dostave."
+  : (!osobno&&!forma.tip)?"Odaberite je li dostava u kuću ili zgradu."
+  : (!osobno&&forma.tip==="zgrada"&&!kat)?"Upišite kat."
+  : (!osobno&&forma.tip==="zgrada"&&!port)?"Upišite ime na portafonu / zvonu."
   : !placanje?"Odaberite način plaćanja."
   : (ima18&&!potvrda18)?"Za alkoholno piće potrebna je potvrda punoljetnosti." : "";
  if(greska){crtaj(1);return;}
@@ -5548,7 +5567,8 @@ async function posalji(){
    iznos:r.ukupno,popust:r.popust,gratis_pice:r.gratisPice,stanje:"novo",
    lat:osobno?null:g.lat,lng:osobno?null:g.lng,
    nacin:osobno?"osobno":"dostava",preuzimanje_min:osobno?forma.preuzMin:null};
- narudzba.napomena_dostava=osobno?null:(napD||null); narudzba.lojalnost=r.lojalnost;
+ const ulaz=forma.tip==="kuca"?"🏠 KUĆA":forma.tip==="zgrada"?`🏢 ZGRADA · kat ${kat}${stan?" · stan "+stan:""} · portafon: ${port}`:"";
+ narudzba.napomena_dostava=osobno?null:([ulaz,napD].filter(Boolean).join(" — ")||null); narudzba.lojalnost=r.lojalnost;
  const redovi=kosarica.map(st=>({
    naziv:rkNazivStavke(st),cijena:cijenaStavke(st),gratis:!!st.gratis,
    dodaci:[rkKuhinjaDodaci(st),...st.dodaci.map(i=>dod(i).naziv)].filter(Boolean).join(", "),
@@ -6862,7 +6882,7 @@ function k2Karta(o,akcije){
   ${o.napomena?`<div class="k2-napom"><small>Napomena kuhinji</small>${esc(o.napomena)}</div>`:""}
   ${novaP?`<div class="k2-porukica" onclick="prebaci('${o.id}')">💬 Nova poruka gosta — otvori detalje</div>`:""}
   ${akcije||""}
-  <button class="k2-det-gumb" onclick="prebaci('${o.id}')">${otv?"▲ Sakrij detalje":"▼ Detalji (gost, adresa, poruke)"}</button>
+  <button class="k2-det-gumb ${otv?"otv":""}" onclick="prebaci('${o.id}')">👤 ${otv?"Sakrij detalje":"Detalji narudžbe"}<span class="ch"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></button>
   ${otv?`<div class="k2-det">
    <div class="r"><span>Gost</span><b>${esc(o.ime)}</b></div>
    <div class="r"><span>Mobitel</span><b><a href="${telH(o.telefon)}">${esc(o.telefon)}</a></b></div>
