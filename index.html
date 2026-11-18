@@ -1859,7 +1859,9 @@ body:not(.svijetlo) .rkzg .zg-upoz{background:#2A2112;color:#F3D9A6}
 .rkzg .zg-placanje .pl-t small{display:block;font-size:12.5px;color:var(--z-mut);font-weight:500}
 .rkzg .zg-placanje .pl-ik{width:36px;height:36px;border-radius:10px;background:var(--bg2);display:grid;place-items:center;flex:none;color:var(--z-ink)}
 .rkzg .zg-placanje .pl-ik svg{width:20px;height:20px}
-.rkzg .zg-placanje .pl-logo img{height:20px}
+.rkzg .zg-placanje .pl-logo img{height:28px;width:auto;border-radius:6px;background:#fff;padding:2px 4px}
+.pay-t{display:inline-flex;align-items:center;height:28px;padding:0 9px;border-radius:7px;font:700 14px -apple-system,system-ui,sans-serif;white-space:nowrap}
+.pay-t.ap{background:#000;color:#fff;border:1px solid #444}.pay-t.gp{background:#fff;color:#3c4043;border:1px solid #dadce0}
 .rkzg .lok-gumb{border-bottom-width:1px!important;box-shadow:none!important;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1px solid var(--z-line);background:var(--bg2);color:var(--z-ink);text-decoration:none;margin:0 0 4px}
 .rkzg .lok-gumb .lok-ik{color:var(--z-a)}
 .rkzg .lok-gumb .lok-t b{display:block;font-family:var(--z-font);text-transform:none;font-size:15px}
@@ -2106,6 +2108,12 @@ button.rkb-p{cursor:pointer}
 .rkb-mreze{grid-column:1/-1;min-height:0!important;flex-direction:row!important;justify-content:space-between!important;gap:10px;padding:calc(var(--s) + 10px) 16px 12px!important;
  background:linear-gradient(90deg,#1B1210,#2A1712)!important;clip-path:polygon(0 var(--s),100% 0,100% 100%,0 100%)}
 .rkb-mreze>span:first-child{font-family:Oswald,sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;text-align:left;color:#F6EFE8}
+.rkb-plati{grid-column:1/-1;min-height:0!important;padding:calc(var(--s) + 8px) 12px 12px!important;gap:10px;
+ background:linear-gradient(90deg,#14100E,#221612)!important;clip-path:polygon(0 0,100% var(--s),100% 100%,0 100%)}
+.rkb-plati .t{font-family:Oswald,sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;color:#F6EFE8}
+.rkb-plati .ik{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;text-transform:none}
+.rkb-plati .pay-t{height:32px;font-size:13px;padding:0 8px}
+.pay-t.kr{background:#2f7fd0;color:#fff}.pay-t.gt{background:#2f9e4f;color:#fff}
 .rk-mr-ik{display:flex;gap:10px;flex:none}
 .rk-mr-ik a{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.45)}
 .rk-mr-ik a svg{width:24px;height:24px}
@@ -4778,7 +4786,7 @@ function zgPodaciHTML(){
  const osobno=forma.nacin==="osobno", r=racun(kosarica);
  prikazanaNaknada=r.dostava;
  const pl=(id,v,ik,nasl,pod)=>`<button class="pl-opcija" type="button" id="${id}" aria-pressed="${placanje===v}" onclick="odaberiPlacanje('${v}')">
-   <span class="pl-krug"></span><span class="pl-t"><b>${nasl}</b><small>${pod}</small></span><span class="pl-ik" style="margin-left:auto">${ik}</span></button>`;
+   <span class="pl-krug"></span><span class="pl-t"><b>${nasl}</b><small>${pod}</small></span><span class="${ik.startsWith("<img")?"pl-logo":"pl-ik"}" style="margin-left:auto">${ik}</span></button>`;
  return `<div class="zg-str">${zgGlava(tj("Završi narudžbu"),esc(lokal.naziv),"korak='pregled';crtaj(1)")}
   <div class="zg-koraci"><i class="on"></i><i class="on"></i></div>
   ${bezDostave()||bezOsobnog()?"":`<section class="zg-kartica"><div class="zg-nacin" style="margin:0;max-width:none">
@@ -4815,7 +4823,7 @@ function zgPodaciHTML(){
   <section class="zg-kartica"><h3>${tj("Napomena za kuhinju")}</h3>
    <textarea class="zg-in" id="f-nap" rows="2" placeholder="${tj("Alergije, bez luka, dobro pečeno… (nije obavezno)")}" oninput="forma.nap=this.value">${esc(forma.nap)}</textarea></section>
   <section class="zg-kartica"><h3>${tj("Plaćanje")}</h3><div class="zg-placanje">
-   ${MOD("online_placanje")?pl("pl-o","online",ZI.telefon,tj("Plati odmah online"),tj("Apple Pay, Google Pay ili kartica")):""}
+   ${MOD("online_placanje")?pl("pl-o","online",`<img class="paylogo" src="${SLIKE.APPLEPAY}" alt="Apple Pay" onerror="this.replaceWith(Object.assign(document.createElement('b'),{className:'pay-t ap',textContent:'Apple Pay'}))"><img class="paylogo" src="${SLIKE.GOOGLEPAY}" alt="Google Pay" onerror="this.replaceWith(Object.assign(document.createElement('b'),{className:'pay-t gp',textContent:'G Pay'}))">`,tj("Plati odmah online"),tj("Apple Pay, Google Pay ili kartica")):""}
    ${pl("pl-k","kartica",ZI.kartica,osobno?tj("Karticom u lokalu"):tj("Karticom pri dostavi"),osobno?tj("Plaćate kad dođete po narudžbu"):tj("Dostavljač nosi POS uređaj"))}
    ${pl("pl-g","gotovina",ZI.novac,tj("Gotovinom"),osobno?tj("Plaćate u lokalu"):tj("Plaćate dostavljaču"))}</div>
    ${ima18?`<label class="zg-kuc"><input type="checkbox" ${potvrda18?"checked":""} onchange="potvrda18=this.checked"><span>${tj("Potvrđujem da imam navršenih 18 godina. Alkoholna pića ne isporučujemo maloljetnim osobama.")}</span></label>`:""}</section>
@@ -4853,7 +4861,7 @@ function rkZgMeniHTML(kats,vidljiva){
  <nav class="zg-kat" aria-label="${tj("Kategorije")}"><div class="zg-kat-in">${kats.map((k,i)=>`<button type="button" data-k="${katId(k)}" class="${i?"":"on"}" onclick="zgSkoci('${katId(k)}')">${esc(k)}</button>`).join("")}</div></nav>
  <main class="zg-meni" id="meni">
   ${kats.map(k=>{const lj=vidljiva.filter(j=>j.kategorija===k);
-   return `<section class="zg-sekcija${k===RK_GTA_KAT?" rk-gta":""}" id="${katId(k)}"><h2>${esc(k)}<small>${lj.length}</small></h2>
+   return `<section class="zg-sekcija${k===RK_GTA_KAT?" rk-gta":""}" id="${katId(k)}"><h2>${esc(k)}</h2>
     ${k===RK_GTA_KAT?`<p class="zg-kat-opis">${tj(RK_GTA_KAT_OPIS)}</p>`:""}<div class="zg-lista">${lj.map(zgJeloHTML).join("")}</div></section>`;}).join("")}
  </main>
  ${otvoreno&&jelo(otvoreno)&&!urMod?zgSheetHTML(jelo(otvoreno)):""}</div>`;}
@@ -4976,6 +4984,8 @@ function rkV2Vrh(){
   <button type="button" class="rkb-p rkb-vj" onclick="rkVjernostSkok()"><span class="rkb-vj-t">${tj("Svaka")} <b>${P}.</b> ${tj("pizza")}</span><em>GRATIS</em>
    <span class="rkb-pec">${rkPecati(P-1,P)}</span><span class="rkb-provjeri">${tj("Provjeri stanje")} →</span></button>
   ${gta?`<button type="button" class="rkb-p rkb-gta" onclick="${rkGtaSkok()}" style="background-image:url('${gta}')"><i>${tj("NOVO")}</i><b>GTA MENU</b><small>${tj("od")} 13,50 €</small></button>`:""}
+  <div class="rkb-p rkb-plati"><span class="t">${tj("Plati kako želiš")}</span>
+   <span class="ik"><b class="pay-t ap">Apple&nbsp;Pay</b><b class="pay-t gp">G&nbsp;Pay</b><b class="pay-t kr">💳 ${tj("Kartica")}</b><b class="pay-t gt">💵 ${tj("Gotovina")}</b></span></div>
   ${rkMrezeHTML("rkb-p rkb-mreze")}
  </div>
  <button type="button" class="rkb-naruci" onclick="glatkoNaEl('meni')">${tj("NARUČI")} <span>↓</span></button></section>`;}
